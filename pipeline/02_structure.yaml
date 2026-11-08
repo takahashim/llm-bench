@@ -1,0 +1,39 @@
+# 工程A': 文書型の判定 → テンプレート選択
+type: 概念説明
+template: [比較対象の現状(given) → 何を変えるか(new) → なぜ効果になるか(nucleus) → 代償 → 限界]
+
+# 工程B: 事実をQUD木へ割り当て
+handle: "MoEは、容量を総パラメータ数で払い、速度をアクティブパラメータ数で買う設計"
+# ↑ f3+f5+f8 から導出。事実のどの行にも書かれていない
+
+root:
+  q: "なぜMoEは同じパラメータ数のdenseより推論が速いのか"
+  children:
+    - q: "denseはどう動いているのか"
+      relation: background
+      given: []                       # 前提なし＝ここから始められる
+      facts: [f1]
+      introduces: ["1トークンごとの重み読み出し"]
+
+    - q: "MoEは何を変えるのか"
+      relation: elaboration
+      given: ["1トークンごとの重み読み出し"]
+      facts: [f2, f3]
+      introduces: ["エキスパート", "ルータ", "アクティブパラメータ"]
+
+    - q: "なぜそれが速さになるのか"
+      relation: evidence
+      nucleus: true                   # ← 要点。ここを落とすと説明が成立しない
+      given: ["アクティブパラメータ"]
+      facts: [f4, f5, f6, f7]
+      note: "f6/f7 は同一ハード上の対比なので並置する"
+
+    - q: "代償は何か"
+      relation: concession
+      given: ["エキスパート"]
+      facts: [f8, f9]
+
+    - q: "いつ成り立たないのか"
+      relation: antithesis
+      given: []
+      facts: [f10]

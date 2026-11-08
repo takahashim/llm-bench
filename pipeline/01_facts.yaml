@@ -1,0 +1,32 @@
+# 工程A: 事実の列挙（箇条書き）— 条件・留保を伴わせる
+topic: "MoEモデルがdenseより推論が速い理由"
+reader: "ソフトウェアエンジニア。LLMの内部構造には不案内"
+facts:
+  - id: f1
+    claim: "denseモデルは1トークン生成するたびに全パラメータをメモリから読む"
+    scope: "decode（生成）時"
+  - id: f2
+    claim: "MoEはTransformerのFFNを小さなFFN（エキスパート）群に置換し、ルータがトークンごとに上位k個を選ぶ"
+  - id: f3
+    claim: "選ばれなかったエキスパートの重みは、そのトークンの処理では読まれない"
+  - id: f4
+    claim: "LLMのdecodeは計算律速ではなくメモリ帯域律速である"
+    scope: "バッチサイズ1"
+    evidence: "4モデル×2バックエンドの実測が帯域則の95〜99%に収まる"
+  - id: f5
+    claim: "decode tok/s ≈ 到達帯域 ÷ 1トークンあたり読むバイト数"
+  - id: f6
+    claim: "qwen3-30b-a3b(MoE)は1トークンあたり2.28GB読み、36.12 tok/s"
+    evidence: "実測 2026-11-04 / iGPU 82.4 GB/s"
+  - id: f7
+    claim: "llm-jp-33b(dense)は1トークンあたり20.4GB読み、4.03 tok/s"
+    evidence: "実測 2026-11-08 / iGPU 82.2 GB/s"
+  - id: f8
+    claim: "どのエキスパートが呼ばれるか事前に不明なため、全エキスパートの重みはメモリに常駐させる"
+  - id: f9
+    claim: "MoE 17.28GiB と 33B dense 19.00GiB は占有容量がほぼ同じ"
+    evidence: "実測"
+  - id: f10
+    claim: "バッチサイズを上げるとMoEの優位は消える"
+    scope: "B=8 で dense 52.26 / MoE 53.58 tok/s と合流"
+    evidence: "実測"

@@ -1,0 +1,51 @@
+[
+ {
+  "q": "敬語の簡潔化",
+  "tok": 129,
+  "sec": 33.232319355010986,
+  "think": 248,
+  "ans": "本システムでは、ユーザーがログインすると認証情報の検証が行われます。\n\n冗長な表現と敬称を削除し、語順をシンプルにしたため。"
+ },
+ {
+  "q": "用語の説明",
+  "tok": 130,
+  "sec": 33.177825927734375,
+  "think": 261,
+  "ans": "冪等性とは、同じ操作を何度実行しても結果が変わらない性質です。例えば、REST API の PUT `/users/123` リクエストでユーザー情報を更新する場合、同一データで複数回送っても最初のリクエストと同様にユーザーオブジェクトは一度だけ更新されます。これにより再試行や重複送信が安全に行えるようになります。"
+ },
+ {
+  "q": "簡単な計算",
+  "tok": 73,
+  "sec": 18.779133796691895,
+  "think": 189,
+  "ans": "4個です。"
+ },
+ {
+  "q": "コード説明",
+  "tok": 378,
+  "sec": 95.53267073631287,
+  "think": 1039,
+  "ans": "`#each_with_object` はブロック内で渡されたオブジェクトを逐次変更しながら走査し、最終的なそのオブジェクト自体（例：配列やハッシュ）を返すため、可変的に構築したコレクションを作りたいときに用います。  \n`#inject` は累積値を受け取って演算結果を次のイテレーションへ渡す形で単一の値（数値や文字列など）を生成するので、合計・平均・最大・最小といった集約計算に適しています。"
+ },
+ {
+  "q": "長文要約",
+  "tok": 681,
+  "sec": 191.42418909072876,
+  "think": 1582,
+  "ans": "THE BOYZは韓国出身の9人組多国籍ボーイズグループで、元SM社員のカン・ジョンアがプロデュース。2017年12月にミニアルバム『THE FIRST』でデビューし、以降『THE START』『THE ONLY』など多数の作品をリリース。日本市場でもソニーと提携しアルバムやツアーを展開。ファンダム名は“THE B”。2020年にはMnetサバイバル『Road to Kingdom』で優勝し続編へ進出、2021年はKINGDOMで準優勝。"
+ },
+ {
+  "q": "コード生成",
+  "tok": 1754,
+  "sec": 444.6366648674011,
+  "think": 1393,
+  "ans": "**`lru_cache.rb`**\n\n```ruby\n# frozen_string_literal: true\n\n# Simple LRU Cache with O(1) get / put.\nclass LRUCache\n  # internal doubly‑linked node\n  Node = Struct.new(:key, :value, :prev, :next)\n\n  attr_reader :capacity\n\n  def initialize(capacity)\n    raise ArgumentError, 'capacity must be positive' unless capacity.is_a?(Integer) && capacity > 0\n\n    @capacity = capacity\n    @map      = {}          # key => Node\n    @head     = nil         # most‑recently used\n    @tail     = nil         # least‑recently used\n  end\n\n  # Returns the value associated with +key+ or nil if absent.\n  def get(key)\n    node = @map[key]\n    return nil unless node\n\n    move_to_head(node)\n    node.value\n  end\n\n  # Inserts or updates +key+ with +value+. Evicts LRU item if needed.\n  def put(key, value)\n    node = @map[key]\n\n    if node                                   # update existing\n      node.value = value\n      move_to_head(node)\n    else                                      # insert new\n      node = Node.new(key, value, nil, nil)\n      @map[key] = node\n      add_to_head(node)\n\n      if @map.size > @capacity\n        evict_tail\n      end\n    end\n  end\n\n  private\n\n  # Insert +node+ as the new head (MRU).\n  def add_to_head(node)\n    node.next = @head\n    node.prev = nil\n    @head.prev = node if @head\n    @head = node\n    @tail ||= node\n  end\n\n  # Move an existing +node+ to the head.\n  def move_to_head(node)\n    return if node.equal?(@head)\n\n    detach(node)\n    add_to_head(node)\n  end\n\n  # Detach +node+ from its current position.\n  def detach(node)\n    if node.prev\n      node.prev.next = node.next\n    end\n    if node.next\n      node.next.prev = node.prev\n    end\n    @tail = node.prev if node.equal?(@tail)\n    @head = node.next if node.equal?(@head)\n    node.prev = node.next = nil\n  end\n\n  # Remove the least‑recently used node (the tail).\n  def evict_tail\n    return unless @tail\n\n    evict_key = @tail.key\n    detach(@tail)\n    @map.delete(evict_key)\n  end\nend\n```\n\n---\n\n**`test_lru_cache.rb`**\n\n```ruby\n# frozen_string_literal: true\n\nrequire 'minitest/autorun'\nrequire_relative 'lru_cache'\n\nclass LRUCacheTest < Minitest::Test\n  def setup\n    @cache = LRUCache.new(2)\n  end\n\n  def test_initial_state\n    assert_nil @cache.get(:a)\n    assert_empty @cache.instance_variable_get(:@map)\n  end\n\n  def test_put_and_get\n    @cache.put(:a, 10)\n    assert_equal 10, @cache.get(:a)\n\n    @cache.put(:b, 20)\n    assert_equal 20, @cache.get(:b)\n  end\n\n  def test_update_moves_to_mru\n    @cache.put(:a, 1)\n    @cache.put(:b, 2)\n\n    # Access :a -> becomes MRU\n    @cache.get(:a)\n\n    @cache.put(:c, 3)   # should evict :b (LRU)\n    assert_nil @cache.get(:b)\n    assert_equal 2, @cache.get(:a) # still present\n    assert_equal 3, @cache.get(:c)\n  end\n\n  def test_overwrite_existing_key_does_not_evict\n    @cache.put(:x, 100)\n    @cache.put(:y, 200)\n\n    @cache.put(:x, 999)   # overwrite :x, keep both entries\n    assert_equal 999, @cache.get(:x)\n    assert_equal 200, @cache.get(:y)\n    assert_equal 2, @cache.instance_variable_get(:@map).size\n  end\n\n  def test_capacity_one_behaviour\n    c = LRUCache.new(1)\n    c.put(:k, 'first')\n    assert_equal 'first', c.get(:k)\n\n    c.put(:k2, 'second')   # evict previous entry\n    assert_nil c.get(:k)\n    assert_equal 'second', c.get(:k2)\n  end\n\n  def test_invalid_capacity_raises\n    assert_raises(ArgumentError) { LRUCache.new(0) }\n    assert_raises(ArgumentError) { LRUCache.new(-5) }\n    assert_raises(ArgumentError) { LRUCache.new('foo') }\n  end\nend\n```\n\nThese two files provide a fully functional LRU cache (`LRUCache`) with `get`/`put` methods and a comprehensive Minitest suite verifying typical scenarios, edge cases, and error handling. To run the tests:\n\n```sh\nruby -I . test_lru_cache.rb\n```"
+ },
+ {
+  "q": "多段推論",
+  "tok": 787,
+  "sec": 199.305246591568,
+  "think": 2508,
+  "ans": "1. A B D C  \n2. A D B C  \n3. D A B C"
+ }
+]
