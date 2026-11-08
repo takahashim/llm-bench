@@ -1,0 +1,57 @@
+source: texts/train/02-zenn-6719aa121499ad.md
+title: "Ruby版Faker::Loremの単語を差し替える"
+reader: "RubyやRailsでFakerを使ってテスト用・デモ用のダミーデータを作っている開発者"
+thesis: "Fakerに最初から入っている日本語の語彙は人目に触れる場面では使いにくいが、I18nのYAMLを一枚置くだけで自分で選んだ語彙に入れ替えられるので、我慢して使い続ける必要はない。"
+points:
+  - id: p8
+    claim: "埋め草だと一目で分かってほしいという性質はあるものの、作り手以外、たとえば顧客や一般の人の目に入る可能性もゼロではない。妙な語に出くわすのは避けたい。"
+    kind: opinion
+
+  - id: p2
+    claim: "元をたどるとPerlの Data::Faker。それをRubyへ移してきたのだ、とREADMEに書かれている。同じ役割を担うものは他の言語にもあり、そちらで触った経験のある人もいるだろう。同じ役割のものは他の言語にもある。"
+    kind: fact
+
+  - id: p11
+    claim: "記事で配っている例は、青空文庫にある宮沢賢治『銀河鉄道の夜』から語を抜き出したもの。権利の面で支障がなく、筆者も権利を主張しないので自由に使える。"
+    kind: fact
+
+  - id: p5
+    claim: "語そのものを機械で作っているのではなく、前もって抱えている辞書から引いている。"
+    kind: fact
+
+  - id: p1
+    claim: "Rails標準のロケール用ディレクトリ config/locales へ、ja.yml、foo.ja.yml などの名前でファイルを置く。キー ja.faker.lorem.words の下へ語の配列を並べれば、それだけで入れ替わる。"
+    kind: fact
+
+  - id: p4
+    claim: "Loremという呼び名の由来は、埋め草の定番だった Lorem ipsum 。その文言が長く使われたことで、埋め草テキスト自体の呼称になったらしい。"
+    kind: fact
+
+  - id: p10
+    claim: "Railsのseedや自動テストで動かす用途なら、I18nのAPIを自分で叩く手順すら踏まなくてよい。"
+    kind: fact
+    scope: "Railsアプリの場合"
+
+  - id: p6
+    claim: "辞書は自然言語ごとに分かれていて、日本語向けの語彙もFakerの中に入っている。入れるだけで日本語の埋め草も出せる。"
+    kind: fact
+
+  - id: p3
+    claim: "Faker::Loremは、名前や住所などではなく文章らしきものを出す役目のクラス。"
+    kind: fact
+
+  - id: p12
+    claim: "もっと意味のない語列にしたければ、配布しているファイルに手を入れて使えばよい。"
+    kind: fact
+
+  - id: p9
+    claim: "上書きの仕組みは用意されている。言語別の語彙はI18n経由でYAMLから読まれるため、Faker固有の作法を覚える必要はなく、YAMLを作ってI18nに知らせれば優先して使われる。"
+    kind: fact
+
+  - id: p13
+    claim: "呼び出し方の説明は doc/default/lorem.md 、新しいロケールの足し方は lib/locales/README.md が受け持つ。どちらもFakerのソースに同梱されている。"
+    kind: fact
+
+  - id: p7
+    claim: "同梱されている日本語の語彙はなんとなく不穏で、そのままでは使いにくい。"
+    kind: opinion

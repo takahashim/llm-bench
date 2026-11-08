@@ -1,0 +1,57 @@
+source: texts/train/06-zenn-bb08e229899e41.md
+title: "Macが壊れたときにTime Machineのバックアップにあるファイルをいくつかサルベージする"
+reader: "MacでTime Machineのバックアップを取っていて、壊れた機体から少数のファイルだけ取り出したい人。ターミナルは使える前提"
+thesis: "数件のファイルを取り出すだけなら大掛かりな復元に頼らず、バックアップのディスクイメージを読み取り専用でぶら下げて中を覗けば済む。ただし持ち出した後の権限設定に落とし穴があるので、そこだけは覚えておきたい。"
+points:
+  - id: p7
+    claim: "そのままattachしようとしたら上手くいかなかったことと、手が滑って壊すと取り返しがつかないことから、readonly指定を付けてマウントした。"
+    kind: opinion
+
+  - id: p2
+    claim: "ある程度の量のファイル群を戻したいだけなら、移行アシスタント経由で普通に元に戻せる。"
+    kind: fact
+
+  - id: p12
+    claim: "付いてしまった ACL は chmod の -a で外せる。付き具合を見るには ls -le 、ls -led などが使える。"
+    kind: code
+
+  - id: p1
+    claim: "Macbookが故障し、Apple Storeへ持ち込む前に手元の代替機からNAS上のバックアップを数件だけ覗きたくなった。次に壊れた場合に備えて手順を書き残しておく。"
+    kind: fact
+
+  - id: p9
+    claim: "取り外し（detach）は、マウント時にできたフォルダ名を指定すればよい。"
+    kind: code
+
+  - id: p4
+    claim: "Time Machineの保存形式はsparse bundleで、この形式を触るには hdiutil というコマンドを使う。"
+    kind: fact
+
+  - id: p11
+    claim: "readonly で繋いだ側からMacでコピーしてきたファイルは、コピー後に書き換えも消去もできなくなることがある。chmod 664 などを当てても上書きが通らない。原因は、Unix流の権限ビットに加えて ACL が付与される点にある。"
+    kind: fact
+    scope: "readonlyでマウントしたものからコピーした場合"
+
+  - id: p5
+    claim: "どちらかと言えば情報を取れるかの確認が先なので、hdiutil で fsid を眺めてみる。"
+    kind: code
+
+  - id: p13
+    claim: "節の見出しに使った言葉は谷山浩子のアルバム『しまうま』に入っている曲から取ったもの。"
+    kind: fact
+
+  - id: p3
+    claim: "今回は数件だけ戻したかったので、もっと手軽な道を探していた。"
+    kind: fact
+
+  - id: p8
+    claim: "attach に成功すると /Volumes の下にイメージ名のフォルダが現れる。そこを辿れば保存されたファイル群に行き当たる。"
+    kind: fact
+
+  - id: p6
+    claim: "イメージについて細かく知りたいときは hdiutil の imageinfo を指定する。"
+    kind: code
+
+  - id: p10
+    claim: "取り出すだけが目的なら、ここまでの操作ができれば何とかなる。もっとも、使う機会が来ないのに越したことはない。"
+    kind: opinion

@@ -1,0 +1,49 @@
+source: texts/train/29-qiita-99919a84586ced.md
+title: "epubcheck 4.0 α版をビルドして使ってみる"
+reader: "EPUB を作る人で、epubcheck の開発版を自分で用意してみたい人"
+thesis: "epubcheck の 4.0 はまだ正式公開前だが、contrib/nook ブランチを取ってきて Maven に任せれば手元で数手順で用意できるので、待たずに試せる。"
+points:
+  - id: p6
+    claim: "手順を短くまとめると、github の IDPF/epubcheck から contrib/nook という枝を取り出し、`mvn package` を走らせれば jar が出来上がる。"
+    kind: fact
+
+  - id: p2
+    claim: "開発の場は Google Code の側から github へ移されており、今も活発に手が入り続けている。"
+    kind: fact
+
+  - id: p9
+    claim: "出来上がった jar は java コマンドでそのまま起動でき、ヘルプの表示も普通に出る。"
+    kind: fact
+
+  - id: p4
+    claim: "4.0 が組み立てられない時期があったのは実装そのものではなくテストのせいで、locale に左右されるテストが混ざっていたため、環境によって失敗していた。"
+    kind: fact
+
+  - id: p11
+    claim: "java ではなく mvn 側から走らせる手もある。`-Dexec.args` に検査対象の EPUB を渡し、`-Dexec.mainClass` には com.adobe.epubcheck.tool.Checker を与える。"
+    kind: code
+
+  - id: p1
+    claim: "epubcheck は EPUB の妥当性を検査する定番のオープンソースツール。この分野の制作に真剣に取り組む層ならたいてい触ったことがあるだろうと著者は見ている。"
+    kind: opinion
+
+  - id: p7
+    claim: "用意するものは Java(JDK) と Maven の二つで、どちらも各自で入れておく前提。"
+    kind: fact
+
+  - id: p5
+    claim: "この locale 依存を解消する pull request が受理されたため、今なら問題なく組み立てられるはずだと述べている。"
+    kind: fact
+
+  - id: p10
+    claim: "epubcheck v3 の頃よりもオプションが充実しており、`-e` のように warning をいったん脇に置きたい場合には便利そうだと評価している。"
+    kind: opinion
+
+  - id: p3
+    claim: "記事の時点だと master ブランチが 3.0.2 相当で、4.0 になる予定のものは contrib/nook という別の枝で進められていた。"
+    kind: fact
+    scope: "2014年6月時点"
+
+  - id: p8
+    claim: "ソースの取得は git の clone で持ってきて目的の枝に切り替えるだけ。`mvn package` が終わると target/epubcheck.jar が置かれている。"
+    kind: code

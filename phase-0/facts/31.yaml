@@ -1,0 +1,49 @@
+source: texts/train/31-qiita-ce729ea6f5fde9.md
+title: "Bracketsで.xhtmlなファイルをlive previewする(ためにOS Xでビルドする)"
+reader: "Brackets を使っていて、.xhtml のファイルも編集・プレビューしたい人"
+thesis: "Brackets が .xhtml で live preview を塞いでいるのは意図のある保留なので、その事情を割り切れるなら FileUtils.js に手を入れて自分でビルドすれば使えるようになる。"
+points:
+  - id: p8
+    claim: "`grunt build` を走らせ、想定どおりの表示が出れば完了。Brackets.app は xcodebuild/Release の中に出来ている。"
+    kind: fact
+
+  - id: p3
+    claim: "直し方そのものは簡単で issues にも挙がっているが、厳格な X(HT)ML では CDATA の扱いが云々という理由で本家には取り込まれていないらしい。"
+    kind: fact
+
+  - id: p1
+    claim: "Adobe が出しているオープンソースのコードエディタが Brackets。"
+    kind: fact
+
+  - id: p10
+    claim: "本題の対応としては、brackets 側にある src/file/FileUtils.js へ短いパッチを当てる。"
+    kind: code
+
+  - id: p5
+    claim: "ソースは二つに分かれて github にあり、本体が brackets、ビルドに使うのが brackets-shell。手順は brackets-shell 側 Wiki の Building Brackets Shell という項目に載っている。"
+    kind: fact
+
+  - id: p2
+    claim: "HTML であれば live preview で編集中の見た目を確かめられて作業が捗るのに、.xhtml のファイルではそれが働かない作りになっている。"
+    kind: fact
+
+  - id: p9
+    claim: "brackets 側のプロジェクトを起点に、ターミナルから起動した場合はまずファイルを選ぶダイアログが現れるので、そこで src/index.html を指定すると配布版と同じ画面になる。"
+    kind: fact
+    scope: "Finder から Brackets.app を開く場合は不要"
+
+  - id: p6
+    claim: "ビルドには git や python、Xcode4 を揃える必要があり、加えて Node.js も要る。著者は Node.js を nodebrew 経由で入れた。"
+    kind: fact
+
+  - id: p11
+    claim: "パッチを当てた状態で `grunt build` をかけ直してバイナリを再生成すれば、live preview が .xhtml でも働くようになる。"
+    kind: fact
+
+  - id: p4
+    claim: "X(HT)ML としての厳密さにはこだわらず、妙なものは置かないという前提でよいなら、自力で直してビルドすればよいという立場をとっている。"
+    kind: opinion
+
+  - id: p7
+    claim: "brackets-shell 側に移動して Grunt を入れると、`grunt --help` でタスクがいろいろ見られるようになる。"
+    kind: fact

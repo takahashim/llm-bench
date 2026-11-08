@@ -1,0 +1,64 @@
+source: texts/train/20-qiita-a8c0eb3a75d366.md
+title: "Mastodon API gemを使って投稿する"
+reader: "RubyでMastodonに投稿する小さなコマンドを書きたい人。OAuthの用語をある程度知っていることが前提"
+thesis: "Mastodon API gemを眺めているだけではアクセストークンの入手経路が見えてこないが、アプリ登録で得た鍵をOAuth2側のパスワード認証に渡す二段構えにすれば、短いコマンドラインのプログラムからでも投稿できるようになる。"
+points:
+  - id: p5
+    claim: "設定ファイルも環境変数も何ひとつ置かない状態で走らせると、つなぎ先のURL、利用者のID、パスワード、送りたい文面を順に尋ねてきて、最後に投稿の結果を見せる、という対話的な動きになる。"
+    kind: fact
+
+  - id: p12
+    claim: "鍵の入手は二段構えになっている。はじめにMastodon::REST::Clientのcreate_appを呼ぶとclient_idおよびclient_secretが返る。それを使い、続いてOAuth2::Client側でパスワード認証を行ってアクセストークンを得る、という順序。筆者はこの後半をRFC6749で言うResource Owner Password Credentials Grantに当たるものだろうと見ている。"
+    kind: fact
+
+  - id: p1
+    claim: "記事の中身は、Mastodon API gemでMastodonのサーバへ書き込む、コマンドライン向けの短いプログラムの実例と、その動かし方の説明。"
+    kind: fact
+
+  - id: p10
+    claim: "権限の範囲はMASTODON_SCOPESという変数で渡す。read、write、followという3つの中から要るものだけを選んで、空白をはさみながら並べて書く形になっている。"
+    kind: fact
+
+  - id: p2
+    claim: "掲載されているのはプログラム本体と、依存するライブラリを宣言するGemfileの2つ。"
+    kind: code
+
+  - id: p14
+    claim: "アクセストークンを手にしたあとはMastodon::REST::Clientをもう一度newし直す。そうすれば以降は特別な工夫をせずに、各種のAPIをそのまま呼べる状態になる。"
+    kind: fact
+
+  - id: p6
+    claim: "2回目以降の実行では、前回ファイルに残された値がそのまま使われるので、URLやパスワードを聞かれることはなく、文面だけを渡せば済むようになる。"
+    kind: code
+
+  - id: p3
+    claim: "設定の読み込みにはDotenvを用いている。作業中のディレクトリに置いた.envに書いた内容が環境変数として見えるようになる仕組みで、設定を別ファイルに切り出せる。"
+    kind: fact
+
+  - id: p13
+    claim: "はじめはそこがよく分からず、クライアントのクラスの中だけで何とか片付けようとして行き詰まったが、認証にまつわる部分はOAuth2側に任せるのが正解だろう、という判断に落ち着いた。"
+    kind: opinion
+
+  - id: p11
+    claim: "クライアントアプリの名前はMASTODON_APP_NAMEで渡す。これは利用者が設定画面を開いたときに、許可を与えたアプリの一覧の中に並ぶ表示名として使われる。"
+    kind: fact
+
+  - id: p7
+    claim: "投稿する文面は対話で答えるだけでなく、コマンドを起動するときの引数として直接与えることもできる。"
+    kind: code
+
+  - id: p9
+    claim: "使う環境変数はどれもMASTODON_で始まる。つなぎ先を保持するURL、アプリ側の識別子であるCLIENT_ID、それと対になる秘密のCLIENT_SECRET、投稿のときに使うACCESS_TOKEN、そして上記の権限とアプリ名の6つが並ぶ。"
+    kind: example
+
+  - id: p4
+    claim: "必要な変数がまだどこにも用意されていない場合は、対話で得られた値をそのファイルのほうへ書き足してくれるため、設定を自分で作る手間はいらない。"
+    kind: fact
+
+  - id: p8
+    claim: "書き出された設定ファイルの中身も記事に載っているが、そこに出ているトークンはすでに無効にしたものだと注記されている。"
+    kind: code
+
+  - id: p15
+    claim: "個々のAPIをどう呼ぶかには踏み込まず、gemのリファレンスを見てほしいという案内にとどめている。"
+    kind: fact

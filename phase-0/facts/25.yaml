@@ -1,0 +1,49 @@
+source: texts/train/25-qiita-1851b6c3e05bb1.md
+title: "How to use AppVeyor (AppVeyorの使い方)"
+reader: "GitHub連携のCIは使い慣れているが、Windows環境での自動ビルドをまだ試していない人"
+thesis: "Travis CI、Circle CIではWindowsを扱えない。AppVeyorも同じようにGitHubのアカウントだけで始められ、リポジトリを選んでappveyor.ymlを用意すればWindows上のCIが回り出す。"
+points:
+  - id: p5
+    claim: "登録の画面では、左上の選択肢からOSSプロジェクト用の無料コースを選び、左下にあるメール登録のチェックを（要らなければ）外し、左の中ほどにあるGitHub用のボタンを押す。"
+    kind: fact
+
+  - id: p1
+    claim: "Travis CI、Circle CIといったGitHubとつないで使えるCIサービスは広まってきているが、いずれもWindowsの環境には対応していない。"
+    kind: fact
+
+  - id: p8
+    claim: "リポジトリに紐づいたプロジェクトができれば、設定を何も変えないままでも、コミットのたび、あるいはpull requestの度にCIが動き出すはず。"
+    kind: fact
+
+  - id: p3
+    claim: "GitHubのアカウントで認証もリポジトリとの連携も済ませられるサービスなので、入口はそのアカウントでのログインになる。"
+    kind: fact
+
+  - id: p10
+    claim: "appveyor.ymlという設定ファイルを足してpushするか、それを足すpull requestを出して取り込むかすれば、書かれた内容をもとにCIが走る。"
+    kind: fact
+
+  - id: p2
+    claim: "そこで紹介されているのが、Windowsの環境でCIを回せるAppVeyorというサービス。"
+    kind: fact
+
+  - id: p9
+    claim: "ただし手動のビルドは、appveyor.ymlという設定がリポジトリに登録されていない状態ではエラーになる。"
+    kind: fact
+    scope: "手動で実行する場合"
+
+  - id: p6
+    claim: "そのあとはGitHub側の認証画面に移るはずで、そこで許可を与えればログインが済む。"
+    kind: fact
+
+  - id: p4
+    claim: "まず公式サイトを開くと、トップページにSIGN UP FOR FREEのボタンがあるので、それをクリックする。"
+    kind: fact
+
+  - id: p7
+    claim: "ログインできたらプロジェクトを新規に作る。画面でNEW PROJECTを選び、CIにかけたいリポジトリを一覧から選ぶと、プロジェクトができる。"
+    kind: fact
+
+  - id: p11
+    claim: "最新の状態を手動でビルドすることもでき、その場合はプロジェクトの画面にあるNEW BUILDのボタンをクリックする。"
+    kind: fact

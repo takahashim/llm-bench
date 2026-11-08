@@ -1,0 +1,76 @@
+source: texts/train/21-qiita-035c6cf9a3925b.md
+title: "RubyでServerless: AWS Lambda編2016年度版"
+reader: "サーバレス環境をRubyで使いたいRubyist。AWS Lambdaの基本的な使い方は知っている前提"
+thesis: "Rubyを前提にしていないAWS Lambda上でも、JRuby・Traveling Ruby・Opalという三つの抜け道でRubyは動かせる。ただし起動の重さか既存資産の断絶のどちらかを必ず引き受けることになり、素直な解決はクラウド事業者側の対応を待つしかない。"
+points:
+  - id: p13
+    claim: "三つめの道はOpal。これはJavaScript上で走るRubyの処理系。書いたコードとOpal自体のうち要る部分をまとめてJSへ変換し、JSの処理系で走らせる。そのためNodeの枠の上にRubyを載せられるはずだと見込める。"
+    kind: fact
+
+  - id: p3
+    claim: "本稿は対応していない環境へ無理に押し込む話なので、筋が良いとは言えず実務での投入は勧めない。それでも試したい人向けという前置きがある。"
+    kind: opinion
+
+  - id: p8
+    claim: "Traveling Rubyの方式でも立ち上がりの時間が引っかかる。ごく簡単なHello Worldなら数msec以下で片付くJavaScriptに対し、Rubyは外部ライブラリに触らない程度の処理でも500msec、RubyGemsに手を出すと3000msecに届くことがあり、3桁以上の開きが出る。"
+    kind: fact
+
+  - id: p1
+    claim: "re:Invent 2016の発表でC#が追加され、もとからのJavaScript・Python・Javaと併せて4言語が使えるようになったが、Rubyは入っていない。Microsoft Azureも、BashやF#、PowerShellなど多くを並べながらRubyを含まず、Google Cloud FunctionについてはJavaScriptだけの対応だった。"
+    kind: fact
+
+  - id: p16
+    claim: "JS側のライブラリに被せる包みを書くという手もあるが、それなりの労力がかかる上、特に非同期のあたりで両言語の普通の書き方が食い違う。Rubyらしく扱える形に寄せると手間が増え、割り切ってJSらしくするのなら最初からJSで書く方が速いのでは、という根本的な疑問が湧いてくる。"
+    kind: opinion
+
+  - id: p5
+    claim: "ただしこの実行環境ではJVM言語の立ち上がりが厳しく、容量も膨らむ。pollingを続けて常時動かしておく逃げ方も考えられるが、無理をしている感覚は残る。"
+    kind: opinion
+
+  - id: p10
+    claim: "Opalで作ったサンプルのスクリプトは、Hello.handler(event)を実行してハッシュをJSON風に返す、Rackを思わせる形。API Gatewayを前提とした版で、eventにはJSON化された入力が届く想定になっている。"
+    kind: code
+
+  - id: p6
+    claim: "JRubyを用いた先行例のリポジトリは存在するが、筆者は検証していない。"
+    kind: fact
+
+  - id: p2
+    claim: "題材に取ったのはAWS Lambdaだが、別のサーバレス基盤でも通じる部分はあるだろう、と添えている。"
+    kind: fact
+
+  - id: p12
+    claim: "Opalのサンプルの置き場所はServerless Frameworkに乗っているのでsls deployだけで配置でき、ダッシュボードから試すと、キャッシュが生きているらしい場合には1msecを切る速さで動く。"
+    kind: fact
+
+  - id: p4
+    claim: "Rubyが対応言語に入らない環境でRubyを動かそうとするとき、最初に浮かぶのはJRubyで、Javaが動くなら動くはずという見立て自体は正しい。"
+    kind: opinion
+
+  - id: p14
+    claim: "OpalのつらいところはCRuby向けに積み上げた資産を引き継げない点で、三つに分けられる。gemは作者側の対応が要るのにほぼどこも対応していない、C拡張はJSなので動かない、標準添付ライブラリの互換が低くCGIのように存在しないものもある（そしてCGIに依存しているライブラリは実際にある）。"
+    kind: fact
+
+  - id: p9
+    claim: "遅さの原因はサンプルの組み立て方で、Rubyを呼ぶまでに環境変数を用意するシェルスクリプトなどを何段も通している。JSは一度立ち上がれば使い回されるのに対し、Rubyは毎回forkして立ち上げ直すことになる。"
+    kind: fact
+
+  - id: p7
+    claim: "二つめの道は、CRuby(MRI)の実行ファイルを一緒に持ち込む方式。実行環境に処理系は入っていないが、中身はLinuxなのだから素朴にバイナリを同梱すればよいという発想で、Phusion Passengerで知られるPhusionが出しているTraveling Rubyなら、Windows、Linux、macOS向けのパッケージを作れる。これを用いた先行例もいくつかある。"
+    kind: fact
+
+  - id: p15
+    claim: "とりわけaws-sdkが使えないのは痛い。AWSの他のサービスを呼べないのであれば、関数が動いたところで得るものは少ない。"
+    kind: opinion
+
+  - id: p11
+    claim: "Node側のコードは、handler.rb.jsから取り出したオブジェクトを通じて、JSの値をOpal側のJSON表現へ直し、メソッドを呼んだ結果をまたJSの値に戻している。Opalのメソッド名の頭に`$`が付くのが少し変わった点。"
+    kind: code
+
+  - id: p17
+    claim: "Bundlerをやめ、--disable=gemsを渡して立ち上げればgemも読まれなくなり、もう少し速くなる。しかし開発する立場ではどちらも使えないのは厳しく、落とし所を決めにくい。"
+    kind: opinion
+
+  - id: p18
+    claim: "結びは、AWSにもAzureにも早くRubyへ対応してほしいという要望（Googleには期待できなさそうという添え書き付き）。"
+    kind: opinion

@@ -1,0 +1,64 @@
+source: texts/train/27-qiita-d283a093f8d95d.md
+title: "mrubyとCRubyの非互換とその対応方法"
+reader: "CRubyで書いたコードをmrubyへ持っていきたい人。mrbgemを足せる程度の知識が前提"
+thesis: "CRubyの書き方やライブラリがmrubyでそのまま通らない箇所は、別の書き方への言い換えか、外部のmrbgemの導入でおおむね片付く。欠けているものには、組み込み向けという成り立ちから来る理由があるものも混じっている。"
+points:
+  - id: p6
+    claim: "RUBY_PATCHLEVELのような定数も見当たらず、適当に自分で定義して逃げるしかなさそうだとしている。そもそも2016年の時点で、mrubyの側にパッチレベルという考え方自体がなく、あるのはリポジトリのmasterと、フォーラムで出されるリリース版だけだという事情がある。"
+    kind: fact
+
+  - id: p12
+    claim: "Kernel#execに当たるものはない。子プロセスを起こす方であれば、Kernel#systemの方はiijのmruby-process が持っているので、それで構わないならこちらを使う。ほかにhaconiwaのmruby-execというものもあるが、筆者は動作を確かめていない。"
+    kind: fact
+
+  - id: p2
+    claim: "文字列のリテラルを2つ並べて置くだけでつなぐ書き方は通らないので、素直に + で足す形に直す。"
+    kind: fact
+
+  - id: p14
+    claim: "File.executable?も無い。iijのmruby-ioに入っていそうだと思って探したが見つからなかったので、自力でなんとかするしかなさそう。そもそも実行できるかどうかはOSに左右される話なので、いろいろ面倒だという難点がついてまわる。"
+    kind: opinion
+
+  - id: p8
+    claim: "標準で入っていない機能のうち、入出力・ディレクトリ・一時ファイル・ファイルの読み込み・環境変数・正規表現のあたりは、iijが公開しているmrbgemで埋められる。順にmruby-io、mruby-dir、mruby-tempfile、mruby-require、mruby-env、mruby-regexp-pcreがそれに当たる。"
+    kind: example
+
+  - id: p3
+    claim: "defined?(Foo)の形はエラーになるため、const_defined?(:Foo)に書き換える。mrubyがこれを実装していないのは、Fooが未定義のときでもエラーにしないよう特殊な実行をしていて、それを嫌ったからだったはずだという。"
+    kind: fact
+
+  - id: p15
+    claim: "ここに挙げた以外にも動かないものはいろいろあり、自分で直せそうなものは手を入れてから pull request を出す方針（一部は実際に出したとのこと）。"
+    kind: fact
+
+  - id: p5
+    claim: "$: のような記号1文字の変数は用意されていない。一方で$LOAD_PATHのような長い綴りの方は使えたりするので、そちらに寄せる。"
+    kind: fact
+
+  - id: p13
+    claim: "at_exitの代わりはksssのmruby-at_exitで補える。本家に入っていない背景としては、CRubyならインタプリタの実行の終わりとプロセスの終わりが重なるのに対し、mrubyではインタプリタが終わってもプロセスまで終わるとは限らず、両者をどう揃えるべきかという問題がある。ISO Rubyの方にもこの機能の定義はない。"
+    kind: fact
+
+  - id: p1
+    claim: "記事そのものは覚え書きという位置づけで、詳しいことは後から書き足すかもしれないと冒頭で断っている。"
+    kind: fact
+
+  - id: p10
+    claim: "正規表現についてはmattnのmruby-onig-regexpという選択肢もある。文字コードの変換も無く、こちらはmattnのmruby-iconvで補う。"
+    kind: fact
+
+  - id: p7
+    claim: "ビルド時の設定を保持するRbConfigも同様に欠けている。なおmrubyではクロス開発もごく当たり前に行われるため、組んだときのOSの情報が役に立たない場合がある、という点に注意がいる。"
+    kind: fact
+
+  - id: p4
+    claim: "式を埋め込む形でシンボルを作る :\"foo#{a}bar\" のような書き方もエラーになる。文字列を組み立ててからto_symを呼ぶ形に置き換える。"
+    kind: fact
+
+  - id: p9
+    claim: "ディレクトリの一覧を得るDir.globについては、gromnitskyのmruby-dir-glob に頼る。"
+    kind: fact
+
+  - id: p11
+    claim: "fileutils.rbやpp.rbといった標準添付のものも無い。前者にはgromnitskyのmruby-fileutils-simple が公開されており、実装は力技ですごいと評している。後者の代わりは筆者自身が書いたほか、kouによる実装も存在する。"
+    kind: fact

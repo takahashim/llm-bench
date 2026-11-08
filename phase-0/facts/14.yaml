@@ -1,0 +1,53 @@
+source: texts/train/14-zenn-348b6982b1af6a.md
+title: "Decidimでコンポーネントを追加する方法"
+reader: "Decidimを自分で立てて運用しており、Railsとbundlerの基本操作は分かっている人"
+thesis: "Decidimで新しいコンポーネントを使えるようにするには、Gemfileへの追記と取り込みだけでは足りず、専用コマンドで migration のファイルを起こしてデータベースへ当てるところまでが一続きの作業になる。"
+points:
+  - id: p4
+    claim: "着手するのはGemfileへの追記から。欲しいものに対応するgemを、ふだんのgemとまったく同じ構文で書き足すだけでよい。Conference 向けのものを入れたいなら、ここに書く名前は decidim-conferences になる。"
+    kind: code
+
+  - id: p9
+    claim: "著者の見立てでは、ひとつずつ個別に走らせるよりも、decidim:upgrade の側で一括して面倒を見てもらう方がおそらく確実とのこと。"
+    kind: opinion
+
+  - id: p1
+    claim: "Decidimというアプリケーションでは、スペースやコンポーネントにあたる部分のそれぞれが Rails Engine の形で実装されている。この構造が、後続のひと手間が必要になる理由につながっている。"
+    kind: fact
+
+  - id: p7
+    claim: "コマンドが通ると db/migrate/ という場所に新しいファイルが置かれる。置かれる数はひとつに限らず、取り込んだものによっては相当な数になることもある。これがデータベースを作り変えるための migration のファイルにあたる。"
+    kind: fact
+
+  - id: p2
+    claim: "したがって、Gemfileに一行書いたうえで bundle install を走らせるという、ふだんのgem追加の手順をそのままなぞっただけでは、目的のものは使える状態にならない。著者はこの点を最初に注意している。"
+    kind: fact
+
+  - id: p11
+    claim: "Decidim向けに足されているコマンドにどんなものがあるかは、一覧を出すやり方が用意されているので、必要なときに自分で確認できる。"
+    kind: code
+
+  - id: p5
+    claim: "Gemfileへの記述が済んだら、Bundlerが提供している bundle install を使って、書いたgemを実際に手元へ取り込む。ここまではごく普通のRails開発と変わらない。"
+    kind: code
+
+  - id: p3
+    claim: "全体の段取りは、公式が案内している Updating Decidim の更新手順とほぼ同じ形になる。既存のgemを新しい版に上げるのか、まだ無いgemを足すのか、という違いしかないと著者は説明している。"
+    kind: fact
+
+  - id: p8
+    claim: "できあがった migration のファイルを当てて、テーブルの追加や変更を実際にデータベースへ反映させる。これで一通りのセットアップは終わりになる。"
+    kind: code
+
+  - id: p6
+    claim: "ここが肝心な箇所だと著者は言う。コンポーネントとして配られるgemの中には、データベース側に新しい表を要するものがあり、その作成や変更にあたる migration を踏まないと動かない。そのためのファイルを生成するコマンドが、Decidim用にあらかじめ設けられているので、それを使う。"
+    kind: fact
+
+  - id: p10
+    claim: "仕上げに bin/rails s あたりを叩いてアプリを起動し、意図した通りに動いているかを自分の目で確かめる。必要に応じてという位置づけの工程ではある。"
+    kind: code
+    scope: "必要に応じて"
+
+  - id: p12
+    claim: "ひとつずつ個別にファイルを生成する手も用意されているらしい。Conference 向けのものなら、bin/rails から decidim_conferences:install:migrations を指定して走らせる形になる。"
+    kind: code

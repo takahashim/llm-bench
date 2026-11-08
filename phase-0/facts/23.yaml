@@ -1,0 +1,77 @@
+source: texts/train/23-qiita-7838334d1451fb.md
+title: "ゼロから始めるJavaScript生活"
+reader: "一般的なプログラミングの素養とJavaScriptの初歩はあるが、モダンなフロントエンドの道具立てを自分で組んだことがない人"
+thesis: "Node・Yarnからはじめて、Babel、Gulp、ESLint、Webpack、React、Redux、Mocha、Flowまでを順に自分の手でつないでいけば、既製のひな形に頼らず自分のボイラープレートを用意できるようになる。"
+points:
+  - id: p15
+    claim: "ブラウザ側にはファイルシステムという足場がないため、importと書いてもファイルを指せない。入口のapp.jsがたどる依存の木全体を一枚にバンドルしてやる必要があり、その役を担うのがWebpack。"
+    kind: fact
+
+  - id: p2
+    claim: "ねらいは個々の道具の内部を解説することではなく、それらを互いに噛み合わせるところに置かれている。深く知りたければ各ツールの文書や別のチュートリアルを見るよう案内している。"
+    kind: fact
+
+  - id: p9
+    claim: "YarnはNPMに比べて速く、ネットにつながらない状況でも動き、依存の取得が読みやすい。2016年10月に登場してから、パッケージマネージャの新しい候補として短期間で広まりつつある。本文はYarnで進めるが、コマンドをNPMのものに読み替えてもよい。"
+    kind: fact
+
+  - id: p23
+    claim: "ただしconsole.logをスタブに差し替えるのは勧められない。テストが失敗すると元へ戻す呼び出しに届かず、それ以降そのコマンドの間ずっと出力が壊れ、失敗の理由すら表示できなくなって手がかりが残らない。この例はスタブの説明用と割り切るべきもの。"
+    kind: opinion
+
+  - id: p4
+    claim: "ちょっとしたJSの操作を足すだけのページなら、ここで並べる道具を全部揃える必要はない。ES6を複数のファイルに分けてCLIで変換したいだけなら、Browserify/Webpack、Babel、jQueryを合わせるだけで用は足りる。規模が育つアプリの下ごしらえに手助けが要る場合に向く。"
+    kind: opinion
+
+  - id: p17
+    claim: "Reduxは、アプリの状態をそのまま表すただのJavaScriptの値であるstore、たいてい利用者が起点になるaction、それを受けて状態を組み立てるreducerの組み合わせで成り立つ。reducerは渡された状態に手を加えることなく、新しい状態を作って返す。"
+    kind: fact
+
+  - id: p11
+    claim: "実行はnode .を直に叩くのではなく、package.jsonのscriptsを経由させる。処理が込み入ってきても常にyarn startという同じ入口から起動できるのは、ちょうどよい抽象になっている。"
+    kind: opinion
+
+  - id: p6
+    claim: "各章のコードには、それ以前の章の内容がすべて入っている。全部入りの土台だけが欲しいなら、最終章をcloneしてくればそれで使える。"
+    kind: fact
+
+  - id: p19
+    claim: "Immutable JSを入れると、状態を書き換えずに作り直す書き方を強制できる。関数型のパラダイムに則ったやり方で、Reduxと噛み合う。素のオブジェクトの部分までイミュータブルにしたい場合は、redux-immutableでcombineReducersを差し替える選択肢もある。"
+    kind: fact
+
+  - id: p1
+    claim: "日本語で読めるものはJavaScript Stack from Scratchを訳し、通して読めるよう1ファイルにまとめたもの。原文の更新が活発なので、訳の側も追いかけて直し続けている。"
+    kind: fact
+
+  - id: p12
+    claim: "BabelもESLintも、専用の設定ファイル（.babelrcや.eslintrc.*）を置かず、package.jsonのbabelやeslintConfigという欄に設定を書き込んでいる。ルートフォルダがファイルで膨れ上がるのを避けるためで、設定が込み入ってきたら別ファイルに移すことを検討する。"
+    kind: code
+
+  - id: p7
+    claim: "章の並びは必ずしも学びやすい順になっていない。たとえばテストや型のチェックは、Reactの導入より前に持ってくることもできる。ただし順番を動かすと後続の章すべてに手を入れることになるので、直せないままになっている。"
+    kind: opinion
+
+  - id: p16
+    claim: "クライアント側だけのプロジェクトなら、WebpackがGulpの役目を全部引き取ることもできる。一方でGulpの方が汎用的で、lintやテスト、サーバ側の作業にも向く。初学者にはWebpackの込み入った設定より分かりやすいので、すでにGulpで組んであるなら、その中からWebpackを走らせるのが理想になる。"
+    kind: opinion
+
+  - id: p5
+    claim: "Reactだけを学びたい初心者には、create-react-appなら設定の済んだ環境をすぐ試せるので、そちらを勧めている。それでも本文が出来合いの設定を避けているのは、内側で何が起きているかを全部つかんでもらうため。"
+    kind: opinion
+
+  - id: p24
+    claim: "型のチェックにはFlowを使う。アノテーションはBabelに理解させ、変換するときに削らせる。さらにbabel-eslintを入れてESLintもBabel側のパーサに乗せると、eslint-plugin-flowtypeがアノテーションそのものの書き方（コロンの後ろの空白の抜けなど）まで注意してくれる。"
+    kind: fact
+
+  - id: p18
+    claim: "画面の部品は、Reduxの状態を何も知らない「賢くない」componentsと、状態を知っていてそれらにつなぐ「賢い」containersの二層に分ける。前者はpropsで受け取った内容を返すだけで、ロジックを持たない。"
+    kind: fact
+
+  - id: p10
+    claim: "Yarnが生成するyarn.lockはリポジトリに入れておくとよい。そうしておけば、同じ版のパッケージをチームの誰もが使う状態になる。NPMを選んだ場合はshrinkwrapがこれに当たる。"
+    kind: opinion
+
+  - id: p8
+    claim: "Nodeは6.5.0以上であれば版を問わない。npmは同梱なので別に入れる必要はなく、すでにNodeが入っているならnvmを導入して、そちら経由で最新のものを入れる。"
+    kind: fact
+    scope: "記事執筆時点のバージョン"

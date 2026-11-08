@@ -1,0 +1,56 @@
+source: texts/train/09-zenn-cb79f0ce487ef0.md
+title: "Decidimの翻訳について"
+reader: "Decidimの日本語化や翻訳に手を貸したい人、Decidimを日本語で運用しようとしている人"
+thesis: "Decidimの翻訳はCrowdin上で誰でも参加できる形になっており、アプリ本体と公式サイトで対象が分かれている。参加したい人のために、入り口と連絡先をまとめておく。"
+points:
+  - id: p9
+    claim: "自分も訳したいという人は、Crowdin 経由で参加を申し込める。"
+    kind: fact
+
+  - id: p2
+    claim: "もともとスペイン、しかもカタルーニャで作られた経緯があり、最初の段階から国際化と多言語化に手が入っていたようだ。"
+    kind: fact
+
+  - id: p6
+    claim: "片方は Decidim というアプリ本体そのものの訳を扱う。"
+    kind: fact
+
+  - id: p1
+    claim: "記事の狙いは、Decidim で翻訳に関わる情報をかんたんに整理しておくこと。"
+    kind: fact
+
+  - id: p11
+    claim: "筆者は2つのプロジェクトの翻訳に加わっているので、筆者に直接連絡してもらう道もある。"
+    kind: fact
+
+  - id: p4
+    claim: "訳をそろえるためのサービスとして、Decidim は Crowdin を採用している。"
+    kind: fact
+
+  - id: p8
+    claim: "一方、ドキュメントサイト docs.decidim.org については、公式の訳は用意されていないらしい。"
+    kind: fact
+
+  - id: p3
+    claim: "多言語に対応するには、ソフトウェアの作りだけでなく各言語の訳をそろえる必要がある。"
+    kind: fact
+
+  - id: p12
+    claim: "Code for Japan が管理している Decidim の実例について、置き場所である codeforjapan/decidim-cfj （GitHub）にissueを立てる形でも対応できそうとのこと。"
+    kind: fact
+
+  - id: p5
+    claim: "Crowdin の側で面倒を見ているプロジェクトは2つある。"
+    kind: fact
+
+  - id: p7
+    claim: "もう片方は公式サイト decidim.org に載っているコンテンツの訳を扱う。"
+    kind: fact
+
+  - id: p10
+    claim: "手順については、先に触れたドキュメントサイトの Translations / Existing language のあたりも参考になる。"
+    kind: fact
+
+  - id: p13
+    claim: "日本語も言語として追加済みだが、直すべき点は多々ある。"
+    kind: opinion

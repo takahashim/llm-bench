@@ -1,0 +1,68 @@
+source: texts/train/30-qiita-89ac93e4b004de.md
+title: "mbedのビルドをOS X上で行う"
+reader: "mbed のブラウザ IDE を使ったことがあり、手元の環境でビルドしたい組み込み系の開発者"
+thesis: "mbed SDK と一緒に公開されたビルドツールを使えば、ブラウザ IDE とサーバ任せのビルドで知られた mbed も、OS X の手元の環境だけでライブラリからアプリケーション側のバイナリまで作れる。"
+points:
+  - id: p11
+    claim: "build.py を走らせると build/mbed/ ができ、その下に .h や .o が並ぶ。ここまででアプリケーション側の作業に進める。"
+    kind: fact
+
+  - id: p3
+    claim: "ビルドツールに要るものは git、Python、テンプレート処理を担う Jinja2、それにコンパイラや IDE などのツールチェイン。"
+    kind: fact
+
+  - id: p16
+    claim: "自分で書いたソースを対象にする場合は `-p` や `-n` ではなく `--source` にソースの置き場、`--build` にビルド先を指定する方式に切り替える。`--source`・`-p`・`-n` のうちどれか一つは必ず要るので、何も付けずに走らせると失敗する。"
+    kind: code
+
+  - id: p7
+    claim: "ビルドツールは mbed SDK 側に同梱されており、github の mbedmicro/mbed から取得する。実際に叩くのは workspace_tools/build.py と workspace_tools/make.py の二つで、前者がライブラリ用、後者がアプリケーション用とされている。"
+    kind: fact
+
+  - id: p2
+    claim: "説明は Mac OS X 向けだが、Linux のような他の Unix 系でもだいたい同じ手順で通るだろうと見ている。"
+    kind: opinion
+
+  - id: p13
+    claim: "同梱のテストプログラムは `-p` に番号、`-n` に名前を渡して選ぶ。make.py に `-L` を添えると選べる一覧が出て、100個以上がだらだらと並ぶ。記事では 0 番の MBED_A1 を試している。"
+    kind: fact
+
+  - id: p5
+    claim: "使うのは GNU ツールチェインで、mbed が勧めているのは GNU Tools for ARM Embedded Processors。OS X 向けにはバイナリが配られているため、取得して PATH に加えるだけでよい。Homebrew あるいは MacPorts 経由で入れるのも悪くなさそうだとしている。"
+    kind: opinion
+
+  - id: p9
+    claim: "標準の設定は workspace_tools/settings.py の実行で得られる。それ以外に変えたい項目があれば private_settings.py の側に書く。このファイルが無いと警告が表示されるので、中身が空でも置いておけば黙る。"
+    kind: fact
+
+  - id: p1
+    claim: "mbed SDK が Apache License v2 で公開された折にビルドツールも併せて出たので、手元のコンパイラでバイナリを作る道が開けた。"
+    kind: fact
+
+  - id: p14
+    claim: "出来上がるバイナリ（テストプログラムなら basic.bin）の出力先は `-d` で変えられ、例として ~/mbed/binary/ が挙げられている。"
+    kind: code
+
+  - id: p6
+    claim: "ビルドするだけであれば mbed の実機は不要。ただし実行の際には対象のプラットフォームを選ぶ必要があるので、使いたい機種は先に調べておくことになる。"
+    kind: fact
+
+  - id: p4
+    claim: "Python は 3 系だと動かなさそうなので 2.7 あたりがよく、OS X に最初から入っているものを使うのが手軽だとしている。Jinja2 は easy_install、pip あたりで入れる。"
+    kind: opinion
+
+  - id: p10
+    claim: "build.py と make.py に共通する重要なオプションは `-m` と `-t` の二つで、前者が mbed で使いたいボードや MCU、後者がツールチェインの指定にあたる。どちらも `-h` を付けて実行すればオプション一覧が見られる。"
+    kind: fact
+
+  - id: p8
+    claim: "使い方については、mbed handbook 内の「mbed tools」という項目にざっくり書かれており、日本語訳も存在する。"
+    kind: fact
+
+  - id: p12
+    claim: "`-m` で選べる MCU は LPC 系や NUCLEO 系、KL 系、DISCO 系、STM32 系、K64F など多数あり、mbed handbook の記述よりずいぶん増えており、ドキュメントの方が追いついていない。対応ボードは今後も増えそうだと見ている。"
+    kind: opinion
+
+  - id: p15
+    claim: "`-t` で選ぶツールチェインには GCC_ARM、GCC_CS、GCC_CR、GCC_CW_NEWLIB、GCC_CW_EWL、uARM、ARM、IAR があり、記事で使っているのは一覧の先頭にある GCC_ARM（arm-none-eabi-gcc）で、MCU 側は NUCLEO_F401RE を指定している。GCC_CW_* は著者もよく分かっておらず freescale 系ではないかと推測している。"
+    kind: fact

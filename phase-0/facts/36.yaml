@@ -1,0 +1,48 @@
+source: texts/train/36-qiita-6ed10a8be92ac2.md
+title: "[ReVIEW Tips] LATEXBuilderでスタイルを指定する"
+reader: "ReVIEW で PDF を作っていて、出来上がりの体裁を変えたい人"
+thesis: "review-pdfmaker で出す PDF の見た目は、設定用 YAML にスタイルファイルを書くことで変えられる。ただし `\\documentclass` はスタイルファイル側からは動かせず、設定用 YAML の別の項目で渡す必要がある。"
+points:
+  - id: p4
+    claim: "出来上がりの見た目をあれこれ変えたいなら LaTeX のスタイル指定を与える必要があり、書き先は設定用の YAML ファイル。"
+    kind: fact
+
+  - id: p1
+    claim: "ReVIEW を入れると review-pdfmaker が標準で付いてきて、EPUB を作る review-epubmaker と同じ要領で PDF を直に作ってくれる。"
+    kind: fact
+
+  - id: p8
+    claim: "`\\documentclass` を変える場合は、設定用 YAML 側へスタイルファイルとは別の項目として書く。"
+    kind: code
+
+  - id: p6
+    claim: "LaTeX の側から見ると、既定のパッケージ群やその他の設定とあわせて `\\usepackage{mymacro}` で読み込まれる形になる。"
+    kind: fact
+
+  - id: p3
+    claim: "ReVIEW から PDF を得る道は review-pdfmaker か InDesign で作り込むかの二択として扱い、記事では前者だけを取り上げている。"
+    kind: fact
+
+  - id: p9
+    claim: "この項目を書いておくと、生成後の LaTeX では `\\documentclass` の宣言が指定どおりに変わる。"
+    kind: code
+
+  - id: p5
+    claim: "指定したスタイルファイルは review-pdfmaker を走らせたディレクトリを起点に相対で探され、たとえば sty/mymacro.sty というパスになる。"
+    kind: fact
+
+  - id: p2
+    claim: "review-pdfmaker が使うビルダーは、LaTeX 用の LATEXBuilder。"
+    kind: fact
+
+  - id: p7
+    claim: "*.sty の具体的な書き方は LaTeX そのものの話なので説明せず、著者自身もそれほど分かっておらず日々苦労していると書いている。"
+    kind: opinion
+
+  - id: p10
+    claim: "HTMLBuilder 経由で HTML や EPUB を作り、そこから PDF へ変換する技もありそうだが、詳しくないので扱わないとしている。"
+    kind: opinion
+
+  - id: p11
+    claim: "スタイルファイル側の記述では `\\documentclass` の指定を動かすことはできない。"
+    kind: fact

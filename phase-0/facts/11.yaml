@@ -1,0 +1,56 @@
+source: texts/train/11-zenn-0ea6c354e25b01.md
+title: "本来の用途ではない目的で運用されているDecidimサイト"
+reader: "参加型民主制のためのソフトウェアDecidimに関心があり、実際に動いている事例を知りたい人"
+thesis: "Decidimは市民参加の場を作るためのものだが、開発元の周辺では開発方針の議論・学習の場・試用環境といった別の役目で動き続けている実例が複数あり、公式のものと非公式のものを取り混ぜて見渡すとその広がりが分かる。"
+points:
+  - id: p7
+    claim: "nightly.decidim.orgは、名前のとおりその日の最新版を配置する場だと推測されるが、著者が見た時点では落ちていて触れなかった。"
+    kind: fact
+
+  - id: p2
+    claim: "Meta Decidimは、Decidim自身の開発をどう進めるかを参加型の意思決定の仕組みにのっとって決めるための場で、開発元が自分の道具を自分で使うドッグフーディングの例にあたる。リポジトリはdecidim/metadecidim。"
+    kind: example
+
+  - id: p11
+    claim: "Codegramという会社はFull Stack Festの運営に関与しており、Decidim本体にも積極的に手を入れているらしい。"
+    kind: fact
+
+  - id: p5
+    claim: "一覧の見せ方などに工夫の余地があると著者は感じている。"
+    kind: opinion
+
+  - id: p1
+    claim: "Decidimが目指すのは参加型民主制の実現で、同じくくりに入る道具としてConsul、pol.isが挙げられる。"
+    kind: fact
+
+  - id: p9
+    claim: "try.decidim.orgは、Decidimのissue上で不具合を報告するときの挙動確認先としても使われていた。"
+    kind: fact
+
+  - id: p4
+    claim: "とはいえアプリ開発についての意見のとりまとめや結論出しには使い勝手が悪いと著者は言う。気になった点を探して出てこないとき、自分の探し方が下手なのか、そもそも登録がないのかを切り分けられない。"
+    kind: opinion
+
+  - id: p6
+    claim: "try.decidim.orgはヘッダ部分に、管理権限を持つアカウントとそのパスワードを大きく掲げている。システム管理者用のものではないから差し支えないのか、と著者は疑問を残している。"
+    kind: fact
+
+  - id: p12
+    claim: "紹介は、公式が用意したものとそうでないものを取り混ぜて並べている。"
+    kind: fact
+
+  - id: p3
+    claim: "Meta Decidimについては、本来の用途にそれなりに近い使われ方をしているとも言えると著者は見ている。"
+    kind: opinion
+
+  - id: p8
+    claim: "demo.decidim.orgも同じく試用向けらしいが、try.decidim.orgとの役割の切り分けは著者にも読み取れなかった。"
+    kind: fact
+
+  - id: p10
+    claim: "開発元のREADME.mdにデモとして載っているのはstaging.decidim.codegram.comで、Codegramのリポジトリ側には、まだリリースされていないDecidimの機能を試せるデモ用アプリだという説明が置かれている。"
+    kind: fact
+
+  - id: p13
+    claim: "Decidim Edu(edu.decidim.org)は、言語を英語に切り替えてもおそらくスペイン語らしき表示しか出ないため中身が追えない。ただし機械翻訳と、Platoniqが出しているDecidim Install Guideから察するに、運営側としてDecidimを扱えるようになるための集まり、という位置づけらしい。リポジトリは分かっていない。"
+    kind: fact

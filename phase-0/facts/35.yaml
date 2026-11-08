@@ -1,0 +1,42 @@
+source: texts/train/35-qiita-0ddbb380976911.md
+title: "[ReVIEW Tips] 最新版（開発版）をインストールする"
+reader: "ReVIEW を導入済みで、gem 版では足りない機能や不具合に当たっている人"
+thesis: "ReVIEW の gem 版では直っていない不具合や未提供の機能に当たったら、github の開発版を入れて使うことになるので、git と rake を使う手順と specific_install gem による近道を押さえておくとよい。"
+points:
+  - id: p5
+    claim: "開発版を入れるなら git を導入しておくのがおすすめ。git の入れ方はプラットフォームごとに異なるので記事では省いている。"
+    kind: opinion
+
+  - id: p2
+    claim: "管理者権限が無い環境では、`sudo` を前に付ける必要がある。"
+    kind: code
+    scope: "権限が足りない環境のみ"
+
+  - id: p8
+    claim: "開発版はあくまで開発版であり、gem 版に比べて不安定なこともあると断っている。"
+    kind: opinion
+
+  - id: p1
+    claim: "配布形態としては gem(RubyGems) もあるので、ReVIEW を普通に入れるだけなら gem コマンドで手軽に済む。"
+    kind: fact
+
+  - id: p6
+    claim: "取得した `review` ディレクトリに移ってから rake コマンドでインストールする。ここでも必要なら `sudo` を足す。"
+    kind: code
+
+  - id: p3
+    claim: "ReVIEW は今も鋭意開発中なので、最新版でないと使えない機能があったり、gem 版だと挙動が微妙になる場面がある。"
+    kind: fact
+
+  - id: p9
+    claim: "Windows や Mac OS X なら、git コマンドを使わずに github アプリを入れる手でも導入できるはずだとしている。"
+    kind: fact
+
+  - id: p4
+    claim: "ML あるいは github issues へ報告すると、github の最新版なら直っている、という返事が来ることもある。そこが動機になっている。"
+    kind: fact
+
+  - id: p7
+    claim: "近道として specific_install gem を先に入れておけば、github 上のレポジトリを指して gem コマンドのみで導入できる。"
+    kind: fact
+    scope: "git コマンドが入っている前提"

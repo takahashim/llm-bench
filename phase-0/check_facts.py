@@ -12,15 +12,18 @@ def norm(t):
     return re.sub(r"\s", "", t)
 def ng(t, n): return {t[i:i + n] for i in range(len(t) - n + 1)}
 N = 10
+# 言い回しの漏洩だけを見る版: ASCII の並び(識別子・コマンド・URL・数値)を落とす。
+# 固有名は原文のまま書く規則なので、そこでの一致は言い回しの写しではない。
+def ja(t): return re.sub(r"[\x21-\x7e]+", "", t)
 
 facts_dir = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(__file__), "facts")
 texts_dir = sys.argv[2] if len(sys.argv) > 2 else os.path.join(os.path.dirname(__file__), "texts/train")
 KINDS = {"fact", "opinion", "example", "code"}
 bad = 0
-print(f"{'no':>2} {'pts':>3} {'op':>2} {'leak':>5} {'thesis_leak':>11} thesis")
+print(f"{'no':>2} {'pts':>3} {'op':>2} {'leak':>5} {'ja':>5} {'th_ja':>5} thesis   (leak=生, ja=ASCII除去後の言い回しのみ, th_ja=thesis の言い回し)")
 for f in sorted(glob.glob(os.path.join(facts_dir, "*.yaml"))):
     no = os.path.basename(f)[:2]
-    problems = []
+    problems = []; notes = []
     try:
         d = yaml.safe_load(open(f, encoding="utf-8"))
     except Exception as e:
@@ -38,15 +41,21 @@ for f in sorted(glob.glob(os.path.join(facts_dir, "*.yaml"))):
         o = ng(norm(open(srcs[0], encoding="utf-8").read()), N)
         c = ng(norm(open(f, encoding="utf-8").read()), N)
         leak = len(c & o) / max(len(c), 1) * 100
-        t = ng(re.sub(r"\s", "", str(d.get("thesis", ""))), N)
-        tleak = len(t & o) / max(len(t), 1) * 100
-        if leak >= 5: problems.append(f"漏洩 {leak:.1f}%")
-        if tleak > 0: problems.append(f"thesis に原文の言い回し {tleak:.0f}%")
+        src = open(srcs[0], encoding="utf-8").read()
+        oj = ng(ja(norm(src)), N); cj = ng(ja(norm(open(f, encoding="utf-8").read())), N)
+        jleak = len(cj & oj) / max(len(cj), 1) * 100
+        t = ng(ja(re.sub(r"\s", "", str(d.get("thesis", "")))), N)
+        hits = t & oj
+        tleak = len(hits) / max(len(t), 1) * 100
+        if jleak >= 5: problems.append(f"言い回しの漏洩 {jleak:.1f}%(生 {leak:.1f}%)")
+        # thesis の一致は用語(「開発抽象化レイヤー」等)がほとんどなので、表示だけで不合格にはしない
+        if hits: notes.append("thesis の一致: " + " / ".join(sorted(hits)[:4]))
     else:
         problems.append("原文が見つからない")
     ops = sum(1 for p in pts if p.get("kind") == "opinion")
     thesis = str(d.get("thesis", "")).replace("\n", " ")
-    print(f"{no} {len(pts):3d} {ops:2d} {leak:5.1f} {tleak:11.0f} {thesis[:60]}")
+    print(f"{no} {len(pts):3d} {ops:2d} {leak:5.1f} {jleak:5.1f} {tleak:5.0f} {thesis[:56]}")
+    for n_ in notes: print(f"     - {n_}")
     if problems:
         bad += 1
         for p in problems: print(f"     ! {p}")

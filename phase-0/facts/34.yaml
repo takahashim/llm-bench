@@ -1,0 +1,41 @@
+source: texts/train/34-qiita-d71a325f6788b9.md
+title: "[ReVIEW Tips] ReVIEWで気をつけた方が良いこと"
+reader: "ReVIEW で原稿を書いて PDF や EPUB を作っている著者"
+thesis: "ReVIEW で詰まりやすいのは使える文字の範囲とファイルの区切り方の二点で、どちらも抜け道を探すより ReVIEW の前提に素直に合わせておく方が結局は楽に済む。"
+points:
+  - id: p6
+    claim: "原稿ファイル 1 本が 1 章に当たるのが基本で、冒頭には第 1 レベルの章見出しを置いておくのが無難。"
+    kind: opinion
+
+  - id: p2
+    claim: "この制約は、pLaTeX が扱う文字が基本的に JIS X 0208 どまりであることに由来する。"
+    kind: fact
+
+  - id: p9
+    claim: "挙動を踏まえれば回避する手もなくはないが、頑張って回り込むより制約を受け入れておいた方が余計な苦労を避けられるだろうという立場。"
+    kind: opinion
+
+  - id: p4
+    claim: "ただし LATEXBuilder でも HTMLBuilder でも、その文字がフォント側に無ければ表示はできない。"
+    kind: fact
+
+  - id: p1
+    claim: "review-pdfmaker、つまり LATEXBuilder を通す場合、Unicode にしか無い文字を本文などに書くと処理が止まることがある。"
+    kind: fact
+    scope: "review-pdfmaker（LATEXBuilder）を使う場合"
+
+  - id: p8
+    claim: "HTMLBuilder では *.re が *.html に一対一で対応する形になる。review-epubmaker で EPUB を作ると章とファイルが対応することが多いので、*.re がそのまま章の単位になる。"
+    kind: fact
+
+  - id: p3
+    claim: "回避の手として、Unicode の文字を `@<uchar>{XXXX}` の形でコードポイントを 16 進で与えて出せる場合がある。"
+    kind: code
+
+  - id: p5
+    claim: "フォントを埋め込む形にしている PDF ならビルドの段階で、埋め込まない EPUB なら閲覧の段階で問題が表に出る。"
+    kind: fact
+
+  - id: p7
+    claim: "章を分けたくないならファイルの方も分けない方がよい。LATEXBuilder では *.re が個別に *.tex へ変換され、input を使って【書籍名】.tex 側から読み込まれる。"
+    kind: opinion

@@ -1,0 +1,77 @@
+source: texts/train/24-qiita-268be275cc0e1d.md
+title: "Re:VIEW 1.xの文書をRe:VIEW 2.0でビルドする前に知っておきたいこと"
+reader: "Re:VIEW 1.x で原稿を書いてきた人。config.ymlやテンプレートを自分で触る程度の知識が前提"
+thesis: "バージョンが2.0へ上がったRe:VIEWでは設定項目の名前、テンプレートへの値の渡し方、既定で呼ばれる処理系や出力形式がそれぞれ入れ替わっている。エラーの症状と直し方はほぼ一対一で決まるので、1.7以前の原稿を組み直す前に当てはまる箇所を洗っておけばよい。"
+points:
+  - id: p14
+    claim: "表紙まわりの項目名も改まった。coverfileはcoverへ、backcoverfileはbackcoverへ、titlepagefileはtitlefileへと変わる。このうちcoverが受け持つ範囲は、body要素の内側だけでなくHTMLのすべてに広がった。発行履歴を持つpubhistoryもhistoryという名前になり、こちらは配列を要素に持つ配列として書く。"
+    kind: fact
+
+  - id: p4
+    claim: "PDFを作るときの組版処理系が入れ替わり、pLaTeXに代わってupLaTeXが呼ばれる。Unicodeの文字がそのまま使えるなどありがたい面はあるものの、スタイルの与え方が違うのでconfig.yml 側でtexdocumentclass: を与えていた原稿は直しが必要になる。"
+    kind: fact
+    scope: "texdocumentclass: を与えていない原稿はそのままで通る"
+
+  - id: p18
+    claim: "章立てをCHAPS・PREDEF・POSTDEFといった平文のファイルで持つやり方は、1.3の頃からすでに勧められていない。移行先はcatalog.yml となり、review-catalog-converterというコマンドを通すのが楽。この件については、警告を出すとテストがひどく騒がしくなって手が回らなかったので、まだ何も表示していない。"
+    kind: opinion
+
+  - id: p9
+    claim: "テンプレートの仕組みが、ERbを包んだReVIEW::Templateに一本化された。値の受け渡しは、SinatraやRailsのテンプレートと同じく@付きのインスタンス変数を使う形になる。ふだんはRe:VIEWの内側だけで使われるものなので多くの利用者には響かないが、自分で手を入れたものをlayouts/の下に置いている原稿は、互換がなくエラーで止まる。"
+    kind: fact
+
+  - id: p21
+    claim: "付録の採番をローマ数字にするときなどに使っていたappendix_formatはconfig.yml へ書いても働かなくなった。これは原稿の設定というより、言語に左右される見せ方の話だという整理でlocale.yml 側へ書くことになった。筆者はこの項目を使った経験がなく詳しくないと断っている。"
+    kind: fact
+
+  - id: p3
+    claim: "奥付に出る文字の対応が入れ替わった。prtが指すのは印刷所で、発行所の方はpblを使う。もとの作りが間違っていたのを直したもので、1.7の時点では互換を保つコードが入っていたが、新しい版では消えている。どうしても昔の設定のまま通したいならlocale.yml 側に手を加えて押し切ることもできる。"
+    kind: fact
+
+  - id: p16
+    claim: "既定で作られるEPUBが、2から3の規格に変わった。何も書かなければ3になるので、2のファイルが欲しいときは、epubversionとhtmlversionはconfig.yml へ書き足す。"
+    kind: fact
+
+  - id: p6
+    claim: "upLaTeXをやめてpLaTeXのままにしたい人は、texcommandの設定はconfig.yml へ足せばよい。それで以前の処理系が呼ばれる。"
+    kind: fact
+
+  - id: p12
+    claim: "layout.tex.erbの方では、documentclassoption、documentclass、valuesという3つの局所変数が、いずれも@付きの変数に変わった（valuesに当たるのは@config）。前付け・本編・付録・後付けのファイル名を保持していた3つの要素は@input_filesにまとめられ、それ以外はおおむね@configを引く形になっている。"
+    kind: fact
+
+  - id: p23
+    claim: "review-compileの--allと-aはなくなった。ファイル名が渡されなかったときにまとめて変換すればよいのでは、というPull Requestと声が届いたことで、そういう動きに改まったため。使っていた人は、そのオプションを外して呼ぶだけでよい。"
+    kind: fact
+
+  - id: p5
+    claim: "jsbookを使っているなら、texdocumentclass: に渡す2つめの要素のうしろへ ,uplatex を書き足すのが、手早い置き換え方として挙げられている。"
+    kind: opinion
+
+  - id: p13
+    claim: "設定ファイルの名前はconfig.ymlという綴りに揃えられたので、config.yamlにしている人は改名が必要。ロケール用のファイルもlocale.yml へ揃えられたため、locale.yamlという名前も直すことになる。"
+    kind: fact
+
+  - id: p15
+    claim: "review-ext.rbは重宝する一方、内部の細かい仕様がちょっと動くだけでエラーを招きやすい。そもそもソースを読めてRubyを書ける人でなければ手が出せないものなので、普通の利用者は触らないはず。もしエラーが出たら、lib/review/ の各builderを眺めて直してほしいという案内になっている。"
+    kind: opinion
+
+  - id: p7
+    claim: "新しい版からは、どのRe:VIEW向けの原稿かはconfig.yml 内のreview_versionとして書けるようになった。組むときにメジャーの番号がずれていれば警告が表示される。書くこと自体は必須ではないが冒頭に添えておくとよく、警告が目障りな人向けの書き方も示されている。"
+    kind: fact
+
+  - id: p11
+    claim: "HTML側では、昔使われていたlayout.erb の方は、今の標準であるlayout.html.erb に改名する。受け渡しに使っていたtitleやbodyという局所変数は@付きのものになり、変数そのものも増えている。公式リポジトリから最新のものを取ってきてその名前にし、自分が以前当てた変更を改めて反映させ、古い方を消してlayouts/に置く、という3手順になる。"
+    kind: fact
+
+  - id: p17
+    claim: "非互換ではない余談として、htmlextを直下とepubmaker:の下の両方に書けば、EPUBのときとそうでないときで拡張子を分けられる。近年のEPUBはxhtml以外ではepubcheckがエラーを出し、一方で新しく増えたwebmakerの出力はhtmlにしたい、という両立のための設定。"
+    kind: code
+
+  - id: p19
+    claim: "構文強調（シンタックスハイライト）の指定としてconfig.yml へpygmentsと真偽値を書いていたものは働かなくなった。Pygments以外の仕組みも視野に入れた書き方に変わっている。"
+    kind: fact
+
+  - id: p20
+    claim: "inao記法向けの出力を行うINAOBuilderは取り除かれた。MarkdownからInDesignへ直に変換する流れが増えてその記法の出番が減り、手入れもあまり続いていなかったため。これからはMARKDOWNBuilder を使うことになる。同じく、取り込み前の実装を残していたreview-epubmaker-legacyも、新しい実装が十分に安定したことで姿を消した。"
+    kind: fact

@@ -1,0 +1,66 @@
+source: texts/train/28-qiita-9908e1fb4d19ad.md
+title: "次期Re:VIEW parserに関するメモ"
+reader: "Re:VIEW の内部実装や Builder の拡張に手を入れる開発者"
+thesis: "次期 Re:VIEW では parse と出力生成がはっきり二段に分かれ、AST を介して Builder に渡る設計になるので、ハンドラの定義の仕方も受け取る文字列の扱いも従来のままでは済まなくなる。"
+points:
+  - id: p7
+    claim: "ブロック側もインライン側も、ハンドラは戻り値として文字列を返す形に統一される。print や puts で書き出す実装の方は撤廃される。"
+    kind: fact
+
+  - id: p3
+    claim: "AST を構成するのは ReVIEW::Node のインスタンスと Array の組み合わせ。Array 側には to_doc と to_raw が足され、要素ごとに再帰的に適用した結果をつなげた文字列を返す。"
+    kind: fact
+
+  - id: p12
+    claim: 'paragraph が複数行にまたがるとき、旧 parser では内側の改行文字が残っていたが、新しい方では落とす方針に変え、もともとそうなっていた HTMLBuilder の挙動に揃える。`foo\nbar\n` なら `foobar\n` という形に落ち着く。'
+    kind: fact
+    scope: "LATEXBuilder"
+
+  - id: p1
+    claim: "旧 parser は正規表現を駆使しながら構文解析と出力を同時に進めていたが、次期 parser の側では Parser がまず AST を組み立て、それが済んでから出力用の文字列を作る。"
+    kind: fact
+
+  - id: p9
+    claim: 'raw の扱いの決まりは、`\n` を改行に、`\\` を `\` に、`\}` と `\]` をそれぞれの閉じ記号にするというもので、インラインとブロックで差がある。'
+    kind: code
+
+  - id: p5
+    claim: "ただし変換前の文字列が要る場面もあり、ID として文字列を使う場合や TeX 風の数式といった特殊な文字列を渡す場合に、escape 済みのものを受け取ると辛くなる。"
+    kind: fact
+    scope: "特に LATEXBuilder"
+
+  - id: p14
+    claim: "冒頭で「メモなので適当」と断り、本家にマージされた段階で本気を出すと書いている。"
+    kind: opinion
+
+  - id: p2
+    claim: "AST を組む部分は現状 kpeg ライブラリに任せている。"
+    kind: fact
+
+  - id: p10
+    claim: "Test の側も raw_result に頼らず、helper メソッド経由にする方向が示されている。"
+    kind: fact
+
+  - id: p6
+    claim: "AST を引数に取るハンドラを定義できるようになり、`//foo` に対する `def foo` は `def node_foo` に変わる。`@<hoge>{}` のようなインライン記法も `def inline_hoge` から `def node_inline_hoge` へ変わる。"
+    kind: fact
+
+  - id: p4
+    claim: "旧 builder の側では解析前の文字列がハンドラに渡っていたため、その内側でもう一度 parse していた。新しい設計では parse は全体に対して一度だけになる。ハンドラ内の compile_inline や escape も原則なくなるので、既存の呼び出し箇所は直す必要がある。"
+    kind: fact
+
+  - id: p8
+    claim: "print や puts を使うと並ぶ順序が実行の順序に左右されてしまうのが撤廃の理由。どちらにしてもハンドラの仕組みが単純になるのは利点だと著者は見ている。"
+    kind: opinion
+
+  - id: p13
+    claim: "カンマ区切りの文字列などを渡すインライン記法は AST 中心の API に寄せた方がよさそうだが、引数が1つだけの記法については旧 API のままでも支障はなさそうだとしている。"
+    kind: opinion
+
+  - id: p11
+    claim: "移行期間として古いメソッドも当面動き、foo と node_foo が併存する場合は node_foo の方が優先されるので、上書きの手段にも使える。旧 API だと、lines と parse 済みの各引数を取るのがブロック記法で、インライン記法では文字列が1つだけ渡る。"
+    kind: fact
+
+  - id: p15
+    claim: "JS 版と互換を保ちたい意向はあるものの、結論は未定のままだとしている。"
+    kind: fact

@@ -1,0 +1,70 @@
+source: texts/train/04-zenn-e1c56916957379.md
+title: "Crowdinの翻訳データ一覧をCSV化するcrowdin2csvのご紹介"
+reader: "OSSや多言語アプリの翻訳作業に関わっていて、訳文を他の人にも見てもらいたい人"
+thesis: "翻訳は多くの人に手伝ってもらいたいのに、XLIFFのまま渡せる相手は限られる。だからCrowdinの出力をCSVに直す小さなgemを用意した。表計算ソフトで開ける形にしてしまえば協力や指摘を集めやすくなる。"
+points:
+  - id: p7
+    claim: "XLIFF は XML Localization Interchange File Format の略だという。XMLに乗せて訳のデータを受け渡すためのファイル形式にあたる。"
+    kind: fact
+
+  - id: p13
+    claim: "作ったものの中身は、Crowdin側が書き出した XLIFF のファイルを CSV に置き換えるだけ。"
+    kind: fact
+
+  - id: p3
+    claim: "Crowdin はそうした用途の道具をWebアプリの形で提供している。訳したい語や文を何らかの形で登録し、訳者がそれを訳していき、できたものをまた何らかの形でアプリ側へ戻す、という流れになる。"
+    kind: fact
+
+  - id: p10
+    claim: "Crowdin自体がこの形式に対応しているため、訳した語をその形で手元に落とせる。逆向きの取り込みも用意されているようだが筆者は試していない。"
+    kind: fact
+
+  - id: p1
+    claim: "crowdin2csv という名前のgemを書いたので、その紹介が記事の目的。"
+    kind: fact
+
+  - id: p8
+    claim: "昔から使われてきたものにはgettext で使うPOファイルがあり、XLIFFはそのXML版といった位置づけだろう。"
+    kind: opinion
+
+  - id: p15
+    claim: "XLIFFをそのまま読める人はさほど多くないだろうから、CSVに直してExcelやGoogle Sheetsで共有すれば、協力や指摘をもらいやすくなるのではないか。"
+    kind: opinion
+
+  - id: p5
+    claim: "この3つのクラウド版はいずれもOSS向けの無料枠があるらしく、規模の大きいOSSに関わっていれば触ったことがある人もいそう。"
+    kind: fact
+    scope: "OSSプロジェクトの場合"
+
+  - id: p12
+    claim: "Weblateにも同じ機能があるらしい。"
+    kind: fact
+
+  - id: p9
+    claim: "XLIFFの中身では、訳の一単位が trans-unit 、元の語や文が source 、その訳が target という対応になる。"
+    kind: code
+
+  - id: p2
+    claim: "ある程度の規模の多言語アプリを作るなら、訳文や用語を管理する道具を入れることになる。"
+    kind: fact
+    scope: "規模が大きめの多言語対応"
+
+  - id: p4
+    claim: "同じ分野では Transifex も知られており、OSSのものには Weblate があるという。"
+    kind: fact
+
+  - id: p14
+    claim: "導入は gem install crowdin2csv のようにgemコマンドで行い、XLIFFのファイルを引数に渡して動かすとCSVができる。出力先の名前を変えたいときは -o オプションを付ける。"
+    kind: code
+
+  - id: p11
+    claim: "Transifex側にも同様の書き出し機能はあるようだが、筆者が関わっていたプロジェクトでは動かなかった。設定の問題かもしれない。"
+    kind: fact
+
+  - id: p6
+    claim: "筆者自身、この種のサービスのうち Crowdin と Transifex では訳語を入れた経験がある。"
+    kind: fact
+
+  - id: p16
+    claim: "置き場所はGitHub。気づいた点があれば issue や pull request を送ってほしいとのこと。"
+    kind: fact

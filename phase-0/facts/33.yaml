@@ -1,0 +1,48 @@
+source: texts/train/33-qiita-204ffa698afe09.md
+title: "OS XでGDBを使う（ためにコード署名をする）"
+reader: "Mac OS X で C 系のプログラムをデバッグする開発者。lldb 以外も使いたい人"
+thesis: "最近の OS X で GDB が起動しないのは壊れているからではなく codesign が施されていないだけなので、自分でキーチェーンアクセスから自己署名の証明書を作り、署名してやれば普通に使える。"
+points:
+  - id: p5
+    claim: "「自己署名ルート」と「コード署名」を選んだうえで、「デフォルトを無効化」の側にも印を付ける。名前は適当でよく、記事では gdb-cert という例が使われている。"
+    kind: fact
+
+  - id: p2
+    claim: "GDB そのものは Homebrew や MacPorts から入れられる。"
+    kind: fact
+
+  - id: p9
+    claim: "最後に、作った証明書で GDB に codesign をかける。MacPorts 版は ggdb という名前になっている点に注意が要り、Homebrew 版なら対象のコマンド名が変わる。"
+    kind: code
+
+  - id: p1
+    claim: "Mac OS X では標準のデバッガが lldb へ切り替わったが、GDB の方を使いたい場面もある。"
+    kind: fact
+
+  - id: p7
+    claim: "出来た証明書をダブルクリックして開き、「信頼」のコード署名の項目を「常に信頼」に変えておく必要がある。"
+    kind: fact
+
+  - id: p4
+    claim: "作業はキーチェーンアクセスから始め、「証明書アシスタント」の「証明書を作成...」に進む。"
+    kind: fact
+
+  - id: p10
+    claim: "署名まで済めば、OS X 上でも GDB が動くようになる。"
+    kind: fact
+
+  - id: p3
+    claim: "近年の OS X だとそのまま起動を試みてもエラーが出て動かないことがあり、原因は gdb コマンドに codesign が施されていないこと。表示されるメッセージ自体がそれを伝えている。"
+    kind: fact
+
+  - id: p8
+    claim: "証明書を閉じてキーチェーンアクセスも終了させたうえで、taskgated を一度止めてから立ち上げ直す。"
+    kind: fact
+
+  - id: p6
+    claim: "拡張鍵用途の選択画面でも「コード署名」に印を付け、証明書の場所には「システム」を選ぶ。"
+    kind: fact
+
+  - id: p11
+    claim: "途中で警告が表示されるが、そこは気にせず先に進めてよいという判断を示している。"
+    kind: opinion

@@ -1,0 +1,60 @@
+source: texts/train/32-qiita-9067b636360ae6.md
+title: "OS XでSigilをビルドする"
+reader: "EPUB の制作に関心があり、Sigil を自分の OS X 環境で組み立ててみたい人"
+thesis: "直接の代わりが無いまま Sigil を使わないという選択だけを取るなら、オープンソースを使う意味が薄れてしまう。せめて自分でビルドしてみるところから始めたい。"
+points:
+  - id: p9
+    claim: "make を終えると build/bin/Sigil.app が生成され、起動すれば自分の手で作った Sigil が動く。"
+    kind: fact
+
+  - id: p4
+    claim: "マルチプラットフォーム対応を狙う Sigil では、ビルドの仕組みにも CMake が採用されている。OS X なら Homebrew または MacPorts で CMake を入れるのが早い。"
+    kind: fact
+
+  - id: p12
+    claim: "EPUB3 の生成がまともにできないため、日本語を扱う環境では無理があり、素人にも玄人にも勧めにくいという指摘は著者自身も認めている。一方、日本語でも技術書なら横書き一択なので EPUB2 で十分という見方も添えている。"
+    kind: opinion
+
+  - id: p2
+    claim: "Sigil の wiki に RunningFromSource という手順の記述があるため、この記事はそれを実際に試した記録という位置づけ。"
+    kind: fact
+
+  - id: p14
+    claim: "ビルドしたからといって状況が変わるわけではないと認めつつ、一歩ずつの積み重ねの先にしか大きな成果は生まれないというのは、FLOSS の周辺では日常的に目にする光景だとしている。"
+    kind: opinion
+
+  - id: p6
+    claim: "Qt を入れる場所は好きに選べるが、後で指定できるように控えておく。記事では /Users/foo/Qt5.2.1 を例にしており、/Users の下に置かれるのは微妙かもと感じたが既定がそうなっており、試して差し支えなかったのでそのままにしたという。"
+    kind: opinion
+
+  - id: p1
+    claim: "ここで扱うのは Elixir などにある sigil ではなく、EPUB エディタである Sigil の方。"
+    kind: fact
+
+  - id: p10
+    claim: "記事を書いた動機は、Sigil の後継や活動停滞について書かれたブログ記事を読んだことにある。"
+    kind: fact
+
+  - id: p7
+    claim: "ソースの置き場は github で、git clone で取得したら同梱の INSTALL.txt の通りに進める。"
+    kind: fact
+
+  - id: p13
+    claim: "直接の代替アプリも無い状況で「使わない」の一手だけが残るのであれば、私たちがオープンソースソフトウェアを使う理由はどこにあるのかと問いかけている。"
+    kind: opinion
+
+  - id: p5
+    claim: "Qt5.x が要るので、入っていなければ先に用意する。Homebrew で入れてもよいし、本家のダウンロードページから Qt 5.2.1 for Mac のインストーラを落としてきてもよい。"
+    kind: fact
+
+  - id: p8
+    claim: "注意が要るのは、控えておいた Qt のパスを渡すところくらいだとしている。"
+    kind: opinion
+
+  - id: p15
+    claim: "電子出版の周辺はごく一部しか開かれない印象が強く、その息苦しい風土を少しずつでも変わっていければという願いを込めて書いたと結んでいる。"
+    kind: opinion
+
+  - id: p11
+    claim: "自由ではないエディタ、つまり Atom で世の中が盛り上がっている朝に、知名度のある FLOSS の EPUB エディタが活動を鈍らせて退いていく知らせを読むのは悲しいと述べている。"
+    kind: opinion

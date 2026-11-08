@@ -1,0 +1,48 @@
+source: texts/train/22-qiita-30f0d3a8e0136c.md
+title: "OpalでJSにしたRubyスクリプトをNodeで実行する"
+reader: "OpalでRubyをJavaScriptに変換したことがあり、それをブラウザ以外で動かしたい人"
+thesis: "Opalの変換結果はブラウザ専用ではなくNodeからも呼び出せる。Opal本体を同梱した一枚で動かすか、本体と変換結果を別々に読み込むかの二通りが選べる。"
+points:
+  - id: p9
+    claim: "Opal本体だけをきっちり切り出すのは難しそうだが、余分が混ざってもよいと割り切れば、コマンドの指定でopal.jsという形にまとめられる。"
+    kind: fact
+
+  - id: p2
+    claim: "Opal自体はむしろブラウザでの実行を見据えて作られているらしいが、Node上でも走らせられる。"
+    kind: fact
+
+  - id: p5
+    claim: "取り出したオブジェクトに、Ruby側のクラスの名前とメソッドの名前を渡すと、Rubyで書いた処理が実行される。"
+    kind: fact
+
+  - id: p1
+    claim: "opalコマンドに通せば、Rubyのコードは JavaScript のコードになる。"
+    kind: fact
+
+  - id: p11
+    claim: "分けた構成のtest.jsは、opal.jsを読む行、foo.rb.jsを読む行、Fooのfooメソッドを呼ぶ行の3行で済む。実行すると\"hello\"がきちんと表示される。"
+    kind: code
+
+  - id: p7
+    claim: "変換時の指定を変えれば、Opal自体を含めない形のJSも作れる。その場合は本体と変換結果を別々に読み込んで動かすことになる。"
+    kind: fact
+
+  - id: p3
+    claim: "まず試しているのは、`-c`だけを付けて変換したfoo.rb.jsをrequireで取り込み、そのまま動かす素朴なやり方。題材のfoo.rbはFooクラスにfooメソッドを持つ程度の短いもの。"
+    kind: example
+
+  - id: p10
+    claim: "切り出したopal.jsの末尾には、生成した版を示すコメントより後ろに余計なfunctionが残る。これといった害はないため、放置しておいて差し支えない。"
+    kind: opinion
+
+  - id: p6
+    claim: "呼び出すときの決まりとして、メソッド名の前には`$`を置く必要がある。クラス名の側には要らない。"
+    kind: fact
+
+  - id: p4
+    claim: "本体込みで変換したファイルをrequireすると、Opalという名前のオブジェクトを手にできる。"
+    kind: code
+
+  - id: p8
+    claim: "変換後のJSは量が多いため、記事では先頭の20行だけを抜き出して見せている。"
+    kind: fact
