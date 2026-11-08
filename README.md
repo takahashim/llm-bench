@@ -53,3 +53,19 @@ run-server.sh      llm-jp を llama-server で起動
   公式llama.cppの `llama-server --jinja` を使う（`run-server.sh`）
 - results/ の品質評価は n=7・各1サンプルの読み比べにすぎない。**精度は測っていない**。
   比べるなら llm-jp-eval や JMMLU などの標準ベンチを使うこと
+
+## データの出典
+
+`data/ja-wiki.txt` と `data/src_text.txt` は **日本語版ウィキペディア**から取得した
+テキストである。
+
+- 取得日: 2026-11-04
+- 取得方法: MediaWiki API (`action=query&prop=extracts&generator=random`) で
+  ランダムに記事本文を取得し連結。`src_text.txt` はその先頭2,400字
+- 用途: perplexity測定（`scripts/ppl.sh`）と要約タスクの題材
+- ライセンス: **CC BY-SA 4.0** — https://creativecommons.org/licenses/by-sa/4.0/
+- 原典: https://ja.wikipedia.org/
+
+このリポジトリを再配布する場合、これらのファイルは CC BY-SA 4.0 の条件下にある。
+同一コーパスを保持しているのは、量子化ごとの perplexity 比較（Q4_K_M 6.418 /
+Q3_K_M 7.277 / IQ3_XXS 7.428）を再現可能にするため。別のサンプルでは比較にならない。
