@@ -1,0 +1,141 @@
+{
+ "eval": [
+  {
+   "n": 1,
+   "file": "texts/eval/01.md",
+   "src": "zenn",
+   "id": "200d3e67cd9a6d",
+   "title": "Rubyアンチパターン: なんでもHash",
+   "prose": 1540,
+   "code": 0
+  },
+  {
+   "n": 2,
+   "file": "texts/eval/02.md",
+   "src": "zenn",
+   "id": "c402ad15e36d76",
+   "title": "Rubyアンチパターン: なんでもprivateメソッド",
+   "prose": 1465,
+   "code": 3
+  },
+  {
+   "n": 3,
+   "file": "texts/eval/03.md",
+   "src": "zenn",
+   "id": "46cf33bd662732",
+   "title": "Railsアーキテクチャパターン: In-App Gems (アプリ内gem) パターン",
+   "prose": 1583,
+   "code": 3
+  },
+  {
+   "n": 4,
+   "file": "texts/eval/04.md",
+   "src": "zenn",
+   "id": "ac725fb16ec7a11809c5",
+   "title": "著名なオープンソースRailsアプリのapp/以下を見る",
+   "prose": 3102,
+   "code": 0
+  },
+  {
+   "n": 5,
+   "file": "texts/eval/05.md",
+   "src": "zenn",
+   "id": "702b165b2a0fd7",
+   "title": "Tailwind CSS for Railsを使って、NodeをインストールせずにTailwind CSS 3を導入する",
+   "prose": 3457,
+   "code": 4
+  },
+  {
+   "n": 6,
+   "file": "texts/eval/06.md",
+   "src": "zenn",
+   "id": "ab48aaedab1e68",
+   "title": "『Sustainable Web Development with Ruby on Rails』はRails使ってるなら絶対面白いと思う",
+   "prose": 3567,
+   "code": 0
+  },
+  {
+   "n": 7,
+   "file": "texts/eval/07.md",
+   "src": "zenn",
+   "id": "e4af8211b6f561d59d58",
+   "title": "MatzにrejectされたES6風HashリテラルをこっそりRubyで使う",
+   "prose": 1882,
+   "code": 5
+  },
+  {
+   "n": 8,
+   "file": "texts/eval/08.md",
+   "src": "qiita",
+   "id": "be78cbc605fd5d116175",
+   "title": "Rails + RBS & Steepを試してみて困ったところとか感想とか",
+   "prose": 4141,
+   "code": 4
+  },
+  {
+   "n": 9,
+   "file": "texts/eval/09.md",
+   "src": "qiita",
+   "id": "a41fa8f40ff4a2396d68",
+   "title": "コンテナ向けデプロイツールMRSKを試してみる",
+   "prose": 3915,
+   "code": 6
+  },
+  {
+   "n": 10,
+   "file": "texts/eval/10.md",
+   "src": "qiita",
+   "id": "f8bf7d2b724fc2d92d51",
+   "title": "MarkdownからPDFやEPUBを生成するドキュメントツールCheepubのご紹介",
+   "prose": 2565,
+   "code": 4
+  }
+ ],
+ "fewshot": [
+  {
+   "n": 1,
+   "file": "texts/fewshot/01.md",
+   "src": "zenn",
+   "id": "3b6bdca62b87a2",
+   "title": "Rubyアンチパターン：神クラス",
+   "prose": 1631,
+   "code": 0
+  },
+  {
+   "n": 2,
+   "file": "texts/fewshot/02.md",
+   "src": "zenn",
+   "id": "69e48acfcf8ff4",
+   "title": "昔から使われている技術用語をさかのぼる: Value Object編",
+   "prose": 2230,
+   "code": 0
+  },
+  {
+   "n": 3,
+   "file": "texts/fewshot/03.md",
+   "src": "qiita",
+   "id": "e51927d473f18c2bc73a",
+   "title": "Rubyコーディングスタイルの現状とStandard gemのご紹介",
+   "prose": 2896,
+   "code": 3
+  },
+  {
+   "n": 4,
+   "file": "texts/fewshot/04.md",
+   "src": "zenn",
+   "id": "279523b22a4eed",
+   "title": "現代は開発抽象化レイヤーが重層化している、あるいは何を見ても開発抽象化レイヤーに見える",
+   "prose": 2995,
+   "code": 0
+  },
+  {
+   "n": 5,
+   "file": "texts/fewshot/05.md",
+   "src": "qiita",
+   "id": "d283a093f8d95df59703",
+   "title": "mrubyとCRubyの非互換とその対応方法",
+   "prose": 1247,
+   "code": 0
+  }
+ ]
+}
