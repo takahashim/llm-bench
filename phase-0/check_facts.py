@@ -36,7 +36,7 @@ for f in sorted(glob.glob(os.path.join(facts_dir, "*.yaml"))):
         if p.get("kind") not in KINDS: problems.append(f"{p.get('id')}: kind={p.get('kind')}")
         if not p.get("claim"): problems.append(f"{p.get('id')}: claim が無い")
     srcs = glob.glob(os.path.join(texts_dir, f"{no}-*.md"))
-    leak = tleak = float("nan")
+    leak = tleak = jleak = float("nan")
     if srcs:
         o = ng(norm(open(srcs[0], encoding="utf-8").read()), N)
         c = ng(norm(open(f, encoding="utf-8").read()), N)
