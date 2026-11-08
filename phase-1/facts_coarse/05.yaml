@@ -1,6 +1,7 @@
 source: texts/eval/05.md
 title: "tailwindcss-railsが今の形に落ち着くまで"
 reader: "Rails 7でTailwind CSSを使いたいRuby/Rails開発者"
+thesis: "Node.jsに頼らないというRails 7の方針とTailwind CSSのv3でのJIT必須化は一度ぶつかったが、Tailwind側が単体で動くCLIを出したことで解消し、Tailwind CSS for Railsは安心して頼れる道具になった。"
 points:
   - id: p12
     claim: "12月17日にはTailwind公式がStandalone CLIを打ち出し、RailsやPhoenixといったnpmを前提としない環境でも、性能を落とさず使えるようにした。"

@@ -1,6 +1,7 @@
 source: texts/eval/04.md
 title: "有名なOSS Railsアプリのapp/以下を見比べる"
 reader: "Railsアプリで独自ディレクトリをどう設けるか迷っている開発者"
+thesis: "OSSのRailsアプリを並べてみると、app/直下にどんな独自ディレクトリを足すかは各プロジェクトの方針次第で、数も基準もまるで違う。真似する値打ちがあるのは、足したディレクトリの役割をREADME.mdで説明しておくGitLabのやり方だ。"
 points:
   - id: p11
     claim: "Mastodonはpolicies以下に権限の有無を返すクラス（ApplicationPolicy継承）、validators以下にActiveModel::Validatorを継いだ検証クラスを置き、chewyはElasticsearch向けに用意されている。"
