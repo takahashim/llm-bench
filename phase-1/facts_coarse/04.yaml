@@ -1,0 +1,75 @@
+source: texts/eval/04.md
+title: "有名なOSS Railsアプリのapp/以下を見比べる"
+reader: "Railsアプリで独自ディレクトリをどう設けるか迷っている開発者"
+points:
+  - id: p11
+    claim: "Mastodonはpolicies以下に権限の有無を返すクラス（ApplicationPolicy継承）、validators以下にActiveModel::Validatorを継いだ検証クラスを置き、chewyはElasticsearch向けに用意されている。"
+    kind: example
+
+  - id: p4
+    claim: "rubygems.orgはほぼ標準どおりの構成で、独自に足されているのはRackのミドルウェア1つを収めたディレクトリだけ。"
+    kind: fact
+
+  - id: p17
+    claim: "dev.toの実体であるForemは非常に多くのディレクトリを抱えており、中にはファイルが1つしかないものもある。"
+    kind: fact
+
+  - id: p1
+    claim: "Railsのapp/はアプリ本体を収めるためのディレクトリで、ふだんはmodelsやcontrollersなどが並ぶ。足す必要は本来ないが、込み入ってくるとRailsを広げる形で独自のディレクトリを作り、関係するファイルをそこへ入れることがある。"
+    kind: fact
+
+  - id: p13
+    claim: "GitLabのfindersが受け持つのは、モデル以外にも関わる検索処理をクラスへ出すこと、presentersが引き受けるのはView関連のロジックやデータで、どちらもモデルが太るのを避ける役目を持つ。"
+    kind: fact
+
+  - id: p7
+    claim: "Discourseで使われているサービス用のクラスは共通の親を持たないただのRubyのクラスで、メソッドの決まりもほとんどなく数も多い。"
+    kind: fact
+
+  - id: p16
+    claim: "GitLabは独自に足したディレクトリに説明のREADME.mdを置いており（すべてではない）、読む側としては非常に助かった。この習慣は取り入れる価値がある。"
+    kind: opinion
+
+  - id: p9
+    claim: "Mastodonはディレクトリの数が多めだが、それぞれの受け持ちははっきりしている。"
+    kind: opinion
+
+  - id: p5
+    claim: "Redmineはcontrollers・helpers・models・viewsの4つだけで、Rails初期の形を今も守っている。かえって手入れしやすいという面もあるのかもしれない。"
+    kind: opinion
+
+  - id: p14
+    claim: "GitLabのserializersにはGrape::Entityを継いだクラスが入り、権限管理にはDeclarativePolicyのフレームワークを使い、uploadersの各クラスはCarrierWaveの基底を直接継がず自前のクラスを経由させている。"
+    kind: example
+
+  - id: p3
+    claim: "servicesやserializersといった、多くのアプリで見かけるものもあれば、そのアプリだけのものもあり、独自ディレクトリを一切作らない例も大量に作る例もあって、方針はアプリごとに違う。"
+    kind: fact
+
+  - id: p18
+    claim: "Foremがどんな方針でディレクトリを足しているのかは、ドキュメントを読んでも読み取れなかった。"
+    kind: opinion
+
+  - id: p8
+    claim: "Diasporaの独自ディレクトリは、コントローラからJSONを返すためのpresenters、書き出し用途でActiveModel::Serializerを継いだserializers、素朴なクラスが入るservices、Sidekiq向けに基底クラスを継いだworkersあたり。"
+    kind: example
+
+  - id: p6
+    claim: "Discourseも素直な構成で、標準から外れているのは、モデルを直列化するクラスを収めた場所と、サービス用のクラスを置く場所くらい。"
+    kind: fact
+
+  - id: p12
+    claim: "MastodonのservicesはBaseServiceを継いだ上でcallだけを外に出す作りになっていて、呼ぶ側から見て使い方に迷いがない。"
+    kind: opinion
+
+  - id: p10
+    claim: "Mastodonはassetsをやめてjavascriptをapp/の直下に持ってきており、app/libというディレクトリをroot側のlibと別に持ち、素朴なクラスを収めている。"
+    kind: fact
+
+  - id: p15
+    claim: "GitLabにgraphqlのディレクトリがあるのは今の流行に沿っている。"
+    kind: opinion
+
+  - id: p19
+    claim: "app/の一階層を眺めるだけでも、アプリごとにまったく異なる考え方があることが見えてくる。"
+    kind: fact

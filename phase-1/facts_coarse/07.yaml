@@ -1,0 +1,59 @@
+source: texts/eval/07.md
+title: "RubyNextでES6風のHash省略記法を動かす"
+reader: "Rubyの新しい記法や言語機能の提案に関心のある開発者"
+points:
+  - id: p9
+    claim: "変換は構文解析とコンパイルの前に差し込まれるので新しいリテラルが成立する。裏を返すと、この手はライブラリ側に書かないと通らず、読み込む側のスクリプトに直接その記法を書くことはできない。"
+    kind: fact
+
+  - id: p2
+    claim: "ES6(ES2015)で入った値の省略記法に相当するものをRubyにも、という提案は過去に何度も出されており、#11105や#15236、値だけを省く形の#14579も、いずれも受け入れられないままになっている。"
+    kind: example
+
+  - id: p14
+    claim: "提案段階の機能は専用のファイルをrequireすると有効になり、RubyNext 0.10.0の時点で使えるのはメソッド参照の演算子とHashの省略記法の2つ。今回使ったのは後者。"
+    kind: fact
+
+  - id: p1
+    claim: "JavaScript側で見慣れたキーだけを並べる書き方を、Rubyでも書けたら便利だと考える人は当然いる。"
+    kind: fact
+
+  - id: p11
+    claim: "既定の対象ディレクトリ以外に置いたせいでまったく動かず、筆者はしばらく原因が分からず詰まっていた。"
+    kind: opinion
+
+  - id: p6
+    claim: "RubyNextはEvil MartiansのVladimir Dementyevが手がけているRubyのトランスパイラで、gemとして入れられ、Gemfileに書いてbundle install経由で使うこともできる。"
+    kind: fact
+
+  - id: p4
+    claim: "ライブラリ側のファイルと呼び出し側のファイルを用意して実行すると、省略記法を含むコードがそのまま動く様子が示されている。"
+    kind: code
+
+  - id: p12
+    claim: "RubyNextができることは3通りある。古い処理系で新しいバージョン向けのコードを動かす、まだ出ていないバージョン向けのもの（Edge features）を動かす、提案されただけで取り込まれていないもの（Proposed features）を動かす。"
+    kind: example
+
+  - id: p3
+    claim: "処理系に手を加えることなく、素のCRubyのままこの記法を実際に動かす方法が今は存在する。"
+    kind: fact
+
+  - id: p16
+    claim: "Ruby本体の開発でも同じ道を考えてみてはどうか。取り込むか却下するかの二択だけでなく、トランスパイラの利用者から広く意見を集めてそれを踏まえて採否を決める筋道を用意してもよさそうに思える。興味がある人は試してみてほしい。"
+    kind: opinion
+
+  - id: p5
+    claim: "正体は冒頭に置いたrequireの行で、RubyNextを呼び込んでいる。"
+    kind: fact
+
+  - id: p15
+    claim: "提案段階の機能を同梱しているのは、正式に採り入れる前に多くの人が気軽に試せる場を用意するためで、JavaScript界のやり方を手本にしているという。"
+    kind: fact
+
+  - id: p8
+    claim: "変換した結果を別ファイルとして書き出すこともできるが、requireとrequire_relativeを入れ替えて実行時にライブラリを書き換えながら動かすこともできる。"
+    kind: fact
+
+  - id: p10
+    claim: "requireの入れ替えはどこにでも効くわけではなく、既定の対象はlib、app、specのような決まった名前のものだけで、それ以外に広げるには監視対象ディレクトリの設定が必要。"
+    kind: fact

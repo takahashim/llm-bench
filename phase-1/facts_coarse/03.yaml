@@ -1,0 +1,67 @@
+source: texts/eval/03.md
+title: "Railsアーキテクチャパターン: アプリのリポジトリ内にgemを置く"
+reader: "Railsアプリで独立した機能の置き場所に悩んでいる開発者"
+points:
+  - id: p7
+    claim: "置き場所の候補は3通りある。rootにgems/を切る、Railsの既定の階層を崩したくないならvendor/gems/に入れる、あるいは特別な場所を設けずroot直下にprefix付きで並べる。"
+    kind: example
+
+  - id: p1
+    claim: "対象のアプリとだけ歩調を合わせつつ、機能としては切り離せるライブラリを、そのアプリの中に収めたgemとして用意する方式を、パターンカタログ風の体裁でまとめている。"
+    kind: fact
+
+  - id: p12
+    claim: "モデルのテストでもコントローラのテストでもない機能単位の検証を、gemに付属するテストとして素直に書けるので、書き手も読み手も扱いやすい。アプリ側はリクエストやシステムの単位で書けばよい。"
+    kind: fact
+
+  - id: p5
+    claim: "やることは、アプリの中にgemを並べるディレクトリを決めて、そこに普段どおりのgemを作って置くだけ。"
+    kind: fact
+
+  - id: p9
+    claim: "Railsの融通の良さに任せると互いに依存し合う形になりやすいが、この形なら少なくともgem側がアプリ本体に頼ることは抑えられる。"
+    kind: fact
+
+  - id: p14
+    claim: "他のアプリからも同じ機能を使いたいなら、別のリポジトリを立て、Gemfileに書いてそちらを参照する方が面倒が少ない。"
+    kind: opinion
+
+  - id: p3
+    claim: "向いているのは、アプリに頼らないclassやmoduleが一揃いになっていて、そのRailsアプリ以外から使う予定がなく、場合によってはいずれ取り外すかもしれないという状況。"
+    kind: example
+
+  - id: p16
+    claim: "Railsという名を冠したものの、gemを前提としたRubyアプリであれば同じように当てはめられる。"
+    kind: opinion
+
+  - id: p6
+    claim: "gemの雛形を生成するコマンドと、Gemfileにその置き場所を指し示す記述も載っている。生成されたgem側のリポジトリ情報は捨て、アプリ側のリポジトリで一緒に管理する。"
+    kind: code
+
+  - id: p10
+    claim: "アプリから見れば普通のgemに過ぎず、gemを扱う手法は十分こなれているので、新しく覚えることはほとんどない。"
+    kind: fact
+
+  - id: p2
+    claim: "狙いは、1つのclassやmoduleだけでは収まらず複数が連動する程度のまとまりを、アプリと溶け合って境界を侵さない形で持つこと。"
+    kind: fact
+
+  - id: p13
+    claim: "そのアプリ専用でファイル1〜2枚に収まる程度の機能なら、わざわざgemに切り出す値打ちは小さいかもしれない。"
+    kind: opinion
+
+  - id: p8
+    claim: "vendorの下に入れると既存の階層は保てるが、assetsなどと横並びになるのは分かりにくいと感じる人もいそう。"
+    kind: opinion
+
+  - id: p4
+    claim: "まとまりの大きさ次第で、ただのRubyライブラリにする場合もRails Engineにする場合もあり、使う側からは違いなく扱える。"
+    kind: fact
+
+  - id: p11
+    claim: "1つのリポジトリに同居する形になるためアプリとのずれが起きず、gem側とアプリ側でバージョンをどう合わせるかを考えなくて済む。"
+    kind: fact
+
+  - id: p15
+    claim: "Decidim Barcelonaはroot直下へ3つのRails Engineをgem扱いで並べている。"
+    kind: example
