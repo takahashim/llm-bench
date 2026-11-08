@@ -1,0 +1,47 @@
+== 2026-11-09 06:22:00 v2 生成開始
+Traceback (most recent call last):
+  File "/home/takahashim/git/llm-bench/phase-0/generate_local.py", line 54, in <module>
+    res = json.load(urllib.request.urlopen(req, timeout=3600))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 215, in urlopen
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 521, in open
+    response = meth(req, response)
+               ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 630, in http_response
+    response = self.parent.error(
+               ^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 559, in error
+    return self._call_chain(*args)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 492, in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 639, in http_error_default
+    raise HTTPError(req.full_url, code, msg, hdrs, fp)
+urllib.error.HTTPError: HTTP Error 400: Bad Request
+!! lora 失敗
+== 2026-11-09 06:23:19 v2 生成開始
+01 3521 字 / 1766 tok / 187s
+02 8549 字 / 3000 tok / 319s
+03 1937 字 / 891 tok / 96s
+04 2130 字 / 1040 tok / 112s
+05 3100 字 / 1640 tok / 176s
+06 996 字 / 235 tok / 30s
+07 3352 字 / 1410 tok / 151s
+08 81 字 / 43 tok / 10s
+09 2218 字 / 1354 tok / 148s
+10 1152 字 / 622 tok / 69s
+01 3068 字 / 1443 tok / 170s
+02 1941 字 / 1014 tok / 113s
+03 1492 字 / 839 tok / 94s
+04 2404 字 / 1002 tok / 112s
+05 1811 字 / 913 tok / 103s
+06 2333 字 / 1407 tok / 160s
+07 1742 字 / 835 tok / 93s
+08 1881 字 / 980 tok / 113s
+09 3797 字 / 1784 tok / 202s
+10 2858 字 / 1280 tok / 145s
+rate/form.md: 20 本(10 記事 × 2 条件)
+== 2026-11-09 07:06:45 v2 全部終わった

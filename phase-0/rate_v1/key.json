@@ -1,0 +1,22 @@
+{
+ "01a": "fewshot",
+ "01b": "lora",
+ "02a": "fewshot",
+ "02b": "lora",
+ "03a": "lora",
+ "03b": "fewshot",
+ "04a": "lora",
+ "04b": "fewshot",
+ "05a": "fewshot",
+ "05b": "lora",
+ "06a": "lora",
+ "06b": "fewshot",
+ "07a": "lora",
+ "07b": "fewshot",
+ "08a": "fewshot",
+ "08b": "lora",
+ "09a": "fewshot",
+ "09b": "lora",
+ "10a": "lora",
+ "10b": "fewshot"
+}

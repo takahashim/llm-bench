@@ -1,0 +1,23 @@
+Loading weights:   0%|          | 0/291 [00:00<?, ?it/s]Loading weights: 100%|██████████| 291/291 [00:00<00:00, 3056.40it/s]
+trainable params: 41,943,040 || all params: 8,072,204,288 || trainable%: 0.5196
+train 33 本: token 長 min 1019 / median 1919 / max 8192, 合計 82,358 tok/epoch; 1 本が max_seq で切られた
+{'event': 'val', 'epoch': 0, 'val_loss': 1.5668, 't': 114.7}
+{'event': 'step', 'step': 1, 'of': 15, 'epoch': 1, 'loss': 1.6085, 'lr': 0.0002, 'tok': 10050, 'tok_per_s': 18.6, 't': 1128.2}
+{'event': 'step', 'step': 2, 'of': 15, 'epoch': 1, 'loss': 1.6591, 'lr': 0.0002, 'tok': 14377, 'tok_per_s': 16.9, 't': 2481.7}
+{'event': 'step', 'step': 3, 'of': 15, 'epoch': 1, 'loss': 1.598, 'lr': 0.000197, 'tok': 13139, 'tok_per_s': 16.8, 't': 3846.4}
+{'event': 'step', 'step': 4, 'of': 15, 'epoch': 1, 'loss': 1.3005, 'lr': 0.000189, 'tok': 9136, 'tok_per_s': 18.7, 't': 4740.8}
+{'event': 'step', 'step': 5, 'of': 15, 'epoch': 1, 'loss': 1.1497, 'lr': 0.000175, 'tok': 453, 'tok_per_s': 24.4, 't': 4782.5}
+{'event': 'val', 'epoch': 1, 'val_loss': 1.3394, 't': 4873.7}
+{'event': 'step', 'step': 6, 'of': 15, 'epoch': 2, 'loss': 1.5746, 'lr': 0.000157, 'tok': 14787, 'tok_per_s': 15.7, 't': 6385.8}
+{'event': 'step', 'step': 7, 'of': 15, 'epoch': 2, 'loss': 1.2095, 'lr': 0.000135, 'tok': 7430, 'tok_per_s': 19.1, 't': 7180.3}
+{'event': 'step', 'step': 8, 'of': 15, 'epoch': 2, 'loss': 1.3004, 'lr': 0.000112, 'tok': 8864, 'tok_per_s': 19.0, 't': 8091.1}
+{'event': 'step', 'step': 9, 'of': 15, 'epoch': 2, 'loss': 1.2931, 'lr': 8.8e-05, 'tok': 13490, 'tok_per_s': 16.9, 't': 9318.5}
+{'event': 'step', 'step': 10, 'of': 15, 'epoch': 2, 'loss': 1.3309, 'lr': 6.5e-05, 'tok': 2584, 'tok_per_s': 16.4, 't': 9556.9}
+{'event': 'val', 'epoch': 2, 'val_loss': 1.1926, 't': 9653.9}
+{'event': 'step', 'step': 11, 'of': 15, 'epoch': 3, 'loss': 1.1291, 'lr': 4.3e-05, 'tok': 8917, 'tok_per_s': 15.8, 't': 10596.2}
+{'event': 'step', 'step': 12, 'of': 15, 'epoch': 3, 'loss': 1.3248, 'lr': 2.5e-05, 'tok': 19826, 'tok_per_s': 16.8, 't': 12412.1}
+{'event': 'step', 'step': 13, 'of': 15, 'epoch': 3, 'loss': 1.2447, 'lr': 1.1e-05, 'tok': 8935, 'tok_per_s': 18.6, 't': 13314.2}
+{'event': 'step', 'step': 14, 'of': 15, 'epoch': 3, 'loss': 1.2119, 'lr': 3e-06, 'tok': 8951, 'tok_per_s': 18.3, 't': 14272.2}
+{'event': 'step', 'step': 15, 'of': 15, 'epoch': 3, 'loss': 0.9535, 'lr': 0.0, 'tok': 526, 'tok_per_s': 19.4, 't': 14331.3}
+{'event': 'val', 'epoch': 3, 'val_loss': 1.194, 't': 14422.0}
+{'event': 'done', 'out': 'phase-0/out/swallow-lora', 't': 14422.3}

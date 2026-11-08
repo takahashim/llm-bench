@@ -1,0 +1,13 @@
+{
+ "model": "phase-0/models/swallow-8b-v0.5",
+ "data": "/home/takahashim/git/llm-bench/phase-0/data",
+ "out": "phase-0/out/swallow-lora",
+ "max_seq": 8192,
+ "rank": 16,
+ "epochs": 3,
+ "lr": 0.0002,
+ "accum": 8,
+ "threads": 8,
+ "limit": 0,
+ "no_ckpt": false
+}
