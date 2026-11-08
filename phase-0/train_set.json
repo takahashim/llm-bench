@@ -1,0 +1,422 @@
+{
+ "train": [
+  {
+   "n": 1,
+   "file": "texts/train/01-zenn-a968b62db39598.md",
+   "src": "zenn",
+   "id": "a968b62db39598",
+   "date": "2023-09-23",
+   "title": "西暦2023年、オブジェクト指向に興味を持った入門者にお勧めする日本語書籍を考える",
+   "prose": 3839,
+   "code": 0,
+   "fewshot_in_phase_1": false
+  },
+  {
+   "n": 2,
+   "file": "texts/train/02-zenn-6719aa121499ad.md",
+   "src": "zenn",
+   "id": "6719aa121499ad",
+   "date": "2022-05-07",
+   "title": "Ruby版Faker::Loremの単語を差し替える",
+   "prose": 1808,
+   "code": 0,
+   "fewshot_in_phase_1": false
+  },
+  {
+   "n": 3,
+   "file": "texts/train/03-zenn-dd33856c7793df.md",
+   "src": "zenn",
+   "id": "dd33856c7793df",
+   "date": "2022-05-20",
+   "title": "ビルド不要で簡単にWeb Componentsできる軽量フレームワークTonic",
+   "prose": 1391,
+   "code": 6,
+   "fewshot_in_phase_1": false
+  },
+  {
+   "n": 4,
+   "file": "texts/train/04-zenn-e1c56916957379.md",
+   "src": "zenn",
+   "id": "e1c56916957379",
+   "date": "2021-02-07",
+   "title": "Crowdinの翻訳データ一覧をCSV化するcrowdin2csvのご紹介",
+   "prose": 1290,
+   "code": 5,
+   "fewshot_in_phase_1": false
+  },
+  {
+   "n": 5,
+   "file": "texts/train/05-zenn-f38e88375cde86.md",
+   "src": "zenn",
+   "id": "f38e88375cde86",
+   "date": "2022-03-27",
+   "title": "WANTEDLY ENGINEERING HANDBOOKを読んだ",
+   "prose": 1167,
+   "code": 0,
+   "fewshot_in_phase_1": false
+  },
+  {
+   "n": 6,
+   "file": "texts/train/06-zenn-bb08e229899e41.md",
+   "src": "zenn",
+   "id": "bb08e229899e41",
+   "date": "2023-06-16",
+   "title": "Macが壊れたときにTime Machineのバックアップにあるファイルをいくつかサルベージする",
+   "prose": 955,
+   "code": 5,
+   "fewshot_in_phase_1": false
+  },
+  {
+   "n": 7,
+   "file": "texts/train/07-zenn-d34b1a3b244e46.md",
+   "src": "zenn",
+   "id": "d34b1a3b244e46",
+   "date": "2021-10-09",
+   "title": "2021年の「オブジェクト指向」を考える",
+   "prose": 6542,
+   "code": 0,
+   "fewshot_in_phase_1": false
+  },
+  {
+   "n": 8,
+   "file": "texts/train/08-zenn-69e48acfcf8ff4.md",
+   "src": "zenn",
+   "id": "69e48acfcf8ff4",
+   "date": "2022-06-15",
+   "title": "昔から使われている技術用語をさかのぼる: Value Object編",
+   "prose": 2230,
+   "code": 0,
+   "fewshot_in_phase_1": true
+  },
+  {
+   "n": 9,
+   "file": "texts/train/09-zenn-cb79f0ce487ef0.md",
+   "src": "zenn",
+   "id": "cb79f0ce487ef0",
+   "date": "2022-02-10",
+   "title": "Decidimの翻訳について",
+   "prose": 823,
+   "code": 0,
+   "fewshot_in_phase_1": false
+  },
+  {
+   "n": 10,
+   "file": "texts/train/10-zenn-ad3b365c6b56ed.md",
+   "src": "zenn",
+   "id": "ad3b365c6b56ed",
+   "date": "2022-03-13",
+   "title": "Rubyアンチパターン: なんでもクラスメソッド",
+   "prose": 1084,
+   "code": 0,
+   "fewshot_in_phase_1": false
+  },
+  {
+   "n": 11,
+   "file": "texts/train/11-zenn-0ea6c354e25b01.md",
+   "src": "zenn",
+   "id": "0ea6c354e25b01",
+   "date": "2021-02-06",
+   "title": "本来の用途ではない目的で運用されているDecidimサイト",
+   "prose": 996,
+   "code": 0,
+   "fewshot_in_phase_1": false
+  },
+  {
+   "n": 12,
+   "file": "texts/train/12-zenn-3b6bdca62b87a2.md",
+   "src": "zenn",
+   "id": "3b6bdca62b87a2",
+   "date": "2022-03-14",
+   "title": "Rubyアンチパターン：神クラス",
+   "prose": 1631,
+   "code": 0,
+   "fewshot_in_phase_1": true
+  },
+  {
+   "n": 13,
+   "file": "texts/train/13-zenn-279523b22a4eed.md",
+   "src": "zenn",
+   "id": "279523b22a4eed",
+   "date": "2022-07-03",
+   "title": "現代は開発抽象化レイヤーが重層化している、あるいは何を見ても開発抽象化レイヤーに見える",
+   "prose": 2995,
+   "code": 0,
+   "fewshot_in_phase_1": true
+  },
+  {
+   "n": 14,
+   "file": "texts/train/14-zenn-348b6982b1af6a.md",
+   "src": "zenn",
+   "id": "348b6982b1af6a",
+   "date": "2022-02-20",
+   "title": "Decidimでコンポーネントを追加する方法",
+   "prose": 907,
+   "code": 5,
+   "fewshot_in_phase_1": false
+  },
+  {
+   "n": 15,
+   "file": "texts/train/15-qiita-878a42aee1ef37.md",
+   "src": "qiita",
+   "id": "878a42aee1ef37",
+   "date": "2019-05-15",
+   "title": "『ゼロから作るDeep Learning❷』2.4 カウントベースの手法の改善　資料",
+   "prose": 1428,
+   "code": 15,
+   "fewshot_in_phase_1": false
+  },
+  {
+   "n": 16,
+   "file": "texts/train/16-qiita-e51927d473f18c.md",
+   "src": "qiita",
+   "id": "e51927d473f18c",
+   "date": "2018-12-04",
+   "title": "Rubyコーディングスタイルの現状とStandard gemのご紹介",
+   "prose": 2896,
+   "code": 3,
+   "fewshot_in_phase_1": true
+  },
+  {
+   "n": 17,
+   "file": "texts/train/17-qiita-7500f1edf01705.md",
+   "src": "qiita",
+   "id": "7500f1edf01705",
+   "date": "2018-03-11",
+   "title": "Wikidataで都道府県知事・市区村長を検索するためのSPARQL",
+   "prose": 1468,
+   "code": 8,
+   "fewshot_in_phase_1": false
+  },
+  {
+   "n": 18,
+   "file": "texts/train/18-qiita-63b301ba88207e.md",
+   "src": "qiita",
+   "id": "63b301ba88207e",
+   "date": "2018-03-10",
+   "title": "Wikidata上での議会・議員のリンク構造の現状と課題",
+   "prose": 737,
+   "code": 4,
+   "fewshot_in_phase_1": false
+  },
+  {
+   "n": 19,
+   "file": "texts/train/19-qiita-83706685ba1721.md",
+   "src": "qiita",
+   "id": "83706685ba1721",
+   "date": "2017-12-02",
+   "title": "aozora2htmlのご紹介",
+   "prose": 2478,
+   "code": 5,
+   "fewshot_in_phase_1": false
+  },
+  {
+   "n": 20,
+   "file": "texts/train/20-qiita-a8c0eb3a75d366.md",
+   "src": "qiita",
+   "id": "a8c0eb3a75d366",
+   "date": "2017-04-17",
+   "title": "Mastodon API gemを使って投稿する",
+   "prose": 829,
+   "code": 6,
+   "fewshot_in_phase_1": false
+  },
+  {
+   "n": 21,
+   "file": "texts/train/21-qiita-035c6cf9a3925b.md",
+   "src": "qiita",
+   "id": "035c6cf9a3925b",
+   "date": "2016-12-08",
+   "title": "RubyでServerless: AWS Lambda編2016年度版",
+   "prose": 3203,
+   "code": 3,
+   "fewshot_in_phase_1": false
+  },
+  {
+   "n": 22,
+   "file": "texts/train/22-qiita-30f0d3a8e0136c.md",
+   "src": "qiita",
+   "id": "30f0d3a8e0136c",
+   "date": "2016-11-20",
+   "title": "OpalでJSにしたRubyスクリプトをNodeで実行する",
+   "prose": 1069,
+   "code": 11,
+   "fewshot_in_phase_1": false
+  },
+  {
+   "n": 23,
+   "file": "texts/train/23-qiita-7838334d1451fb.md",
+   "src": "qiita",
+   "id": "7838334d1451fb",
+   "date": "2016-10-31",
+   "title": "ゼロから始めるJavaScript生活",
+   "prose": 16502,
+   "code": 54,
+   "fewshot_in_phase_1": false
+  },
+  {
+   "n": 24,
+   "file": "texts/train/24-qiita-268be275cc0e1d.md",
+   "src": "qiita",
+   "id": "268be275cc0e1d",
+   "date": "2016-05-01",
+   "title": "Re:VIEW 1.xの文書をRe:VIEW 2.0でビルドする前に知っておきたいこと",
+   "prose": 4550,
+   "code": 8,
+   "fewshot_in_phase_1": false
+  },
+  {
+   "n": 25,
+   "file": "texts/train/25-qiita-1851b6c3e05bb1.md",
+   "src": "qiita",
+   "id": "1851b6c3e05bb1",
+   "date": "2015-12-19",
+   "title": "How to use AppVeyor (AppVeyorの使い方)",
+   "prose": 835,
+   "code": 0,
+   "fewshot_in_phase_1": false
+  },
+  {
+   "n": 26,
+   "file": "texts/train/26-qiita-49adf2f0b27aca.md",
+   "src": "qiita",
+   "id": "49adf2f0b27aca",
+   "date": "2015-02-08",
+   "title": "Re:VIEWをこうしたい計画（私案）",
+   "prose": 1911,
+   "code": 0,
+   "fewshot_in_phase_1": false
+  },
+  {
+   "n": 27,
+   "file": "texts/train/27-qiita-d283a093f8d95d.md",
+   "src": "qiita",
+   "id": "d283a093f8d95d",
+   "date": "2015-01-04",
+   "title": "mrubyとCRubyの非互換とその対応方法",
+   "prose": 1247,
+   "code": 0,
+   "fewshot_in_phase_1": true
+  },
+  {
+   "n": 28,
+   "file": "texts/train/28-qiita-9908e1fb4d19ad.md",
+   "src": "qiita",
+   "id": "9908e1fb4d19ad",
+   "date": "2014-08-11",
+   "title": "次期Re:VIEW parserに関するメモ",
+   "prose": 1315,
+   "code": 1,
+   "fewshot_in_phase_1": false
+  },
+  {
+   "n": 29,
+   "file": "texts/train/29-qiita-99919a84586ced.md",
+   "src": "qiita",
+   "id": "99919a84586ced",
+   "date": "2014-06-05",
+   "title": "epubcheck 4.0 α版をビルドして使ってみる",
+   "prose": 904,
+   "code": 4,
+   "fewshot_in_phase_1": false
+  },
+  {
+   "n": 30,
+   "file": "texts/train/30-qiita-89ac93e4b004de.md",
+   "src": "qiita",
+   "id": "89ac93e4b004de",
+   "date": "2014-05-25",
+   "title": "mbedのビルドをOS X上で行う",
+   "prose": 2827,
+   "code": 10,
+   "fewshot_in_phase_1": false
+  },
+  {
+   "n": 31,
+   "file": "texts/train/31-qiita-ce729ea6f5fde9.md",
+   "src": "qiita",
+   "id": "ce729ea6f5fde9",
+   "date": "2014-03-16",
+   "title": "Bracketsで.xhtmlなファイルをlive previewする(ためにOS Xでビルドする)",
+   "prose": 1062,
+   "code": 6,
+   "fewshot_in_phase_1": false
+  },
+  {
+   "n": 32,
+   "file": "texts/train/32-qiita-9067b636360ae6.md",
+   "src": "qiita",
+   "id": "9067b636360ae6",
+   "date": "2014-02-28",
+   "title": "OS XでSigilをビルドする",
+   "prose": 1395,
+   "code": 3,
+   "fewshot_in_phase_1": false
+  },
+  {
+   "n": 33,
+   "file": "texts/train/33-qiita-204ffa698afe09.md",
+   "src": "qiita",
+   "id": "204ffa698afe09",
+   "date": "2013-11-24",
+   "title": "OS XでGDBを使う（ためにコード署名をする）",
+   "prose": 678,
+   "code": 4,
+   "fewshot_in_phase_1": false
+  },
+  {
+   "n": 34,
+   "file": "texts/train/34-qiita-d71a325f6788b9.md",
+   "src": "qiita",
+   "id": "d71a325f6788b9",
+   "date": "2013-09-15",
+   "title": "[ReVIEW Tips] ReVIEWで気をつけた方が良いこと",
+   "prose": 801,
+   "code": 0,
+   "fewshot_in_phase_1": false
+  },
+  {
+   "n": 35,
+   "file": "texts/train/35-qiita-0ddbb380976911.md",
+   "src": "qiita",
+   "id": "0ddbb380976911",
+   "date": "2013-09-15",
+   "title": "[ReVIEW Tips] 最新版（開発版）をインストールする",
+   "prose": 885,
+   "code": 5,
+   "fewshot_in_phase_1": false
+  },
+  {
+   "n": 36,
+   "file": "texts/train/36-qiita-6ed10a8be92ac2.md",
+   "src": "qiita",
+   "id": "6ed10a8be92ac2",
+   "date": "2013-09-15",
+   "title": "[ReVIEW Tips] LATEXBuilderでスタイルを指定する",
+   "prose": 803,
+   "code": 4,
+   "fewshot_in_phase_1": false
+  }
+ ],
+ "excluded": [
+  {
+   "id": "add456bf65ba51",
+   "title": "IT新戦略の策定に向けた基本方針",
+   "excluded": "政府文書の転載"
+  },
+  {
+   "id": "5bed337cc35e85",
+   "title": "【オープンデータ2.0】官民一体となったデータ流通の促進 ～課題解決のためのオープンデータの「実現」～",
+   "excluded": "政府文書の転載"
+  },
+  {
+   "id": "077a1eeba805c7",
+   "title": "青空文庫年表（サーバー関連編） 1997-2017",
+   "excluded": "年表。説明文ではない"
+  },
+  {
+   "id": "7501bfa3974890",
+   "title": "岡﨑直観「単語の意味をコンピュータに教える」の参考情報",
+   "excluded": "参考情報のリンク集。説明文ではない"
+  }
+ ]
+}
