@@ -17,6 +17,8 @@ p.add_argument("--port", type=int, default=8098)
 p.add_argument("--ctx", type=int, default=16384)
 p.add_argument("--max_tokens", type=int, default=3000)
 p.add_argument("--temperature", type=float, default=0.7)
+p.add_argument("--repeat_penalty", type=float, default=1.05)
+p.add_argument("--dry_multiplier", type=float, default=0.0, help="DRY サンプラ(反復抑止)。0.8 程度で効く。0 で無効")
 p.add_argument("--bin", default=os.path.expanduser("~/bin/llama.cpp"))
 p.add_argument("--extra", default="", help="llama-server に足す引数(例: --jinja --reasoning-budget 0)")
 a = p.parse_args()
@@ -44,7 +46,8 @@ try:
         r = json.loads(line)
         msgs = [r["messages"][0]] + shots + [r["messages"][1]]
         body = json.dumps({"messages": msgs, "max_tokens": a.max_tokens, "temperature": a.temperature,
-                           "top_p": 0.9, "repeat_penalty": 1.05, "seed": 42}).encode()
+                           "top_p": 0.9, "repeat_penalty": a.repeat_penalty, "seed": 42,
+                           "dry_multiplier": a.dry_multiplier, "dry_base": 1.75, "dry_allowed_length": 2}).encode()
         t = time.time()
         req = urllib.request.Request(url + "/v1/chat/completions", body, {"Content-Type": "application/json"})
         res = json.load(urllib.request.urlopen(req, timeout=3600))
