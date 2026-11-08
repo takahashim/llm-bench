@@ -1,0 +1,152 @@
+source: texts/eval/02.md
+title: "Rubyアンチパターン: なんでもprivateメソッド"
+reader: "Rubyでクラスを書く開発者。private/publicの可視性、メソッド分割、結合テストや単体テスト、クラス抽出といったリファクタリングの基礎を知っている読者を想定している"
+facts:
+  - id: f1
+    claim: "「大きなメソッドは細かく分割しよう」というコーディングのアドバイスがある"
+    kind: fact
+  - id: f2
+    claim: "「外部から使わないメソッドはpublicにしない方がいい」というコーディングのアドバイスがある"
+    kind: fact
+  - id: f3
+    claim: "それらのアドバイスに従ってとりあえずprivateメソッドを増やしていくと陥りがちなパターンである"
+    kind: fact
+  - id: f4
+    claim: "巨大なメソッドばかりのクラスに比べれば、メソッドが適宜分割されている方がマシである"
+    kind: opinion
+  - id: f5
+    claim: "メソッドを分割できた段階で安心するべきではなく、そのうち収拾がつかなくなる"
+    kind: opinion
+  - id: f6
+    claim: "典型的な症状として、クラスのソース行が長くメソッドが多い"
+    kind: fact
+  - id: f7
+    claim: "典型的な症状として、privateメソッドの方がpublicメソッドよりずっと多い"
+    kind: fact
+  - id: f8
+    claim: "典型的な症状として、privateメソッドの粒度や処理内容がバラバラで追いかけにくい"
+    kind: fact
+  - id: f9
+    claim: "典型的な症状として、似たような名前のprivateメソッドが並んでいる"
+    kind: fact
+  - id: f10
+    claim: "生じる問題の1つは可読性が低くなることである"
+    kind: fact
+  - id: f11
+    claim: "いろんな責務が混在するため、メソッド間の依存関係がわかりにくくなる"
+    kind: fact
+  - id: f12
+    claim: "生じる問題の1つはテストが困難になることである"
+    kind: fact
+  - id: f13
+    claim: "内部ロジックにアクセスする手段がなくなるため、無理やりprivateメソッドを呼び出すか、粒度の粗い結合テストでしのぐことになる"
+    kind: fact
+  - id: f14
+    claim: "生じる問題の1つは再利用しづらくなることである"
+    kind: fact
+  - id: f15
+    claim: "似たような機能を別のところで使いたくなっても、コードをコピー＆ペーストせざるをえなくなる"
+    kind: fact
+  - id: f16
+    claim: "対象クラス内でも似たようなコードが頻発する"
+    kind: fact
+  - id: f17
+    claim: "生じる問題の1つは変更しづらくなることである"
+    kind: fact
+  - id: f18
+    claim: "どこかの機能を修正したとき、その影響がどこまで及ぶかわかりにくくなる"
+    kind: fact
+  - id: f19
+    claim: "問題が生じる原因は、privateが言うほどprivateではないことである"
+    kind: opinion
+  - id: f20
+    claim: "同一クラスにあるprivateメソッド同士は自由に依存しあえる"
+    kind: fact
+  - id: f21
+    claim: "privateメソッドはpublicメソッドからも依存し放題である"
+    kind: fact
+  - id: f22
+    claim: "その結果privateメソッドが複雑さの温床になる"
+    kind: fact
+  - id: f23
+    claim: "privateの性質上、privateメソッド同士が依存しあうことを防ぐことはできない"
+    kind: fact
+  - id: f24
+    claim: "解決するべきことは「同一クラスにある」という点である"
+    kind: opinion
+  - id: f25
+    claim: "解決策はクラスを分割することである"
+    kind: opinion
+  - id: f26
+    claim: "複数の役割が混ざっているのであれば分割するに越したことはない"
+    kind: opinion
+  - id: f27
+    claim: "「外部から使わないメソッドはpublicにしない方がいい」という問題は、そのようなメソッドが対象クラスに存在しなければ問題ごと解消する"
+    kind: opinion
+  - id: f28
+    claim: "単純にprivateにするのではなく、役割ごとにメソッドをまとめて別クラスに抽出しておくべきである"
+    kind: opinion
+  - id: f29
+    claim: "別クラスに抽出すればメソッドが元のクラスからなくなるため、元のクラスに「外部から使われないメソッドがある」という問題も自動的に解決する"
+    kind: fact
+  - id: f30
+    claim: "記事のサンプルコードはChatGPTに作ってもらったコードに著者が手を入れたものである"
+    kind: fact
+  - id: f31
+    claim: "改善前の例はレポートを生成するReportGeneratorクラスである"
+    kind: example
+  - id: f32
+    claim: "ReportGeneratorでは外向けに提供したいのはgenerateメソッドのみなので、それ以外はprivateにしている"
+    kind: example
+  - id: f33
+    claim: "ReportGeneratorはいろんな責務が混ざっているため、何が何に依存しているのか分からない"
+    kind: opinion
+  - id: f34
+    claim: "そもそもReportGeneratorクラス内にロジックを書くべきなのかも怪しい"
+    kind: opinion
+  - id: f35
+    claim: "改善前のコードとして、generateのみpublicで残りがprivateメソッドになったReportGeneratorクラスの実装が示される"
+    kind: code
+  - id: f36
+    claim: "改善後はフォーマットするためのクラスReportFormatterと、dataを解析するためのクラスReportParserを導入し、それぞれにメソッドを振り分ける"
+    kind: example
+  - id: f37
+    claim: "整理するとReportGeneratorにはprivateメソッドがいらなかったということになるかもしれない"
+    kind: opinion
+  - id: f38
+    claim: "改善後のコードとして、ReportFormatterとReportParserに分割されたReportGeneratorの実装が示される"
+    kind: code
+  - id: f39
+    claim: "分割して抽出したクラスが専用の場合はネストさせてもよい"
+    kind: opinion
+  - id: f40
+    claim: "抽出したクラスをReportGenerator内にネストさせた実装例が示される"
+    kind: code
+  - id: f41
+    claim: "参考にしたい知見はデータ構造に注目することである"
+    kind: opinion
+  - id: f42
+    claim: "例ではdataとparsed_dataは別物である"
+    kind: example
+  - id: f43
+    claim: "dataの詳細を扱うメソッドとparsed_dataの詳細を扱うメソッドは関係性が遠い"
+    kind: fact
+  - id: f44
+    claim: "関係性が遠いメソッドは同じクラスになくても構わない"
+    kind: opinion
+  - id: f45
+    claim: "扱うデータ・変数ごとにメソッドを分けて、それを反映したクラスを抽出するのはよい習慣である"
+    kind: opinion
+  - id: f46
+    claim: "オブジェクト指向から離れた一般的な知見としては「データ構造に着目し、役割に応じたデータ構造を導入するようにしよう」とも言える"
+    kind: opinion
+  - id: f47
+    claim: "parsed_dataが複雑になってきた場合にはParsedDataクラスの導入も検討するとよい"
+    kind: opinion
+  - id: f48
+    claim: "関連パターンとして「Rubyアンチパターン: 神クラス」が挙げられている"
+    kind: fact
+coverage:
+  paragraphs_total: 26
+  paragraphs_covered: 26
+  uncovered: []

@@ -1,0 +1,184 @@
+source: texts/eval/07.md
+title: "MatzにrejectされたES6風HashリテラルをこっそりRubyで使う"
+reader: "RubyとモダンなJavaScriptの両方を書く開発者。bugs.ruby-lang.orgでの機能提案プロセス、require/require_relative、gemのインストール、トランスパイラの概念を知っている読者を想定している"
+facts:
+  - id: f1
+    claim: "この記事で言う「ES6風Hashリテラル」は、ES6（ES2015）でobject property shorthandとして導入された省略記法である"
+    kind: fact
+  - id: f2
+    claim: "JavaScriptのobject property shorthandの記法例が示される"
+    kind: code
+  - id: f3
+    claim: "最近のJavaScriptを使っている人ならこの記法は見慣れている"
+    kind: opinion
+  - id: f4
+    claim: "Rubyでもこういう風に書けると便利そうと思う人はいる"
+    kind: opinion
+  - id: f5
+    claim: "この記法を取り入れるべく過去にもbugs.ruby-lang.orgで提案があった"
+    kind: fact
+  - id: f6
+    claim: "その提案は今のところrejectされたままである"
+    kind: fact
+  - id: f7
+    claim: "提案の1つはFeature #11105 ES6-like hash literals（bugs.ruby-lang.org/issues/11105）である"
+    kind: example
+  - id: f8
+    claim: "提案の1つはFeature #15236 add support for hash shorthand（bugs.ruby-lang.org/issues/15236）である"
+    kind: example
+  - id: f9
+    claim: "似た記法として c = {a:, b:} というものも提案されたが、こちらもrejectされている"
+    kind: fact
+  - id: f10
+    claim: "その提案はFeature #14579 Hash value omission（bugs.ruby-lang.org/issues/14579）である"
+    kind: example
+  - id: f11
+    claim: "最近のRubyではこういうリテラルをそのまま動かす技が存在している"
+    kind: fact
+  - id: f12
+    claim: "この技はRubyの実行ファイルにパッチを当てたりせず、普通のCRuby処理系を使って実現する"
+    kind: fact
+  - id: f13
+    claim: "この技には2つのファイルを用意する"
+    kind: fact
+  - id: f14
+    claim: "1つめのファイルはlib/es6_hash.rbである"
+    kind: example
+  - id: f15
+    claim: "lib/es6_hash.rbとして、ES6風Hashリテラルを使ったライブラリ側のコードが示される"
+    kind: code
+  - id: f16
+    claim: "2つめのファイルはsample.rbである"
+    kind: example
+  - id: f17
+    claim: "sample.rbとして、ruby-nextをrequireした上でlib/es6_hash.rbを使うコードが示される"
+    kind: code
+  - id: f18
+    claim: "記事では実際にこれを実行してみている"
+    kind: fact
+  - id: f19
+    claim: "sample.rbの実行結果が示される"
+    kind: code
+  - id: f20
+    claim: "このコードはちゃんと動く"
+    kind: fact
+  - id: f21
+    claim: "動く秘密はrequire \"ruby-next/...\"という行にある"
+    kind: fact
+  - id: f22
+    claim: "その行はRubyNextというライブラリを読み込むものである"
+    kind: fact
+  - id: f23
+    claim: "RubyNextはEvil MartiansのVladimir Dementyevが開発しているライブラリである"
+    kind: fact
+  - id: f24
+    claim: "RubyNextは一言で言うとRubyのトランスパイラである"
+    kind: fact
+  - id: f25
+    claim: "RubyNextはgemでインストールできる"
+    kind: fact
+  - id: f26
+    claim: "RubyNextをgemでインストールするコマンドが示される"
+    kind: code
+  - id: f27
+    claim: "RubyNextはGemfileに書いてbundle installして使うこともできる"
+    kind: fact
+  - id: f28
+    claim: "RubyNextはRubyのファイルをトランスパイルして結果を別のファイルとして保存することもできる"
+    kind: fact
+  - id: f29
+    claim: "RubyNextは実行時にrequire（require_relativeも）をすげ替えて、ライブラリを書き換えつつ実行することができる"
+    kind: fact
+  - id: f30
+    claim: "requireをすげ替えるため、スクリプトをparseしてバイトコードにコンパイルする前にトランスパイルでき、新しいリテラルを導入できる"
+    kind: fact
+  - id: f31
+    claim: "言い換えるとこの技はライブラリにしないと使えない"
+    kind: fact
+  - id: f32
+    claim: "上の例ではsample.rbに直接このリテラルを書くことはできない"
+    scope: "記事の例の場合"
+    kind: example
+  - id: f33
+    claim: "requireのすげ替えはあらゆるディレクトリに対して行われるわけではない"
+    kind: fact
+  - id: f34
+    claim: "標準ではlibやappやspecなど決まった名前のディレクトリに対してのみ適用される"
+    kind: fact
+  - id: f35
+    claim: "それ以外のディレクトリでも使えるようにするにはRubyNext::Language.watch_dirsを設定する"
+    kind: fact
+  - id: f36
+    claim: "記事著者はこの設定が分からず、同階層に置いても動かなくてしばらくハマった"
+    kind: fact
+  - id: f37
+    claim: "RubyNextには何をどうトランスパイルするかについていくつかの機能がある"
+    kind: fact
+  - id: f38
+    claim: "機能の1つは新しいバージョン用のRubyスクリプトを動かすことである"
+    kind: fact
+  - id: f39
+    claim: "その例はRuby 2.6でRuby 2.7の新機能を使うことである"
+    kind: example
+  - id: f40
+    claim: "機能の1つはまだリリースされていないバージョン用のRubyスクリプトを動かすことである"
+    kind: fact
+  - id: f41
+    claim: "機能の1つはまだコミットされていない（提案のみの）機能を使ったRubyスクリプトを動かすことである"
+    kind: fact
+  - id: f42
+    claim: "RubyNextのドキュメントでは2番目がEdge features、3番目がProposed featuresと呼ばれている"
+    kind: fact
+  - id: f43
+    claim: "ES6風Hashリテラルのために使いたいものはProposed featuresである"
+    kind: fact
+  - id: f44
+    claim: "Proposed featuresを使えるようにするためのコードがsample.rbにあったrequire \"ruby-next/language/proposed\"である"
+    kind: fact
+  - id: f45
+    claim: "RubyNext 0.10.0の時点でProposed featuresとして利用できるものは2つである"
+    scope: "RubyNext 0.10.0時点"
+    kind: fact
+  - id: f46
+    claim: "利用できるProposed featuresの1つはMethod reference operator (.:) で、提案番号は#13581である"
+    kind: example
+  - id: f47
+    claim: "利用できるProposed featuresの1つはShorthand Hash notation (data = {x, y}) で、提案番号は#15236である"
+    kind: example
+  - id: f48
+    claim: "記事ではそのうち後者のShorthand Hash notationを使っている"
+    kind: fact
+  - id: f49
+    claim: "前者のメソッド参照演算子も使える"
+    kind: fact
+  - id: f50
+    claim: "RubyNextがProposed featuresを導入しているのは、新しい機能を正式に導入する前に多くの人が簡単に試せる機会を提供するためだとされる"
+    kind: fact
+  - id: f51
+    claim: "このアプローチはJavaScriptのエコシステムを参考にしている"
+    kind: fact
+  - id: f52
+    claim: "記事著者はRuby言語の開発でも同じようなアプローチを採用してはどうかと提案している"
+    kind: opinion
+  - id: f53
+    claim: "「マージか取り消しか」の二者択一ではなく、トランスパイラのユーザーから広くフィードバックを集めてそれを元に機能を受け入れるプロセスがあってもよい"
+    kind: opinion
+  - id: f54
+    claim: "Ruby Nextは、Rubyを未来に向けて前進させるトランスパイラを目指している"
+    kind: fact
+  - id: f55
+    claim: "その文は「Ruby NextトランスパイラでRubyの新機能を使おう（翻訳）」からの引用である"
+    kind: fact
+  - id: f56
+    claim: "Rubyのより良い進化を促すためにも、興味のある人はRubyNextを試してみるとよい"
+    kind: opinion
+  - id: f57
+    claim: "参考としてRuby Next（github.com/ruby-next/ruby-next）が挙げられている"
+    kind: fact
+  - id: f58
+    claim: "参考として「Ruby NextトランスパイラでRubyの新機能を使おう（翻訳）」（techracho.bpsinc.jp）が挙げられている"
+    kind: fact
+coverage:
+  paragraphs_total: 36
+  paragraphs_covered: 36
+  uncovered: []

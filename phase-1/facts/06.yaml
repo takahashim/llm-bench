@@ -1,0 +1,369 @@
+source: texts/eval/06.md
+title: "『Sustainable Web Development with Ruby on Rails』はRails使ってるなら絶対面白いと思う"
+reader: "Railsでの設計に悩んだ経験がある開発者。ActiveRecord・ActiveModel・ActiveJob・Helper等のRails構成要素、クリーンアーキテクチャ・SOLID・DDD・PofEAA・リポジトリパターン・トランザクショナルスクリプトといった設計用語を説明なしで読める読者を想定している"
+facts:
+  - id: f1
+    claim: "『Sustainable Web Development with Ruby on Rails』の著者はDavid Bryant Copelandである"
+    kind: fact
+  - id: f2
+    claim: "著者（記事の筆者）は本書を読んでいて、めちゃめちゃ面白いと感じている"
+    kind: opinion
+  - id: f3
+    claim: "本書の公式サイトはsustainable-rails.comである"
+    kind: fact
+  - id: f4
+    claim: "Railsの設計で悩んだことのある人なら読んで損はなく、共感したり反発したりにやにやしたりで楽しめる"
+    kind: opinion
+  - id: f5
+    claim: "本書にはWebアプリ開発の歴戦の勇士が語るベストプラクティス感がある"
+    kind: opinion
+  - id: f6
+    claim: "本書は大きく3部構成である"
+    kind: fact
+  - id: f7
+    claim: "第1部はIntroductionで、その名の通り導入である"
+    kind: fact
+  - id: f8
+    claim: "Introductionでは本書の目的、Railsのアーキテクチャの紹介、ビジネスロジックの話などが扱われる"
+    kind: fact
+  - id: f9
+    claim: "Introductionでは「Sustainable」とは何かの説明も書かれている"
+    kind: fact
+  - id: f10
+    claim: "「Sustainable」は「持続可能」というそのままの意味である"
+    kind: fact
+  - id: f11
+    claim: "本書の「Sustainable」は、仕様やリソースが増えたり変わったり、チームのメンバーが増えたり変わっても持続可能という意味である"
+    kind: fact
+  - id: f12
+    claim: "「スケーラブル」でも良かったが、大規模で超早いという話ではなかったので違う単語にしたという意図のようである"
+    kind: fact
+  - id: f13
+    claim: "第2部はDeep Dive into Railsで、本書のメインである"
+    kind: fact
+  - id: f14
+    claim: "Deep Dive into RailsではRailsの各パーツについてどう使えばいいのかを紹介する"
+    kind: fact
+  - id: f15
+    claim: "第3部はBeyond Railsである"
+    kind: fact
+  - id: f16
+    claim: "Beyond RailsではRailsそのもの以外の話として認証認可、API、CIや運用（監視やロギング等）を扱う"
+    kind: fact
+  - id: f17
+    claim: "価格の話は大事なポイントなので記事の前の方に持ってきている"
+    kind: opinion
+  - id: f18
+    claim: "本書の価格は$49.95である"
+    kind: fact
+  - id: f19
+    claim: "$49.95はちょっと高いという人はInternational Pricingというところを読むと良い"
+    kind: opinion
+  - id: f20
+    claim: "International Pricingには日本などのUS以外の国から買う場合のディスカウント（クーポンコード）が書かれている"
+    kind: fact
+  - id: f21
+    claim: "本書はamazon.co.jpでも売っている"
+    kind: fact
+  - id: f22
+    claim: "amazon.co.jp版は元々日本向け価格になっているようである"
+    kind: fact
+  - id: f23
+    claim: "公式サイトから購入するとPDFとEPUBとMarkdownが入手できるため、公式サイトからの購入をおすすめしたい気もする"
+    kind: opinion
+  - id: f24
+    claim: "Railsにはopinionatedなところがある"
+    kind: opinion
+  - id: f25
+    claim: "気の利いたアーキテクチャーや設計ポリシーをRails界隈の外部から持ってくるとだいたい食い合わせが悪く、大改造か微妙な折衷案を狙うことになる印象がある"
+    scope: "記事著者の個人の主観"
+    kind: opinion
+  - id: f26
+    claim: "本書は基本的にRailsの長所を最大限認めてそれに合わせるスタンスである"
+    kind: fact
+  - id: f27
+    claim: "本書はRailsに全面的に準拠はせず、ある程度の取捨選択をしつつ違う技法を取り入れる"
+    kind: fact
+  - id: f28
+    claim: "本書はクールだったりクリーンだったりする技法は導入せず、枯れたものを採用する"
+    kind: fact
+  - id: f29
+    claim: "記事ではこのスタンスを「Railsには逆らわないが、そのまま使わない」と特徴づけている"
+    kind: opinion
+  - id: f30
+    claim: "本書がレールから外れる点として、ActiveRecordのvalidationにはデータの整合性をとるための機能を期待せず、DBの制約を適宜使う"
+    kind: fact
+  - id: f31
+    claim: "validationに整合性を期待しない理由は抜け道があるためである"
+    kind: fact
+  - id: f32
+    claim: "記事著者は「抜け道がある」という理由に同意している"
+    kind: opinion
+  - id: f33
+    claim: "本書はCHECK制約も場合によっては使うが、必ず使うというほどではない"
+    kind: fact
+  - id: f34
+    claim: "本書はマイグレーションをRubyではなくSQLで書く"
+    kind: fact
+  - id: f35
+    claim: "本書はActiveRecordやActiveModelにドメインロジックを書かず、代わりにサービスクラス・サービス層を導入する"
+    kind: fact
+  - id: f36
+    claim: "本書は原則としてコントローラ・ジョブ・メーラからActiveRecordを呼ばない"
+    kind: fact
+  - id: f37
+    claim: "本書のサービスクラスはドメインサービス限定ではなく、どちらかというとドメインモデルまたはトランザクショナルスクリプトぽいところもありそうである"
+    kind: opinion
+  - id: f38
+    claim: "結局ActiveRecordは便利なデータアクセス層的な雰囲気もあり、共通化したいクエリのようなものは書く"
+    kind: opinion
+  - id: f39
+    claim: "本書ではassociationも書き、validationもユーザー（UI）向けに割り切った上で普通に書く"
+    kind: fact
+  - id: f40
+    claim: "本書はActiveRecordのコールバックを限られた用途のみ使う"
+    kind: fact
+  - id: f41
+    claim: "コールバックの限られた用途の例はbefore_validationでのデータ正規化である"
+    kind: example
+  - id: f42
+    claim: "本書はActiveJobを使わず、Jobライブラリを直接使う"
+    kind: fact
+  - id: f43
+    claim: "直接使うJobライブラリの例はSidekiqである"
+    kind: example
+  - id: f44
+    claim: "本書ではApplicationJobクラスは作るが、その中で直接include Sidekiq::Workerを書く"
+    kind: fact
+  - id: f45
+    claim: "本書はHelperも限られた用途のみ使う"
+    kind: fact
+  - id: f46
+    claim: "Helperの限られた用途の例はグローバルなUIである"
+    kind: example
+  - id: f47
+    claim: "本書のスタイルは地に足がついている感がある"
+    kind: opinion
+  - id: f48
+    claim: "本書はかっこいいパターンや流行りっぽい手法を全力で無視し、枯れた設計・アーキテクチャを最大限駆使するスタイルに見える"
+    kind: opinion
+  - id: f49
+    claim: "著者はアンチクリーン・アーキテクチャかつアンチSOLID派であることを明確にしている"
+    kind: fact
+  - id: f50
+    claim: "著者は「オブジェクト指向らしい」「ファンクショナル」「クリーン」「エレガント」「再利用」「デザインパターン」「メトリクス」といったものが嫌いで、何度も痛い目にあったと吐露している"
+    kind: fact
+  - id: f51
+    claim: "著者はそれらの代わりに「理解しやすい」「変更しやすい」を持ち出して重視する"
+    kind: fact
+  - id: f52
+    claim: "著者はあまり教条主義的・極端な立場にはならず、何ごとも「トレードオフ」であることをたびたび触れている"
+    kind: fact
+  - id: f53
+    claim: "そのトレードオフ重視のスタンスが「Railsには逆らわないが、そのまま使わない」というポリシーに反映されているようである"
+    kind: opinion
+  - id: f54
+    claim: "本書の大きなポイントはビジネスロジックにある"
+    kind: opinion
+  - id: f55
+    claim: "ビジネスロジックの話は無料で読めるサンプル（sustainable-rails.com/assets/sustainable-rails-sample.pdf）でも触れているので、気になるならそこだけ読んでもよい"
+    kind: opinion
+  - id: f56
+    claim: "本書はドメインロジック層とやや厚めのデータアクセス層を分け、ドメインロジック層をデータアクセス層に依存させる形である"
+    kind: fact
+  - id: f57
+    claim: "この依存の向きはクリーンアーキテクチャ等とは逆向きで、ある意味でPofEAAに戻っているような印象である"
+    kind: opinion
+  - id: f58
+    claim: "Rubyは柔軟な言語なのでそこまでIoCする必要はないという感があり、それはそうかもと思える"
+    kind: opinion
+  - id: f59
+    claim: "本書はドメインロジック（ビジネスロジック）層がドメインモデルなのかトランザクショナルスクリプトなのかには触れていないように見えた"
+    kind: opinion
+  - id: f60
+    claim: "著者は実際そこにはそれほどこだわりがないのかもしれない"
+    kind: opinion
+  - id: f61
+    claim: "本書ではとにかくActiveRecordのモデルから複雑なビジネスロジックを剥がしたい、でも便利なDBアクセス機能はそのまま使いたいということが詳しく説明される"
+    kind: fact
+  - id: f62
+    claim: "その理屈として、ビジネスロジックは複雑で変更も大きいとされる"
+    kind: fact
+  - id: f63
+    claim: "複雑で変更の大きいものがあちこちから依存されるとバグが深刻化しやすく、システムが不安定になる"
+    kind: fact
+  - id: f64
+    claim: "ActiveRecordのモデルはあちこちから参照されることが避けられない"
+    kind: fact
+  - id: f65
+    claim: "よってActiveRecordのモデルにビジネスロジックを置くべきではない、と結論される"
+    kind: fact
+  - id: f66
+    claim: "本書はアーキテクチャのあるべき姿を追求するのではなく、目の前の課題を解決しながらシステムを無事に成長させ開発を持続させることを最優先にしている"
+    kind: opinion
+  - id: f67
+    claim: "DDDは気になるがActiveRecordがあるのにわざわざrepositoryパターンは使いたくないという人に、本書のポリシーは納得できそうである"
+    kind: opinion
+  - id: f68
+    claim: "ActiveRecordをそのままリポジトリとして使うには限界があるが、自前でrepositoryを書いてもActiveRecordより劣化したものにしかならない気がする"
+    kind: opinion
+  - id: f69
+    claim: "なんでもかんでもActiveRecordのモデルに書くのは辛く統制が取れないので、レイヤーは分けたいという人にも本書のポリシーは納得できそうである"
+    kind: opinion
+  - id: f70
+    claim: "本書のサービスクラスの設計方針も興味深い"
+    kind: opinion
+  - id: f71
+    claim: "本書のサービスクラスはクラスメソッドを使わず、WidgetsCreator.create_widget(...)ではなくWidgetsCreator.new.create_widget(...)で呼び出す"
+    kind: example
+  - id: f72
+    claim: ".newのたった4文字を省略するメリットは特になく、毎回書けばいいだけである"
+    kind: opinion
+  - id: f73
+    claim: "記事著者はこの.newの理由に同意している"
+    kind: opinion
+  - id: f74
+    claim: "本書ではFoo.callのような汎用的なメソッド名をつけない"
+    kind: fact
+  - id: f75
+    claim: "汎用的なメソッド名を避ける理由は、やりたいことが複数できたときに困るためである"
+    kind: fact
+  - id: f76
+    claim: "記事著者はこの汎用メソッド名を避ける理由にも同意している"
+    kind: opinion
+  - id: f77
+    claim: ".callとかで呼び出せてうれしいのは生成と実行のタイミングが分かれるコマンドパターンである"
+    kind: fact
+  - id: f78
+    claim: "Railsでの普通のサービスクラスはコマンドパターンのように後で呼び出したりしないので、.callにする意味がない"
+    kind: fact
+  - id: f79
+    claim: "本書ではなんでもコンストラクタインジェクションで外部から渡したりせず、必要であればメソッド内で生成してもよいとする"
+    kind: fact
+  - id: f80
+    claim: "本書ではサービスクラスの実行結果を返すResultクラスを作り、モデル等を返す際にそれでwrapする"
+    kind: fact
+  - id: f81
+    claim: "Resultクラスは汎用的にせず、各サービスクラスごとに用意してそれぞれに固有のメソッドを実装する"
+    kind: fact
+  - id: f82
+    claim: "このResultクラスは枯れた知恵っぽくて面白く、Result型のようなものかと思ったら全然違った"
+    kind: opinion
+  - id: f83
+    claim: "本書はそれぞれについてなぜそうするのかを都度具体的に説明しているので、読者は納得できるかどうかを自分で判断できる"
+    kind: opinion
+  - id: f84
+    claim: "記事著者は疲れてきたのでその他の特徴を箇条書きにしている"
+    kind: fact
+  - id: f85
+    claim: "本書が例としてOpenStructをちょくちょく使っているのが興味深い"
+    kind: opinion
+  - id: f86
+    claim: "本書はCSSについてまずデザインシステムの重要性を説き、デザインシステムがあればOOCSSかfunctional CSSを選ぶ"
+    kind: fact
+  - id: f87
+    claim: "functional CSSの例はTachyonsやTailwindCSSで、著者はTachyons使いだったらしい"
+    kind: example
+  - id: f88
+    claim: "本書はログを一行で意味のある形にしたいのでLogrageを使う"
+    kind: fact
+  - id: f89
+    claim: "本書のテストはMinitestを使っているが、RSpecも否定しているわけではない（単に説明の都合なのかもしれない）"
+    kind: fact
+  - id: f90
+    claim: "著者はfixtures派ではなくFactoryBot派だった"
+    kind: fact
+  - id: f91
+    claim: "本書のHTMLテンプレートはERBである"
+    kind: fact
+  - id: f92
+    claim: "ERBを使う理由は、Railsのデフォルトであり、HTMLはみんな知っているので、特に強いメリットがない限りERBで十分であり、hamlやslimのメリットはそこまで大きくないというものである"
+    kind: fact
+  - id: f93
+    claim: "本書ではRakeタスクを1ファイル1タスクに分割すると探しやすくて便利だとされる"
+    kind: fact
+  - id: f94
+    claim: "本書にはモノリスvsマイクロサービスやJAMStackの話もある"
+    kind: fact
+  - id: f95
+    claim: "本書の著者はStitch Fixでプログラマーからアーキテクトまでやった後、別のスタートアップのCTOをやっている人である"
+    kind: fact
+  - id: f96
+    claim: "本書の著者は『Agile Web Development with Rails 6』の共著者の1人でもある"
+    kind: fact
+  - id: f97
+    claim: "著者のキャリアの最初はJavaからだったそうである"
+    kind: fact
+  - id: f98
+    claim: "本書の枯れている感の源泉はJava出身というキャリアにもあったのかもしれない"
+    kind: opinion
+  - id: f99
+    claim: "著者はBrutalist Web Designのサイトの人でもある"
+    kind: fact
+  - id: f100
+    claim: "Brutalist Web Designの雰囲気も、どこかしら本書と通じるところがある気がする"
+    kind: opinion
+  - id: f101
+    claim: "著者の過去の発表資料ではRubyConf 2019での「The fewer the concepts, the better the code?」が面白かった"
+    kind: opinion
+  - id: f102
+    claim: "その発表は、言語の機能を駆使したコードと基本的な機能だけを使って素朴に書いたコードのどちらが「better」なのかという考察である"
+    kind: fact
+  - id: f103
+    claim: "その発表も本書に通じるところがありそうである"
+    kind: opinion
+  - id: f104
+    claim: "著者の言うこと全部にそっくりそのまま共感する人はそれほど多くないと思われる"
+    kind: opinion
+  - id: f105
+    claim: "記事著者はマイグレーションはSQLではなくRubyでいいと思っており、いっそ別ツールにするかもしれないと考えている"
+    kind: opinion
+  - id: f106
+    claim: "共感したとしても、いきなり本書に従って大改造するよりは、チームのメンバーやRails使いの知り合いと本書を読みつつRailsアプリの設計をどうするべきかとその理由を議論するのが一番良い使い方かもしれない"
+    kind: opinion
+  - id: f107
+    claim: "知り合いがいなければブログを書いてみるのもよい"
+    kind: opinion
+  - id: f108
+    claim: "記事著者はいろんな人の感想が知りたいという動機も持っている"
+    kind: opinion
+  - id: f109
+    claim: "大改造して試して大成功したり大失敗したりするのも手かもしれない"
+    kind: opinion
+  - id: f110
+    claim: "興味があれば本書をぜひ読むとよい"
+    kind: opinion
+  - id: f111
+    claim: "追記として、RailsConf 2022でも本書の著者によるtalkがあり発表資料が公開されていた"
+    kind: fact
+  - id: f112
+    claim: "そのtalkのタイトルは「YOUR SERVICE LAYER NEEDN'T BE FANCY, IT JUST NEEDS TO EXIST」である"
+    kind: fact
+  - id: f113
+    claim: "そのtalkは名前のとおりサービス層についてで、だいたい本書の内容の一部と共通しているようなので、購入前にこれを見てから判断してもよい"
+    kind: opinion
+  - id: f114
+    claim: "「サービス層」「サービスクラス」というと辛い思い出が甦ってそっ閉じしたくなる人もいそうである"
+    kind: opinion
+  - id: f115
+    claim: "本書の「サービスクラス」は結局「ふつうの（ただの）Rubyのクラス」であり、それを置く層を「サービス層」と呼んでいるだけのようである"
+    kind: opinion
+  - id: f116
+    claim: "本書の主張は要するに、Rails標準の（サブ）クラスだけで頑張ろうとするなということである"
+    kind: opinion
+  - id: f117
+    claim: "本書の主張は要するに、ビジネスロジックはちゃんと分けてテストも書こうということである"
+    kind: opinion
+  - id: f118
+    claim: "本書の主張は要するに、変に共通のスーパークラスを作る必要はなく、普通に使いやすいRubyのクラスをそれぞれ書こうということである"
+    kind: opinion
+  - id: f119
+    claim: "その程度の穏当な内容なので、サービス層をそこまで毛嫌いせずに受け止めてもよい"
+    kind: opinion
+  - id: f120
+    claim: "ただしそれだけでは自由すぎるので、自前でルール化・パターン化してちゃんとやらないと統制が取れなそうであり、それが難しい"
+    kind: opinion
+coverage:
+  paragraphs_total: 83
+  paragraphs_covered: 83
+  uncovered: []

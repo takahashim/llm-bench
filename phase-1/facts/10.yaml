@@ -1,0 +1,390 @@
+source: texts/eval/10.md
+title: "MarkdownからPDFやEPUBを生成するドキュメントツールCheepubのご紹介"
+reader: "Markdownで電子書籍を作ろうとしているRuby使い。Re:VIEW、でんでんマークダウン・でんでんコンバーター、kramdown、Jekyllのfront-matter、LaTeX（upLaTeX/LuaLaTeX）、EPUB3といった語を前提にしている"
+facts:
+  - id: f1
+    claim: "著者は1ファイルのMarkdownからPDFやEPUBを生成するドキュメントツールCheepubを作った"
+    kind: fact
+  - id: f2
+    claim: "CheepubのリポジトリはgithubのtakahashimのcheepubのURLで公開されている"
+    kind: fact
+  - id: f3
+    claim: "Cheepubは一言で言えば「MarkdownでRe:VIEWみたいなことを簡単にやりたい」という人のための、Re:VIEWの劣化版（機能限定版）のようなものである"
+    kind: opinion
+  - id: f4
+    claim: "Cheepubは設定ファイルを別に作ったりMarkdownファイルを複数に分割したりせず、1ファイルだけで完結する"
+    kind: fact
+  - id: f5
+    claim: "CheepubではJekyllのfrontmatterのようなYAML的な設定を書ける"
+    kind: fact
+  - id: f6
+    claim: "Cheepubのページ分割はhorizontal line（HTMLで言うところの<hr />）の拡張で対応している"
+    kind: fact
+  - id: f7
+    claim: "CheepubのPDF生成にはLaTeXを使っている"
+    kind: fact
+  - id: f8
+    claim: "Cheepubは標準で縦書き・2段組に対応する"
+    kind: fact
+  - id: f9
+    claim: "縦書き・2段組はfront-matterでいろいろ書けばできる"
+    kind: fact
+  - id: f10
+    claim: "縦書き・2段組のためにstyファイルはなくてもよい"
+    kind: fact
+  - id: f11
+    claim: "CheepubのMarkdownパーサにはkramdownを使っており、若干の拡張がある"
+    kind: fact
+  - id: f12
+    claim: "拡張としてルビ、縦中横、脚注などが追加されている"
+    kind: fact
+  - id: f13
+    claim: "これらの拡張はでんでんマークダウンぽいものである"
+    kind: opinion
+  - id: f14
+    claim: "表については左右両側にpipe（|）を書くタイプの拡張である"
+    kind: fact
+  - id: f15
+    claim: "pipeじゃない表は記法が衝突して死んだため採用していない"
+    kind: fact
+  - id: f16
+    claim: "Cheepubはタイトルページ、奥付も生成可能である"
+    kind: fact
+  - id: f17
+    claim: "EPUBのスタイルは適当なのでもうちょっとなんとかしたい"
+    kind: opinion
+  - id: f18
+    claim: "表紙画像は未対応である"
+    kind: fact
+  - id: f19
+    claim: "Re:VIEW記法ならサポートされている便利機能はごっそり落としている"
+    kind: fact
+  - id: f20
+    claim: "章番号、節番号は自動生成されない"
+    kind: fact
+  - id: f21
+    claim: "章番号・節番号が自動生成されないのはMarkdownだからである"
+    kind: fact
+  - id: f22
+    claim: "章番号・節番号はそれぞれ手で書き、連番が変わったときには手で直す"
+    kind: fact
+  - id: f23
+    claim: "図表番号も自動生成されない"
+    kind: fact
+  - id: f24
+    claim: "そもそも図表のキャプションもない"
+    kind: fact
+  - id: f25
+    claim: "図表のキャプションがないのは、Markdownではみんな書かないみたいだからである"
+    kind: opinion
+  - id: f26
+    claim: "図のキャプションはそのうちできるかもしれない"
+    kind: opinion
+  - id: f27
+    claim: "目次も今のところ生成されない"
+    kind: fact
+  - id: f28
+    claim: "目次はそのうち対応するかもしれない"
+    kind: opinion
+  - id: f29
+    claim: "これらの機能が使いたい場合には、素直にRe:VIEWを使うことをおすすめする"
+    kind: opinion
+  - id: f30
+    claim: "CheepubはRubyのgemとして実装されているので、gemコマンドでインストールする"
+    kind: fact
+  - id: f31
+    claim: "対応しているRubyのバージョンは2.5.xである"
+    kind: fact
+  - id: f32
+    claim: "Ruby 2.3くらいでも動きそうな気がする"
+    kind: opinion
+  - id: f33
+    claim: "Cheepubをインストールするgemコマンドが示される"
+    kind: code
+  - id: f34
+    claim: "PDFの生成にはLaTeXが必要である"
+    kind: fact
+  - id: f35
+    claim: "対応しているLaTeXはupLaTeXとLuaLaTeXで、どちらかをインストールする"
+    kind: fact
+  - id: f36
+    claim: "LaTeXのインストールのおすすめはTeX Liveである"
+    kind: opinion
+  - id: f37
+    claim: "Cheepubはコマンドラインで使うことを想定している"
+    kind: fact
+  - id: f38
+    claim: "使い方の手順1はMarkdownで文書をもりもり書く、あるいはMarkdownで書かれた文書を持ってくることである"
+    kind: fact
+  - id: f39
+    claim: "手順2は必要に応じてメタデータと章分割の記述を追加することである"
+    kind: fact
+  - id: f40
+    claim: "手順3はcheepubコマンドを叩くとbook.epubというEPUBファイルが生成されることである"
+    kind: fact
+  - id: f41
+    claim: "EPUBを生成するcheepubコマンドの実行例が示される"
+    kind: code
+  - id: f42
+    claim: "--latexオプションをつけるとbook.pdfというPDFファイルが生成される"
+    kind: fact
+  - id: f43
+    claim: "--latexオプションをつけたコマンドの実行例が示される"
+    kind: code
+  - id: f44
+    claim: "その他細かい挙動の変更にはコマンドラインオプションやfront-matterの設定を記述する"
+    kind: fact
+  - id: f45
+    claim: "--title 【タイトル】はタイトルを指定するオプションである"
+    kind: fact
+  - id: f46
+    claim: "--author 【著者名】は著者名を指定するオプションである"
+    kind: fact
+  - id: f47
+    claim: "--config 【設定ファイル】はfront-matterに相当するYAMLファイルを別ファイルで与えた場合に使うオプションである"
+    kind: fact
+  - id: f48
+    claim: "--configはMarkdownファイル内に設定を書きたくない人用である"
+    kind: fact
+  - id: f49
+    claim: "--latexはLaTeX経由でPDFを出力するオプションである"
+    kind: fact
+  - id: f50
+    claim: "--debugはデバッグモードにするオプションである"
+    kind: fact
+  - id: f51
+    claim: "--out 【出力ファイル名】（または -o 【出力ファイル名】）は出力するEPUBファイル名またはPDFファイル名を指定するオプションである"
+    kind: fact
+  - id: f52
+    claim: "--outを省略した場合の出力ファイル名はbook.epubまたはbook.pdfになる"
+    kind: fact
+  - id: f53
+    claim: "--[no-]titlepageはタイトルページを出力するオプションで、no-がついていると出力しない"
+    kind: fact
+  - id: f54
+    claim: "--page-direction 【方向】はページ方向をltrかrtlで指定するオプションである"
+    kind: fact
+  - id: f55
+    claim: "--jsonはデバッグ用にMarkdownを解析した結果のAST（JSON）を出力して終了するオプションである"
+    kind: fact
+  - id: f56
+    claim: "--jsonは普通は使わないと思われる"
+    kind: opinion
+  - id: f57
+    claim: "--helpはヘルプを表示するオプションである"
+    kind: fact
+  - id: f58
+    claim: "--versionはバージョンを表示するオプションである"
+    kind: fact
+  - id: f59
+    claim: "front-matterがない場合は--titleと--authorは必須である"
+    scope: "front-matterがない場合"
+    kind: fact
+  - id: f60
+    claim: "CheepubのMarkdownの基本方針は3つである"
+    kind: fact
+  - id: f61
+    claim: "方針の1つは「（コマンドラインで使える）でんでんマークダウンみたいなやつ」が目標ということである"
+    kind: fact
+  - id: f62
+    claim: "Cheepubは「簡単にEPUBが作りたい」（ただしコマンドラインで）という人向けツールである"
+    kind: fact
+  - id: f63
+    claim: "なぜかPDFまで出力できるようになってしまった"
+    kind: opinion
+  - id: f64
+    claim: "PDF出力は、kramdownがLaTeXを吐けたのでこれならできるかもと思って頑張ったらできてしまったという経緯である"
+    kind: fact
+  - id: f65
+    claim: "方針の1つは「あまり頑張らない」ということである"
+    kind: fact
+  - id: f66
+    claim: "「でんでんマークダウン完全互換」は大変そうなので、簡単に実装できる範囲でやる"
+    kind: opinion
+  - id: f67
+    claim: "kramdownをベースにするので、でんでんマークダウンになくてもkramdownにある記法等は動くことがあるかもしれない"
+    kind: fact
+  - id: f68
+    claim: "方針の1つはCLIでの使いやすさを重視することである"
+    kind: fact
+  - id: f69
+    claim: "ブラウザでぽちぽち指定するのはユーザとしても実装者としてもめんどくさい"
+    kind: opinion
+  - id: f70
+    claim: "そのためJekyllのfront-matter的なものを導入した"
+    kind: fact
+  - id: f71
+    claim: "1ファイルで設定コミで完結しているのがポイントである"
+    kind: opinion
+  - id: f72
+    claim: "作者としてはろすさんリスペクトなので、でんでんマークダウンがそのまま使いたい人はでんでんコンバーターを使うことを強くおすすめする"
+    kind: opinion
+  - id: f73
+    claim: "でんでんマークダウンとの互換性を高めるPull Requestをもらっても「ここまで頑張るのはちょっと」という場合にはrejectする可能性がある"
+    kind: opinion
+  - id: f74
+    claim: "細かい説明を読むよりサンプルを見た方が早いという人はsamplesを見るとよい"
+    kind: opinion
+  - id: f75
+    claim: "改ページ（ファイル分割）の記法はでんでんマークダウン由来である"
+    kind: fact
+  - id: f76
+    claim: "半角のイコール記号=が3つ以上で構成される行があると、その前後でHTMLファイルを分割する"
+    kind: fact
+  - id: f77
+    claim: "改ページ記法では前後の空行を忘れないようにする"
+    kind: fact
+  - id: f78
+    claim: "それとは別に-が6つ以上の場合は改ページにするという拡張も追加した"
+    kind: fact
+  - id: f79
+    claim: "-が3つから5つまでの場合はMarkdownのまま<hr />になるので書き分けができる"
+    kind: fact
+  - id: f80
+    claim: "-による改ページの仕様はそのうち変更するかもしれない"
+    kind: opinion
+  - id: f81
+    claim: "縦中横もでんでんマークダウン由来である"
+    kind: fact
+  - id: f82
+    claim: "平成^30^年のように書くと縦書きでも「30」が横に並ぶ"
+    kind: example
+  - id: f83
+    claim: "縦中横が使える文字は、いわゆるASCIIの文字のうち^以外に限定している"
+    kind: fact
+  - id: f84
+    claim: "この文字の限定はなくてもよかったかもしれない"
+    kind: opinion
+  - id: f85
+    claim: "脚注はでんでんマークダウンというよりはkramdownの機能をそのまま使っている"
+    kind: fact
+  - id: f86
+    claim: "ルビはでんでんマークダウンのルビの縮小版で、グループルビだけ対応している"
+    kind: fact
+  - id: f87
+    claim: "パラグラフへのclass属性の指定はkramdownの拡張機能である"
+    kind: fact
+  - id: f88
+    claim: "{: .foo}のような行を追加すると<p>...</p>要素にclass属性を追加できる"
+    kind: fact
+  - id: f89
+    claim: "PDF（LaTeX）ではclass属性は今のところほとんど使いみちがなく単に無視される"
+    scope: "PDF（LaTeX）出力の場合"
+    kind: fact
+  - id: f90
+    claim: "PDF（LaTeX）では右寄せ（{: .text-right}）だけは対応している"
+    scope: "PDF（LaTeX）出力の場合"
+    kind: fact
+  - id: f91
+    claim: "class属性を使った右寄せの記述例が示される"
+    kind: code
+  - id: f92
+    claim: "でんでんコンバーターの設定ファイルは設定ファイルとMarkdownファイルを別々に渡す方式だった"
+    kind: fact
+  - id: f93
+    claim: "Jekyllのようなfront-matterを使えば1ファイルにまとめられるのではと考えた"
+    kind: fact
+  - id: f94
+    claim: "Cheepubでは---が先頭に来れば次の---までをYAML形式の設定ファイルとして切り出すようにした"
+    kind: fact
+  - id: f95
+    claim: "設定内容はでんでんコンバーターを参考にしようかとも思ったが、複雑そうだったので思い切りシンプルなものにしている"
+    kind: fact
+  - id: f96
+    claim: "サンプルのMarkdownファイルはsamplesディレクトリに置いてある"
+    kind: fact
+  - id: f97
+    claim: "front-matterのtitleは本のタイトルを指定し、現状は1個しか指定できない"
+    kind: fact
+  - id: f98
+    claim: "titleの省略は不可である"
+    kind: fact
+  - id: f99
+    claim: "front-matterのauthorは本の著者を指定し、EPUB3だとcreatorに相当する"
+    kind: fact
+  - id: f100
+    claim: "authorの省略は不可である"
+    kind: fact
+  - id: f101
+    claim: "front-matterのidは本のID、identifierを指定し、現状1個だけである"
+    kind: fact
+  - id: f102
+    claim: "idはそのうち必要があれば複数個指定できるようにする予定である"
+    kind: opinion
+  - id: f103
+    claim: "idはベタに内容を指定する方式のみにする予定で、でんでんコンバーターのidentifier-typeのようなものは設けない"
+    kind: opinion
+  - id: f104
+    claim: "idを省略した場合はUUIDを自動生成する"
+    kind: fact
+  - id: f105
+    claim: "idはPDF（LaTeX）では使われない"
+    scope: "PDF（LaTeX）出力の場合"
+    kind: fact
+  - id: f106
+    claim: "front-matterのdateは出版日を指定し、省略時には現在日時が登録される"
+    kind: fact
+  - id: f107
+    claim: "dateはPDF（LaTeX）では使われない"
+    scope: "PDF（LaTeX）出力の場合"
+    kind: fact
+  - id: f108
+    claim: "front-matterのlastModifiedは最終更新日時を指定し、省略時には現在日時が登録される"
+    kind: fact
+  - id: f109
+    claim: "lastModifiedはPDF（LaTeX）では使われない"
+    scope: "PDF（LaTeX）出力の場合"
+    kind: fact
+  - id: f110
+    claim: "front-matterのpageDirectionはページの送り方向を指定し、横書きならltr、縦書きならrtlにする"
+    kind: fact
+  - id: f111
+    claim: "pageDirectionの省略時は設定自体が省略される"
+    kind: fact
+  - id: f112
+    claim: "front-matterのcolophonは奥付を指定する"
+    kind: fact
+  - id: f113
+    claim: "奥付はタイトル以外は個別に指定し、JSONのobject（keyとvalue）で項目名と項目値を記述する"
+    kind: fact
+  - id: f114
+    claim: "現在はauthorの値と奥付の著者名は連動していない"
+    kind: fact
+  - id: f115
+    claim: "検討の結果、奥付の表は項目名も含めて自動生成しないようにしている"
+    kind: fact
+  - id: f116
+    claim: "奥付の著者名も別途記述する必要がある"
+    kind: fact
+  - id: f117
+    claim: "front-matterのcolophon_beforeとcolophon_afterは奥付の表の前後に出力する文言を指定する"
+    kind: fact
+  - id: f118
+    claim: "一般的にはcolophon_beforeに版・刷・バージョンごとの出版履歴、colophon_afterに著作権情報などを記述することを想定している"
+    kind: fact
+  - id: f119
+    claim: "colophon_before/colophon_afterの内容に制限はされていない"
+    kind: fact
+  - id: f120
+    claim: "colophon_before/colophon_afterは現状まだMarkdownでは記述できず、記法は単に無視される"
+    kind: fact
+  - id: f121
+    claim: "colophon_before/colophon_afterでは改行は改行として使われる"
+    kind: fact
+  - id: f122
+    claim: "実装ではMarkdownのパースにkramdown、EPUBの生成にgepub、PDF（LaTeX）の生成にrb_latexなどのライブラリを使用している"
+    kind: fact
+  - id: f123
+    claim: "refinementsを使っているのでRuby 1.9などでは動かない"
+    kind: fact
+  - id: f124
+    claim: "もう2018年なので、もう少し新し目のRubyをインストールしてほしい"
+    kind: opinion
+  - id: f125
+    claim: "2018年5月現在、2.2系以前のRubyは公式メンテナンスが終了している"
+    scope: "2018年5月現在"
+    kind: fact
+coverage:
+  paragraphs_total: 83
+  paragraphs_covered: 83
+  uncovered: []

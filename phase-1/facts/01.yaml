@@ -1,0 +1,147 @@
+source: texts/eval/01.md
+title: "Rubyアンチパターン: なんでもHash"
+reader: "Rubyでの開発経験があり、Hash・Struct・クラス設計の基礎やfreeze、duck typing、RBSといった語を説明なしで理解できる開発者。アンチパターン集の読者として、設計上の判断を自分で下す立場を想定している"
+facts:
+  - id: f1
+    claim: "ソフトウェア内部ではデータを加工しつつあちこちに受け渡して再利用する"
+    kind: fact
+  - id: f2
+    claim: "そのためのデータ構造としてRubyではHashクラスのオブジェクトがよく使われる"
+    kind: fact
+  - id: f3
+    claim: "RubyのHashに相当するものは他言語ではMap・Dictionary・連想配列と呼ばれる"
+    kind: fact
+  - id: f4
+    claim: "単体の数値や文字列ではなく、それらを組み合わせたデータを扱う際にHashオブジェクトは便利である"
+    kind: fact
+  - id: f5
+    claim: "あらゆる場面でHashを駆使しようとすると、利便性よりも弊害が大きくなる"
+    kind: opinion
+  - id: f6
+    claim: "典型的な症状として、同じだったり少し違ったりするHashオブジェクトをあちこちで引き回している"
+    kind: fact
+  - id: f7
+    claim: "典型的な症状として、インスタンス変数が少ないかまったくなく、代わりにメソッド引数のHashオブジェクトにいろんなデータを渡している"
+    kind: fact
+  - id: f8
+    claim: "典型的な症状として、1つのHashオブジェクトのキーに文字列やシンボル、さらにそれ以外のクラスのオブジェクトが使われている"
+    kind: fact
+  - id: f9
+    claim: "典型的な症状として、JSONで送受信するデータをコードの中でもそのまま扱っている"
+    kind: fact
+  - id: f10
+    claim: "生じる問題はざっくり言うと「理解しづらい、かつ変更・修正しづらい」ことである"
+    kind: opinion
+  - id: f11
+    claim: "問題の1つはHashに何が入っているか分からないことである"
+    kind: fact
+  - id: f12
+    claim: "キーだけは見れば分かる"
+    scope: "Hashを読む場合"
+    kind: fact
+  - id: f13
+    claim: "値に一貫性がないとオブジェクトの内容を理解するのが困難になる"
+    kind: fact
+  - id: f14
+    claim: "Rubyではキーを文字列にするかSymbolにするか、あるいは両方許すかで揺れがちになるという問題もある"
+    scope: "Rubyの場合"
+    kind: fact
+  - id: f15
+    claim: "問題の1つは、いろんな場所で適当に扱われてどこで何が書き換わるか分からなくなることである"
+    kind: fact
+  - id: f16
+    claim: "Hashは通常mutableなままなので影響範囲が把握しづらい"
+    kind: fact
+  - id: f17
+    claim: "Hashをfreezeすることもできる"
+    kind: fact
+  - id: f18
+    claim: "freezeしてもHashを何度も再生成して引き回していれば挙動の理解は困難なままである"
+    kind: opinion
+  - id: f19
+    claim: "問題の1つは機能追加や修正が難しくなることである"
+    kind: fact
+  - id: f20
+    claim: "Hashを加工するメソッドを何も考えずに追加することは可能である"
+    kind: fact
+  - id: f21
+    claim: "どこに何のメソッドを追加するかが難しくなる"
+    kind: fact
+  - id: f22
+    claim: "クラスになっていれば、そのクラスや関連するクラスに追加するという形で基点となるクラスが存在する"
+    kind: fact
+  - id: f23
+    claim: "必要であれば関連するクラスごと追加するという選択もありうる"
+    scope: "クラスになっている場合"
+    kind: fact
+  - id: f24
+    claim: "Hashの場合は基点となるクラスが存在しないため、メソッドがどこにでも追加されてしまう可能性がある"
+    kind: fact
+  - id: f25
+    claim: "解決策の1つはクラスにすることである"
+    kind: opinion
+  - id: f26
+    claim: "素直にクラスを作ってそれを使うのがおすすめである"
+    kind: opinion
+  - id: f27
+    claim: "カジュアルにHashを使うのと同じくらいのカジュアルさで、使い捨ての小さいクラスを作るのも良い"
+    kind: opinion
+  - id: f28
+    claim: "最初はそのファイル内でしか使わないクラスから始めるのでも構わない"
+    kind: opinion
+  - id: f29
+    claim: "他のファイルでも使いたくなったら別ファイルに切り出して使えばよい"
+    kind: opinion
+  - id: f30
+    claim: "そのクラスが大きく育って複雑になったとしても、Hashが同様に育った場合よりはずっと扱いが容易である"
+    kind: opinion
+  - id: f31
+    claim: "解決策の1つはStructにすることである"
+    kind: opinion
+  - id: f32
+    claim: "クラスにするまでもなさそうという場合はStructを使うのも良いかもしれない"
+    kind: opinion
+  - id: f33
+    claim: "Structはブロックでメソッドを追加することもできる"
+    kind: fact
+  - id: f34
+    claim: "そのためStructは実質的にアクセサの生えたクラスと同等になる"
+    kind: fact
+  - id: f35
+    claim: "Structをnewする際にkeyword_init: trueを指定することも考慮すべきである"
+    scope: "Structを使う場合"
+    kind: opinion
+  - id: f36
+    claim: "ポイントはStructの値についてもちゃんとStructなりクラスなりにすることである"
+    kind: opinion
+  - id: f37
+    claim: "Rubyではある程度duck typing的な扱いがされる値も多い"
+    scope: "Rubyの場合"
+    kind: fact
+  - id: f38
+    claim: "Hashを元に適宜クラスにしようとすると、いろんなクラスやStructを値として持つことになる"
+    kind: fact
+  - id: f39
+    claim: "共通のスーパークラスやモジュールがなくても、どんなキー・値を持つか不明なHashオブジェクトよりは扱いやすくなる"
+    kind: opinion
+  - id: f40
+    claim: "将来的にはRBSのUnion TypeやInterface declarationを導入してより明確な型付けを行うことになるかもしれない"
+    kind: opinion
+  - id: f41
+    claim: "それに備える意味でも、どういうクラスがあると良いのかを考えることは役に立つ"
+    kind: opinion
+  - id: f42
+    claim: "例外として、JSONを扱う場合はある程度JSONのObjectを操作することになり、どうしてもHashを含んだオブジェクトを扱うことになる"
+    scope: "JSONを扱う場合"
+    kind: fact
+  - id: f43
+    claim: "その場合でも、内部でHashをそのまま引き回すより、JSONをラップするクラスを作りそのクラスのメソッドから操作させる方が扱いやすい"
+    scope: "JSONを扱う場合"
+    kind: opinion
+  - id: f44
+    claim: "関連するアンチパターンとして「なんでもユーテリティクラス」が挙げられている"
+    kind: fact
+coverage:
+  paragraphs_total: 29
+  paragraphs_covered: 29
+  uncovered: []

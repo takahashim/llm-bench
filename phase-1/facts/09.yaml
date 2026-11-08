@@ -1,0 +1,363 @@
+source: texts/eval/09.md
+title: "コンテナ向けデプロイツールMRSKを試してみる"
+reader: "Railsアプリの運用経験があり、Docker・Dockerfile・ssh・VPS/クラウドのインスタンス、CapistranoやHerokuでのデプロイを知っているサーバ知識のある開発者を想定している"
+facts:
+  - id: f1
+    claim: "MRSKは「コンテナ時代のCapistrano（Capistrano for Containers）」的なデプロイツールである"
+    kind: opinion
+  - id: f2
+    claim: "MRSKはすごくDHHぽい"
+    kind: opinion
+  - id: f3
+    claim: "MRSKを使うと$5くらいの素のcompute instanceがHerokuみたいに使えるようになる"
+    kind: opinion
+  - id: f4
+    claim: "ただしDBやS3やRedisは必要に応じて別途用意する前提である"
+    kind: fact
+  - id: f5
+    claim: "DBやRedisを合わせて別インスタンスで立ち上げる機能もある"
+    kind: fact
+  - id: f6
+    claim: "37SignalsではMRSKをproductionで使っているようである"
+    kind: fact
+  - id: f7
+    claim: "MRSKはまだまだ荒削りなので、しばらくは一緒に開発したいくらいの勢いで使いたい人向けである"
+    kind: opinion
+  - id: f8
+    claim: "MRSKはRailsの創始者DHHが新しく作ったデプロイツールである"
+    kind: fact
+  - id: f9
+    claim: "MRSKの公式サイトはmrsk.devである"
+    kind: fact
+  - id: f10
+    claim: "MRSKの初コミットは2023年1月7日で真新しいプロダクトである"
+    kind: fact
+  - id: f11
+    claim: "MRSKの中身は今どきのクラウドネイティブな世界観から見ると懐かしい感じもする"
+    kind: opinion
+  - id: f12
+    claim: "MRSKが今作られた理由は37Signalsの（脱）クラウド戦略にある"
+    kind: fact
+  - id: f13
+    claim: "37Signalsはこれまでいろんなサービスを作ったり閉じたりしつつ、それなりの規模のサービスを運用している"
+    kind: fact
+  - id: f14
+    claim: "37Signalsは現行サービスの運用にクラウドを多用していたが、最近脱クラウドを進めている"
+    kind: fact
+  - id: f15
+    claim: "脱クラウドの理由は、ワークロードが安定している場合はクラウドを使わず自前の機材を使った方が安くつきそうということである"
+    scope: "ワークロードが安定している場合"
+    kind: fact
+  - id: f16
+    claim: "自前の機材では運用する基盤が欲しくなる"
+    kind: fact
+  - id: f17
+    claim: "37Signalsはこれまでkubernetesを利用していたりもした"
+    kind: fact
+  - id: f18
+    claim: "自前でK8sを動かすのも大変なので、もっと手軽に運用できるツールを探した"
+    kind: fact
+  - id: f19
+    claim: "「シンプルな奴を自分で作った方が早いのでは？」という発想で作られたのがMRSKである"
+    kind: fact
+  - id: f20
+    claim: "クラウド離脱・移転のもろもろについてはDHHもブログで書いている"
+    kind: fact
+  - id: f21
+    claim: "今回の移転作業にも協力しているDeft社のケーススタディ記事（deft.com/case-study-37signals/）の方が分かりやすいかもしれない"
+    kind: opinion
+  - id: f22
+    claim: "クラウドの価格はさておき自力でオンプレ運用するのは大変そうなので、脱クラウドは今ひとつ現実味がない"
+    kind: opinion
+  - id: f23
+    claim: "Deft社のようなところと組めるなら脱クラウドも実現可能なのかもしれないと思った"
+    kind: opinion
+  - id: f24
+    claim: "DHHと脱クラウドとMRSKについてはlaiso.hatenablog.comの記事も参考になる"
+    kind: opinion
+  - id: f25
+    claim: "普通は脱クラウドに走るよりも、実験用環境や学習用環境、個人開発等のために安くて低機能なサーバで動かしたいという需要の方が大きそうである"
+    kind: opinion
+  - id: f26
+    claim: "今どきはそんな用途でもコンテナを使いたくなる"
+    kind: opinion
+  - id: f27
+    claim: "コンテナとなるとAWS等でコストをかけて構築するか、Herokuやfly.io等のもろもろ隠蔽された便利サービスを使う場合が多い"
+    kind: opinion
+  - id: f28
+    claim: "そういう環境は便利な反面、あれがないとかこれが高いとかいう話になりがちだった"
+    kind: opinion
+  - id: f29
+    claim: "MRSKは、もっと手軽に格安コンテナ環境を動かしたいというある程度サーバの知識がある人向けのデプロイツールとしても期待できそうである"
+    kind: opinion
+  - id: f30
+    claim: "サーバのハードを調達するのは大変なので、記事ではクラウドやVPSなどで使う前提で話を進めている"
+    kind: fact
+  - id: f31
+    claim: "記事では当初MRSKのバージョン0.8.4を前提としていたが、0.9.1に上げた"
+    scope: "記事の検証環境"
+    kind: fact
+  - id: f32
+    claim: "必要なものの1つはLinuxサーバである"
+    kind: fact
+  - id: f33
+    claim: "必要なものの1つはDocker Hubかなにかのアカウントである"
+    kind: fact
+  - id: f34
+    claim: "必要なものの1つはアプリをDockerで動かすためのDockerfileである"
+    kind: fact
+  - id: f35
+    claim: "accessoriesとしてDBやredisをコンテナで立ち上げることもできる"
+    kind: fact
+  - id: f36
+    claim: "DBやredisは別途用意したサーバを使うことも可能である"
+    kind: fact
+  - id: f37
+    claim: "著者はLinodeでDBを用意してみた"
+    kind: example
+  - id: f38
+    claim: "RDS等を使うのもよい"
+    kind: opinion
+  - id: f39
+    claim: "まずsshでログインできるLinuxサーバを用意する"
+    kind: fact
+  - id: f40
+    claim: "ディストリビューションはUbuntuかDebianが推奨である"
+    kind: fact
+  - id: f41
+    claim: "著者はDebianで試していた"
+    kind: example
+  - id: f42
+    claim: "MRSKはデフォルトではrootでいきなりsshログインするすごい思想である"
+    kind: opinion
+  - id: f43
+    claim: "別アカウントでも利用可能だが若干手間がかかる"
+    kind: fact
+  - id: f44
+    claim: "サーバの置き場所は何でも良さそうで、AWSやAzureのインスタンスでもDigitalOceanやLinodeでもよい"
+    kind: opinion
+  - id: f45
+    claim: "日本だとWebARENA Indigoが一番安そうで月額349円である"
+    kind: fact
+  - id: f46
+    claim: "WebARENA IndigoでもMRSKは動くようだった"
+    kind: fact
+  - id: f47
+    claim: "ベアメタルの自前サーバでもよい"
+    kind: opinion
+  - id: f48
+    claim: "MRSKは当然のようにRailsを前提としているが、それ以外でも動きそうである"
+    kind: opinion
+  - id: f49
+    claim: "アプリのroot直下にDockerfileを置いて、それをbuildすれば動くようにしておく"
+    kind: fact
+  - id: f50
+    claim: "手頃なRailsアプリがなければ適当にscaffoldして用意しておけばよい"
+    kind: opinion
+  - id: f51
+    claim: "アプリ側ではhealthcheckに対応する必要がある"
+    kind: fact
+  - id: f52
+    claim: "Rails 7.1ではhealthcheckに標準で対応するようである"
+    scope: "Rails 7.1"
+    kind: fact
+  - id: f53
+    claim: "Rails 7.1でなければ/upを叩いたらレスポンスコード200を返す機能を実装しておく"
+    scope: "Rails 7.1より前の場合"
+    kind: fact
+  - id: f54
+    claim: "/upに対してレスポンスコード200を返すコントローラの実装例が示される"
+    kind: code
+  - id: f54b
+    claim: "/upをhealthcheck用に割り当てるroutes.rbの記述例が示される"
+    kind: code
+  - id: f55
+    claim: "著者は素朴なDockerfileで試していた"
+    kind: fact
+  - id: f56
+    claim: "Dockerfileはもうちょっと頑張った方が容量も減らせてうれしそうである"
+    kind: opinion
+  - id: f57
+    claim: "検証に使った素朴なDockerfileの内容が示される"
+    kind: code
+  - id: f58
+    claim: "MRSKはgem install mrskでglobalにインストールしてもよい"
+    kind: fact
+  - id: f59
+    claim: "MRSKはGemfileのdevelopmentにgem 'mrsk'を追加してもよい"
+    kind: fact
+  - id: f60
+    claim: "RailsであればGemfileに追加する方が一般的である"
+    kind: opinion
+  - id: f61
+    claim: "mrsk initまたはbundle exec mrsk initを実行するとconfig/deploy.ymlに設定ファイルが作られる"
+    kind: fact
+  - id: f62
+    claim: "MRSKの設定はconfig/deploy.ymlに集約される"
+    kind: fact
+  - id: f63
+    claim: "config/deploy.ymlを必要に応じて編集する"
+    kind: fact
+  - id: f64
+    claim: "config/deploy.ymlの設定例が示される"
+    kind: code
+  - id: f65
+    claim: "設定例の最後のssh.userの設定はWebARENA Indigo用のものである"
+    kind: example
+  - id: f66
+    claim: "WebARENA IndigoはDebianだと初期アカウントがdebianになる"
+    kind: fact
+  - id: f67
+    claim: "rootでログインできるサーバならssh.userの設定は不要である"
+    scope: "rootでログインできるサーバの場合"
+    kind: fact
+  - id: f68
+    claim: "設定ファイルで値が大文字になっているところは環境変数の値が使われる"
+    kind: fact
+  - id: f69
+    claim: "MRSKは.envをサポートしているので、そこに環境変数を指定しておくとその値が使われる"
+    kind: fact
+  - id: f70
+    claim: "MRSK用の.envの記述例が示される"
+    kind: code
+  - id: f71
+    claim: "秘匿情報は1password等のサービスに格納してそれを使った.envを生成することもできる"
+    kind: fact
+  - id: f72
+    claim: "現状の.env生成はERbでテンプレートをごりごり書くような感じである"
+    kind: fact
+  - id: f73
+    claim: "Docker Hubでなくてもよいが、コンテナのイメージを置く場所が必要になる"
+    kind: fact
+  - id: f74
+    claim: "Docker Hubを使う場合、Read/Writeができるアクセストークンを作り、.envのMRSK_REGISTRY_PASSWORD=に書いておく"
+    scope: "Docker Hubを使う場合"
+    kind: fact
+  - id: f75
+    claim: "Docker Hub以外を使う場合はconfig/deploy.ymlのregistry:の情報を適宜更新する"
+    scope: "Docker Hub以外を使う場合"
+    kind: fact
+  - id: f76
+    claim: "mrsk deployまたはbundle exec mrsk deployでデプロイできる"
+    kind: fact
+  - id: f77
+    claim: "WebARENA Indigoのようにrootを使わない場合、config/deploy.ymlの変更の他にサーバにログインして別途設定を行っておく必要がありそうである"
+    scope: "rootを使わない場合"
+    kind: fact
+  - id: f78
+    claim: "root以外で使う場合にデプロイ前に実行するsetup.sh相当のコマンドが示される"
+    kind: code
+  - id: f79
+    claim: "2回め以降のデプロイはbundle exec mrsk redeployの方が早い"
+    kind: fact
+  - id: f80
+    claim: "裏でどんなコマンドが動いているかはログを見れば分かる"
+    kind: fact
+  - id: f81
+    claim: "デプロイの流れは、docker buildxを使ってローカルでイメージを作り、Docker Hubにアップロードした後、サーバ側からイメージをダウンロードして動かすというものである"
+    kind: fact
+  - id: f82
+    claim: "ホストのOSがApple SiliconなmacOS、ホストのコンテナがArmなLinux、サーバのコンテナがX86_64なLinuxと環境が混ざっていても、MRSK側でよろしくやってくれる"
+    kind: fact
+  - id: f83
+    claim: "builderの設定を行うことも可能である"
+    kind: fact
+  - id: f84
+    claim: "MRSKにはその他いろいろなコマンドがあり、HerokuとかCapistranoっぽい雰囲気である"
+    kind: opinion
+  - id: f85
+    claim: "mrsk detailsで動いているコンテナの情報が得られる"
+    kind: fact
+  - id: f86
+    claim: "mrsk app exec 'bin/rails about'のようにRailsのコマンドも実行できる"
+    kind: fact
+  - id: f87
+    claim: "mrsk app exec -i bashでコンテナ内のシェルにログインできる"
+    kind: fact
+  - id: f88
+    claim: "mrsk app exec -i 'bin/rails c'でRailsのconsoleに入れる"
+    kind: fact
+  - id: f89
+    claim: "mrsk app logsでログが見られる"
+    kind: fact
+  - id: f90
+    claim: "mrsk configで設定情報が見られる"
+    kind: fact
+  - id: f91
+    claim: "mrsk configは秘密情報がそのまま表示されてびっくりする"
+    kind: opinion
+  - id: f92
+    claim: "mrsk configの秘密情報表示についてはさすがにissueが立っていた"
+    kind: fact
+  - id: f93
+    claim: "mrsk stopでアプリを止める"
+    kind: fact
+  - id: f94
+    claim: "mrsk startでアプリを起動（再開）する"
+    kind: fact
+  - id: f95
+    claim: "mrsk removeで全コンテナを消して初期状態に戻す"
+    kind: fact
+  - id: f96
+    claim: "RailsでまっさらなDBから始めるなら、bundle exec mrsk app exec 'bin/rails db:create db:migrate'辺りから始めることになりそうである"
+    scope: "RailsでまっさらなDBから始める場合"
+    kind: opinion
+  - id: f97
+    claim: "記事では著者が遭遇したトラブルを紹介している"
+    kind: fact
+  - id: f98
+    claim: "トラブルの1つはERROR (SSHKit::Command::Failed)が出ることである"
+    kind: fact
+  - id: f99
+    claim: "サーバにdockerが入っていない場合、MRSKはsudoもつけずにいきなりapt-getしだすのでrootでないと動かない"
+    kind: fact
+  - id: f100
+    claim: "標準の設定ではrootでないとdockerコマンドが動かないようだった"
+    kind: fact
+  - id: f101
+    claim: "ssh.userでroot以外を設定した場合は、先述のsetup.shを実行しておく"
+    scope: "ssh.userでroot以外を設定した場合"
+    kind: fact
+  - id: f102
+    claim: "トラブルの1つはdocker buildx buildを実行中にERROR: failed to do requestで死ぬことである"
+    kind: fact
+  - id: f103
+    claim: "このエラーの詳細は不明だが、著者の環境では何度か発生した"
+    kind: fact
+  - id: f104
+    claim: "ログに表示されるdockerコマンドを普通に実行してもエラーが再現したので、MRSK側の問題でもなさそうだった"
+    kind: fact
+  - id: f105
+    claim: "このエラーが出た場合、ローカルのDocker自体を終了＆再起動すると動いたりした"
+    kind: fact
+  - id: f106
+    claim: "これが半年くらい前、Heroku有料化の騒ぎが起こる前に完成していれば選択肢が増えてよかったと思った"
+    kind: opinion
+  - id: f107
+    claim: "ふつうにクラウドでコスト的にも満足している人にはMRSKは不要そうなツールである"
+    kind: opinion
+  - id: f108
+    claim: "お金をけちりつつ自前サーバでいろいろやりたい人にとっては、そこそこ実用的で面白いツールになりそうである"
+    kind: opinion
+  - id: f109
+    claim: "実験用の格安サーバ環境としてはDBの準備が厄介である"
+    kind: opinion
+  - id: f110
+    claim: "DHHはSQLite推しのようだった"
+    kind: fact
+  - id: f111
+    claim: "DBについてはLitestreamあたりを使って解決する方が賢明なのかもしれない"
+    kind: opinion
+  - id: f112
+    claim: "MRSK自体の完成度はまだ低そうで、良く言うと伸び代しかない状態である"
+    kind: opinion
+  - id: f113
+    claim: "それを楽しめる人は手を出してみるのも良さそうである"
+    kind: opinion
+  - id: f114
+    claim: "著者はcapistranoで運用しているRailsアプリをMRSKに移行してみようかと思った"
+    kind: opinion
+coverage:
+  paragraphs_total: 51
+  paragraphs_covered: 51
+  uncovered: []

@@ -1,0 +1,215 @@
+source: texts/eval/04.md
+title: "著名なオープンソースRailsアプリのapp/以下を見る"
+reader: "Railsアプリの標準的なディレクトリ構成（models・controllers・views等）を知っている開発者。ActiveModel::Serializer、PORO、Sidekiq、CarrierWave、GraphQL、Elasticsearchといった周辺技術の名前も前提にしている"
+facts:
+  - id: f1
+    claim: "app/はRailsのアプリケーション用ディレクトリである"
+    kind: fact
+  - id: f2
+    claim: "普通のRailsアプリケーションではapp/以下にmodels、controllers、viewsを含めた様々なディレクトリが作られる"
+    kind: fact
+  - id: f3
+    claim: "基本的にはapp/に新しいディレクトリを追加する必要はない"
+    kind: fact
+  - id: f4
+    claim: "アプリケーションが複雑になると、Railsを拡張するべくapp/にアプリケーション固有のディレクトリを作り、その下に関連するファイルを置くことがある"
+    kind: fact
+  - id: f5
+    claim: "servicesやserializersのように多くのRailsアプリケーションで見られるディレクトリもある"
+    kind: fact
+  - id: f6
+    claim: "完全にアプリケーション独自のディレクトリが作られることもある"
+    kind: fact
+  - id: f7
+    claim: "独自のディレクトリを一切作らないアプリケーションもあれば、大量に作るものもある"
+    kind: fact
+  - id: f8
+    claim: "独自ディレクトリの有無や量はそれぞれのアプリケーションの開発方針によるものである"
+    kind: fact
+  - id: f9
+    claim: "本記事では比較的有名なOSSのRailsアプリケーションのapp/以下がどうなっているかを概観する"
+    kind: fact
+  - id: f10
+    claim: "RubyGemsOrg（github.com/rubygems/rubygems.org）はRubyGemsを集約・配布するためのサイトである"
+    kind: example
+  - id: f11
+    claim: "RubyGemsOrgのapp/はassets、controllers、helpers、jobs、mailers、middleware、models、viewsで構成される"
+    kind: example
+  - id: f12
+    claim: "RubyGemsOrgはRailsアプリとして標準の構成に忠実な、今風のディレクトリ構成になっている"
+    kind: opinion
+  - id: f13
+    claim: "RubyGemsOrgの唯一の拡張はmiddlewareである"
+    kind: fact
+  - id: f14
+    claim: "RubyGemsOrgのmiddlewareにはRedirectorというRackのmiddlewareが置かれている"
+    kind: example
+  - id: f15
+    claim: "Redmine（redmine.orgおよびgithub.com/redmine/redmine）はRailsの初期から現在まで開発が続けられているプロジェクト管理用アプリケーションである"
+    kind: example
+  - id: f16
+    claim: "Redmineのapp/はcontrollers、helpers、models、viewsで構成される"
+    kind: example
+  - id: f17
+    claim: "Redmineのディレクトリは少なく、昔ながらのRailsのapp/を守っている構成で歴史を感じる"
+    kind: opinion
+  - id: f18
+    claim: "Redmineのような構成はこれはこれでメンテしやすいのかもしれない"
+    kind: opinion
+  - id: f19
+    claim: "Discourse（github.com/discourse/discourse）は巨大掲示板というかディスカッションWebアプリケーションである"
+    kind: example
+  - id: f20
+    claim: "Discourseのapp/はassets、controllers、helpers、jobs、mailers、models、serializers、services、viewsで構成される"
+    kind: example
+  - id: f21
+    claim: "Discourseもシンプルな構造で、独自のものはserializersとservicesくらいである"
+    kind: opinion
+  - id: f22
+    claim: "Discourseのserializers以下にあるのはActiveModel::Serializerのサブクラスで、モデルのシリアライズ用に使われる"
+    kind: example
+  - id: f23
+    claim: "Discourseのservicesはいわゆるサービスクラス用のディレクトリである"
+    kind: example
+  - id: f24
+    claim: "Discourseのサービスクラスは共通のスーパークラスを持たず、PORO（Plain Old Ruby Objects）というか単なるRubyのクラスになっている"
+    kind: example
+  - id: f25
+    claim: "Discourseのサービスクラスはメソッドにあまりルールがなく、たくさん生えている"
+    kind: opinion
+  - id: f26
+    claim: "Diaspora（github.com/diaspora/diaspora）はFacebook等のSNSから離脱（diaspora）するための高機能SNSアプリケーションである"
+    kind: example
+  - id: f27
+    claim: "Diasporaのapp/はassets、controllers、helpers、mailers、models、presenters、serializers、services、uploaders、views、workersで構成される"
+    kind: example
+  - id: f28
+    claim: "Diasporaではpresenters、serializers、services、workers辺りが独自ディレクトリである"
+    kind: opinion
+  - id: f29
+    claim: "Diasporaのpresentersは主にコントローラーからJSONを吐くために呼ばれるものである"
+    kind: example
+  - id: f30
+    claim: "DiasporaのserializersはActiveModel::Serializerのサブクラスで、export用などに使われる"
+    kind: example
+  - id: f31
+    claim: "Diasporaのservicesはサービスクラス用のディレクトリで、シンプルなPOROのクラスが置かれている"
+    kind: example
+  - id: f32
+    claim: "DiasporaのworkersはSidekiq用である"
+    kind: example
+  - id: f33
+    claim: "Diasporaのworkersにあるクラスは、Sidekiq::WorkerモジュールなどがincludeされたWorkers::Baseクラスのサブクラスになっている"
+    kind: example
+  - id: f34
+    claim: "Mastodon（github.com/tootsuite/mastodon）は分散SNSとして人気を誇るアプリケーションである"
+    kind: example
+  - id: f35
+    claim: "Mastodonのapp/はchewy、controllers、helpers、javascript、lib、mailers、models、policies、presenters、serializers、services、validators、views、workersで構成される"
+    kind: example
+  - id: f36
+    claim: "Mastodonは比較的ディレクトリを多めに作っているが、役割は明確になっている"
+    kind: opinion
+  - id: f37
+    claim: "MastodonのchewyはElasticsearch用のディレクトリのようである"
+    kind: example
+  - id: f38
+    claim: "Mastodonではassetsが廃止され、javascriptがapp/直下に来ているのが特徴的である"
+    kind: example
+  - id: f39
+    claim: "Mastodonではroot直下のlibとは別にapp/libが作られており、こちらにはapp用のPOROのクラスが置かれている"
+    kind: example
+  - id: f40
+    claim: "Mastodonのpolicies以下のクラスはApplicationPolicyを継承しており、各機能に必要な権限があるかどうかを返すメソッドが実装されている"
+    kind: example
+  - id: f41
+    claim: "Mastodonのservices以下のクラスはBaseServiceクラスを継承している"
+    kind: example
+  - id: f42
+    claim: "MastodonのサービスクラスはBaseServiceを継承し基本的にcallメソッドのみを公開するので、使う側としては使い方が明確になっている"
+    kind: opinion
+  - id: f43
+    claim: "Mastodonのvalidators以下のクラスはActiveModel::Validatorを継承している"
+    kind: example
+  - id: f44
+    claim: "Mastodonのvalidatorsのクラスはvalidate()またはvalidate_each()を公開している"
+    kind: example
+  - id: f45
+    claim: "MastodonのworkersもSidekiq用である"
+    kind: example
+  - id: f46
+    claim: "GitLab（gitlab.com/gitlab-org/gitlab-fossおよびgithub.com/gitlabhq/gitlabhq）はGitHub的なDevOps用ツールである"
+    kind: example
+  - id: f47
+    claim: "GitLabの特長はGitレポジトリのホスティングにCIが標準でついていることである"
+    kind: fact
+  - id: f48
+    claim: "GitLabのapp/はassets、channels、controllers、finders、graphql、helpers、mailers、models、policies、presenters、serializers、services、uploaders、validators、views、workersで構成される"
+    kind: example
+  - id: f49
+    claim: "GitLabはドキュメントに力を入れており、独自の固有ディレクトリにもREADME.mdが置かれていて分かりやすい"
+    kind: opinion
+  - id: f50
+    claim: "GitLabのREADME.mdは全てのディレクトリに置かれているわけではない"
+    kind: fact
+  - id: f51
+    claim: "GitLabには他のアプリケーションでも見られるディレクトリが多いが、graphqlがあるのが今風である"
+    kind: opinion
+  - id: f52
+    claim: "GitLabのfindersはモデルだけに依存しない検索用メソッドをクラスとして切り出すものである"
+    kind: example
+  - id: f53
+    claim: "findersによりモデルを薄くできる"
+    kind: fact
+  - id: f54
+    claim: "GitLabのpresentersはViewに関するロジックやデータのためのクラスを置くディレクトリである"
+    kind: example
+  - id: f55
+    claim: "GitLabのpresentersもモデルの肥大化を防ぐためのものである"
+    kind: fact
+  - id: f56
+    claim: "GitLabのserializersではGrapeのGrape::Entityを使っており、Grape::Entityを継承したクラスが置かれている"
+    kind: example
+  - id: f57
+    claim: "GitLabのpoliciesではDeclarativePolicy frameworkを使った権限管理のクラスが置かれている"
+    kind: example
+  - id: f58
+    claim: "GitLabのuploadersはアップロードライブラリのCarrierWave用のディレクトリである"
+    kind: example
+  - id: f59
+    claim: "GitLabのuploaders内の各クラスは直接CarrierWave::Uploader::Baseを継承せず、GitlabUploadersを経由するようにしている"
+    kind: example
+  - id: f60
+    claim: "Forem（github.com/forem/forem）はdev.toの本体である"
+    kind: example
+  - id: f61
+    claim: "foremという名前を知らない人も多いかと思われる"
+    kind: opinion
+  - id: f62
+    claim: "Foremのapp/はassets、black_box、controllers、dashboards、decorators、errors、fields、helpers、javascript、labor、lib、liquid_tags、mailers、middlewares、models、policies、queries、sanitizers、serializers、services、uploaders、view_objects、views、workersで構成される"
+    kind: example
+  - id: f63
+    claim: "Foremでは大量にディレクトリが導入されている"
+    kind: fact
+  - id: f64
+    claim: "Foremのblack_boxのように1ファイルだけあるディレクトリもある"
+    kind: example
+  - id: f65
+    claim: "Foremには他のRailsアプリで見慣れたディレクトリも多い"
+    kind: fact
+  - id: f66
+    claim: "Foremがどういう基準でディレクトリを追加しているのかはドキュメントを見てもよくわからなかった"
+    kind: opinion
+  - id: f67
+    claim: "Foremのディレクトリ基準については読者各位が頑張って調べて欲しいという気持ちである"
+    kind: opinion
+  - id: f68
+    claim: "app/直下だけをとっても、アプリケーションごとに様々な方針があるのが垣間見える"
+    kind: opinion
+  - id: f69
+    claim: "GitLabが固有の拡張ディレクトリにREADME.mdで内容を説明していることは理解が大変はかどったので、真似をするとよい"
+    kind: opinion
+coverage:
+  paragraphs_total: 48
+  paragraphs_covered: 47
+  uncovered: ["日々のRailsアプリ開発の参考になれば幸い"]

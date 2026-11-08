@@ -1,0 +1,168 @@
+source: texts/eval/03.md
+title: "Railsアーキテクチャパターン: In-App Gems (アプリ内gem) パターン"
+reader: "Railsアプリを開発しており、gemの作り方・Gemfileの書き方・Rails Engine・RSpecのspec種別（model spec、request spec、system spec）を知っている開発者。パターン・ランゲージ（パターンカタログ）の記述スタイルも前提にしている"
+facts:
+  - id: f1
+    claim: "この記事はパターン・ランゲージ（パターンカタログ）のスタイルを思い出しながら書かれている"
+    kind: fact
+  - id: f2
+    claim: "このパターンの目的は、特定のアプリと完全に同期しつつ機能的には独立したライブラリを、アプリ内のgemとして提供することである"
+    kind: fact
+  - id: f3
+    claim: "動機の1つは、アプリで使いたい機能としてある程度独立した機能を実装したいことである"
+    kind: fact
+  - id: f4
+    claim: "動機として想定する粒度は、単独のクラスやモジュールでは実装できず、複数のクラス等が関連して動く程度のものである"
+    kind: fact
+  - id: f5
+    claim: "想定する粒度は個別のファイル単位よりもう少し大きい粒度になる"
+    kind: fact
+  - id: f6
+    claim: "動機の1つは、独立した機能とアプリが渾然一体となり境界を侵食したり侵食されたりするのを避けたいことである"
+    kind: fact
+  - id: f7
+    claim: "適用可能性の1つは、いくつかのclassやmoduleがアプリケーションに依存せず独立した機能になっている場合である"
+    kind: fact
+  - id: f8
+    claim: "適用可能性の1つは、特定のRailsアプリからしか使われる予定がなく、共有する必要や予定がない場合である"
+    kind: fact
+  - id: f9
+    claim: "適用可能性の1つは、一定期間しか利用せず、どこかのタイミングで除去する可能性がある場合である"
+    kind: fact
+  - id: f10
+    claim: "機能の大きさによって、通常のRubyライブラリの場合もRails Engineの場合もある"
+    kind: fact
+  - id: f11
+    claim: "通常のRubyライブラリでもRails Engineでも同じように利用できる"
+    kind: fact
+  - id: f12
+    claim: "実装は基本的に「アプリにgemを置く場所（ディレクトリ）を作り、そこに普通に作ったgemを並べて置く」というものである"
+    kind: fact
+  - id: f13
+    claim: "記事ではFooBar gemという名前のgemを追加する例で手順を説明している"
+    kind: example
+  - id: f14
+    claim: "手順の1つは、アプリ内にgemの置き場所を決めて作ることである"
+    kind: fact
+  - id: f15
+    claim: "具体的にどこに置くかは記事の「gemの置き場所」の節を参考にする"
+    kind: fact
+  - id: f16
+    claim: "手順の1つは、一般的なgemとしてFooBar gemを作成することである"
+    kind: fact
+  - id: f17
+    claim: "gemの置き場所をgems/ディレクトリにする場合、コマンドを実行してgemの雛形を生成する"
+    scope: "gemの置き場所をgems/にする場合"
+    kind: fact
+  - id: f18
+    claim: "gems/ディレクトリにFooBar gemの雛形を生成するコマンドが示される"
+    kind: code
+  - id: f19
+    claim: "雛形を生成したあとは普通にgemを作っていく"
+    kind: fact
+  - id: f20
+    claim: "その際foo_bar/.gitディレクトリは削除し、アプリのgitとして管理するようにする"
+    kind: fact
+  - id: f21
+    claim: "手順の1つは、アプリのGemfileからそのgemを読み込むことである"
+    kind: fact
+  - id: f22
+    claim: "Gemfileにそのgemを読み込む記述を追加する"
+    kind: fact
+  - id: f23
+    claim: "Gemfileに追加する記述の例が示される"
+    kind: code
+  - id: f24
+    claim: "gems/以下に置いた場合のGemfileの記述例が示される"
+    kind: code
+  - id: f25
+    claim: "Gemfileから読み込めば、普通のgemと同様に使えるようになる"
+    kind: fact
+  - id: f26
+    claim: "gemの置き方にはいくつか候補がある"
+    kind: fact
+  - id: f27
+    claim: "候補の1つはgems/以下である"
+    kind: fact
+  - id: f28
+    claim: "gems/以下はアプリのrootディレクトリにgemsというディレクトリを作ってそこに置くものである"
+    kind: fact
+  - id: f29
+    claim: "gemsに何かしらのパスを通したりする必要はない"
+    kind: fact
+  - id: f30
+    claim: "候補の1つはvendor/gems/以下である"
+    kind: fact
+  - id: f31
+    claim: "Railsの基本的なディレクトリ階層を変えたくない場合は、vendorディレクトリ内に置くのが分かりやすい"
+    scope: "Railsの基本的なディレクトリ階層を変えたくない場合"
+    kind: opinion
+  - id: f32
+    claim: "一方でvendor/assets等と並んで存在するのはあまり分かりやすくないと感じられるかもしれない"
+    kind: opinion
+  - id: f33
+    claim: "候補の1つはアプリroot直下である"
+    kind: fact
+  - id: f34
+    claim: "場合によっては特にディレクトリを用意せずroot直下に置くこともできる"
+    kind: fact
+  - id: f35
+    claim: "root直下に置く場合はprefixをつければそれなりに区別しやすい"
+    kind: opinion
+  - id: f36
+    claim: "メリットの1つは依存関係が整理・明確化できることである"
+    kind: fact
+  - id: f37
+    claim: "Railsの柔軟性を素朴に使うと容易に相互依存しがちになる"
+    kind: opinion
+  - id: f38
+    claim: "このパターンを使えば、少なくともgemからアプリ本体への依存は抑制しやすくなる"
+    kind: fact
+  - id: f39
+    claim: "メリットの1つは、アプリケーションからは「普通のgem」として扱えることである"
+    kind: fact
+  - id: f40
+    claim: "Railsを含む現代的なRubyアプリケーションでは当然のようにgemを扱うことが多く、そのための手法は十分枯れている"
+    kind: opinion
+  - id: f41
+    claim: "この方式では通常のgemで使われる技術がそのまま利用できるため、新しい知識はほぼ必要ない"
+    kind: fact
+  - id: f42
+    claim: "メリットの1つはバージョン管理のコストが最小で済むことである"
+    kind: fact
+  - id: f43
+    claim: "いわゆるmonorepo状態になるため、確実にアプリケーションとの同期がとれた状態になる"
+    kind: fact
+  - id: f44
+    claim: "gemとアプリのバージョン管理について悩む必要がなくなる"
+    kind: fact
+  - id: f45
+    claim: "メリットの1つは独立したテストを書きやすいことである"
+    kind: fact
+  - id: f46
+    claim: "機能に特化したテストがmodel specでもcontroller specでもないという場合でも、このgemのテストとして通常通りに書ける"
+    kind: fact
+  - id: f47
+    claim: "gemのテストとして書けるため、書き手にも読み手にも容易に使いこなせる"
+    kind: opinion
+  - id: f48
+    claim: "この機能を利用したRailsアプリ本体のテストは、通常のrequest specやsystem spec等で書くことができる"
+    kind: fact
+  - id: f49
+    claim: "デメリットとして、アプリ専用で1〜2ファイルで済む機能であれば、わざわざ独立したgemにする必要性は薄い"
+    scope: "1〜2ファイルで済む機能の場合"
+    kind: opinion
+  - id: f50
+    claim: "他のアプリケーションからもgemを使いたい場合は、別のリポジトリを作成しGemfileからそのリポジトリを参照した方が管理しやすい"
+    scope: "他のアプリケーションからも使いたい場合"
+    kind: opinion
+  - id: f51
+    claim: "使用例としてDecidim Barcelonaがあり、アプリroot直下にDecidim::Dataviz、Decidim::Stats、Decidim::ValidAuthという3つのRails Engineをgemとして置いている"
+    kind: example
+  - id: f52
+    claim: "「Railsアーキテクチャパターン」と称しているが、Railsアプリに限らずgemを使ったRubyアプリケーションであれば普通に使えるパターンである"
+    kind: opinion
+coverage:
+  paragraphs_total: 42
+  paragraphs_covered: 42
+  uncovered: []

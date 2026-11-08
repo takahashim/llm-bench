@@ -1,0 +1,288 @@
+source: texts/eval/08.md
+title: "Rails + RBS & Steepを試してみて困ったところとか感想とか"
+reader: "Railsアプリを開発していてRBSとSteepの基本（Steepfile、sig/、library宣言、Diagnostic ID）を既に知っている開発者。RBSやSteepの説明は省略されており、RuboCopやTypeScriptの型ガード、Martin Fowlerの用語も前提にしている"
+facts:
+  - id: f1
+    claim: "著者はRailsアプリに型チェックを導入しようとして試しているが、なかなか一筋縄ではいかず試行錯誤している"
+    kind: fact
+  - id: f2
+    claim: "記事はこれまで困ったことと、回避できた場合はその回避策を書いたものである"
+    kind: fact
+  - id: f3
+    claim: "記事はRBSやSteepとは何かを説明せずに本題に入る"
+    kind: fact
+  - id: f4
+    claim: "詳しくない読者はmameさんの記事「Ruby 3の静的解析機能のRBS、TypeProf、Steep、Sorbetの関係についてのノート」などを参考にするとよい"
+    kind: opinion
+  - id: f5
+    claim: "困った点の1つは、BigDecimalを導入してもto_dが使えないことである"
+    kind: fact
+  - id: f6
+    claim: "追記として、ksssさんにrbsのstdlibのテストの書き方を教えてもらって書けるようになった"
+    kind: fact
+  - id: f7
+    claim: "その結果はpull requestしており、最終的に取り込まれればto_dが使えるようになるはずである"
+    kind: fact
+  - id: f8
+    claim: "Steepfileにlibrary \"bigdecimal\"を書いてもto_dは使えなかった"
+    kind: fact
+  - id: f9
+    claim: "rbsの定義が必要そうだが、stdlibのテストの書き方がよく分からなかった"
+    kind: fact
+  - id: f10
+    claim: "assert_send_typeを使ってもmethod_typesでエラーになって挫折した"
+    kind: fact
+  - id: f11
+    claim: "とりあえずローカルのrbsファイルに定義を書くと回避できる"
+    kind: fact
+  - id: f12
+    claim: "ローカルのrbsファイルにto_dを定義して回避するRBSの記述が示される"
+    kind: code
+  - id: f13
+    claim: "この回避策はちょっとベタだが、どうせアプリ内ではどこでも使えるメソッドなので理解しやすくはありそうである"
+    kind: opinion
+  - id: f14
+    claim: "既存クラスにメソッドを生やすものは、こんな感じに適宜メソッドを追加していくことになりそうである"
+    kind: opinion
+  - id: f15
+    claim: "困った点の1つは、include ActiveModel::Validationsをしたクラスでもvalidationメソッドが使えないことである"
+    kind: fact
+  - id: f16
+    claim: "ActiveRecordでもないモデルクラスとして、ActiveModelを使ってvalidationを書きたくなることがある"
+    kind: fact
+  - id: f17
+    claim: "その場合include ActiveModel::Validationsをした上でvalidates :foo, presence: trueのように書く"
+    kind: example
+  - id: f18
+    claim: "そう書くとSteepでエラーになる"
+    kind: fact
+  - id: f19
+    claim: "validatesがエラーになった際のエラーメッセージが示される"
+    kind: code
+  - id: f20
+    claim: "仕方がないのでrbsファイルに書いて明示的にvalidationのクラスメソッドを有効にすると回避できる"
+    kind: fact
+  - id: f21
+    claim: "validationのクラスメソッドを明示的に宣言するRBSの記述が示される"
+    kind: code
+  - id: f22
+    claim: "困った点の1つは、include ActiveModel::Modelをしたクラスでもvalidationが使えないことである"
+    kind: fact
+  - id: f23
+    claim: "ActiveModel::Modelの場合も事情はActiveModel::Validationsと同じである"
+    kind: fact
+  - id: f24
+    claim: "困った点の1つは、module ClassMethodsが効いてなさそうなことである"
+    kind: fact
+  - id: f25
+    claim: "Railsではmodule ClassMethodsを使ってクラスメソッドを定義しているコードを普通に使う"
+    scope: "Railsの場合"
+    kind: fact
+  - id: f26
+    claim: "module ClassMethodsはRubyとして解釈されるから機能するものである"
+    kind: fact
+  - id: f27
+    claim: "この辺りをそのままrbsに書いてもクラスメソッドの定義としては解釈されないのは当然である"
+    kind: opinion
+  - id: f28
+    claim: "RBS用のmodule用構文として、includeするとsingletonメソッドがクラスメソッドになるようなものが記述できるとしあわせになれるかもしれない"
+    kind: opinion
+  - id: f29
+    claim: "その構文のアイデアはincludeの代わりにinclude_singletonと書くようなものである"
+    kind: example
+  - id: f30
+    claim: "このアイデアはあまり深く考えず思いつきで書かれたものである"
+    kind: fact
+  - id: f31
+    claim: "困った点の1つは、ActiveRecordのvalidationでvalidate :foobar, if: -> { new_record? }のように書いたときにDiagnostic ID: Ruby::NoMethodになることである"
+    kind: fact
+  - id: f32
+    claim: "そのとき「Type `singleton(::FooModel)` does not have method `new_record?`」のようなエラーが出る"
+    kind: example
+  - id: f33
+    claim: "これはif:のブロック内についてクラスメソッドで探索しているが、実際にはインスタンスメソッドが使えるようになっているためである"
+    kind: fact
+  - id: f34
+    claim: "if:ブロック等の中はインスタンスレベルのメソッドとして解釈してほしい"
+    kind: opinion
+  - id: f35
+    claim: "困った点の1つは、Foo = Struct.new(.....)というコードを普通に記述できないことである"
+    kind: fact
+  - id: f36
+    claim: "RubyでStructクラスを使う場合、普通は定数にStruct.newの結果を代入してその定数をクラスのように使う"
+    kind: fact
+  - id: f37
+    claim: "素朴にそう書くとSteepでRuby::IncompatibleAssignmentのエラーが出てしまう"
+    kind: fact
+  - id: f38
+    claim: "rbsのリポジトリを見る限り、このような場合にはFoo = _ = Struct.new(.....)という書き方をするようである"
+    kind: fact
+  - id: f39
+    claim: "Foo = _ = Struct.new(.....)という書き方は不自然で、見た目的にも分かりやすくない"
+    kind: opinion
+  - id: f40
+    claim: "もうちょっと自然なRubyのコードを書いてうまいこと解釈してほしい"
+    kind: opinion
+  - id: f41
+    claim: "どちらかというと型チェックを抑制するようなコメントを使えるようにした方がマシな気がする"
+    kind: opinion
+  - id: f42
+    claim: "ただし慣れの問題もあるかもしれない"
+    kind: opinion
+  - id: f43
+    claim: "困った点の1つは、RuboCopのdisable/enableのようなことが書けないことである"
+    kind: fact
+  - id: f44
+    claim: "Steepを本番投入するのにいちばん重要なのは、部分的にのみ型チェックを行い、その「部分」を柔軟に指定できることである"
+    kind: opinion
+  - id: f45
+    claim: "具体的には、この行からこの行まで無視してほしいときにRuboCopのようにコメントで指定できると良さそうである"
+    kind: opinion
+  - id: f46
+    claim: "if:ブロックの例についても、コメントで抑制して回避する形になる"
+    kind: example
+  - id: f47
+    claim: "コメントによる型チェック抑制を使った場合の記述例が示される"
+    kind: code
+  - id: f48
+    claim: "困った点の1つは、特定のファイルだけチェックしたいときにsteep checkの引数で指定できないことである"
+    kind: fact
+  - id: f49
+    claim: "1ファイルだけテストしたいときにSteepfileを都度変更するのはちょっと面倒だった"
+    kind: opinion
+  - id: f50
+    claim: "この辺りはコマンドラインオプションで指定できると作業的に楽になりそうである"
+    kind: opinion
+  - id: f51
+    claim: "困った点の1つはI18n.tが通らないことで、これはpull request（ruby/gem_rbs_collection#130）を送った"
+    kind: fact
+  - id: f52
+    claim: "困った点の1つはTime.zone.now.yesterdayが通らないことで、これもpull request（ruby/gem_rbs_collection#134）を送った"
+    kind: fact
+  - id: f53
+    claim: "著者はその他もろもろpull requestしてみている"
+    kind: fact
+  - id: f54
+    claim: "Steepがちゃんと通るようになるのはまだまだ先が長そうである"
+    kind: opinion
+  - id: f55
+    claim: "感想の1つは、gem_rbs_collectionは「published」なAPIのみでいいかもしれないということである"
+    kind: opinion
+  - id: f56
+    claim: "ここでのpublishedなAPIとはMartin Fowlerの言う公布済みインターフェイスのことである"
+    kind: fact
+  - id: f57
+    claim: "gem_rbs_collectionは様々なgemのRBSを集積するためのリポジトリである"
+    kind: fact
+  - id: f58
+    claim: "gemのRBSを記載し共有するには2つの方法がある"
+    kind: fact
+  - id: f59
+    claim: "方法の1つは各gemの中に書いて一緒に公開することで、標準ではそのgem内のsig/ディレクトリに書く"
+    kind: fact
+  - id: f60
+    claim: "方法の1つはgem_rbs_collectionにgemのrbsを追加することである"
+    kind: fact
+  - id: f61
+    claim: "gem内に書く方はそのgemの開発者（チーム）自身が書くものである"
+    kind: fact
+  - id: f62
+    claim: "gem_rbs_collectionに書く方は、主にgem開発者ではない人がそのgemをRBSを使うために書くものである"
+    kind: fact
+  - id: f63
+    claim: "privateメソッドも含めたgemの網羅的なRBSはgem開発者が書いたり使ったりするものである"
+    kind: opinion
+  - id: f64
+    claim: "単にそのgemを使いたい人にとってRBSで記述してほしいAPIは、publicの中でも公布済みインターフェイスと思われるものだけになりそうである"
+    kind: opinion
+  - id: f65
+    claim: "privateなメソッドの仕様を外部の人が考えたり決めたりするのも変な話である"
+    kind: opinion
+  - id: f66
+    claim: "ただしmoduleについてはprivateなメソッドであっても、そのmoduleをincludeしたクラスから利用する前提で作られている場合もあり、そこは扱いが難しいかもしれない"
+    kind: opinion
+  - id: f67
+    claim: "gem_rbs_collectionのContribution Guideには「Focus on the most important part of the API」「Focus on examples available through the README or docs of the gem. Focus on the APIs your app is using.」と書かれている"
+    kind: fact
+  - id: f68
+    claim: "開発しているアプリ自体のsig/ディレクトリに置くRBSは、また別の開発指針を考えるのが良さそうである"
+    kind: opinion
+  - id: f69
+    claim: "感想の1つは、RBSを（Yet another) developer testingとして捉えることである"
+    kind: opinion
+  - id: f70
+    claim: "RBSの「書き味」はなんとなくRSpecでテストを書くのに似ている気がする"
+    kind: opinion
+  - id: f71
+    claim: "そう考えるとRBSとSteepに求めるのは厳密な「型」やその代替物ではなく、「開発を駆動するためのツールとしくみ」であると考えた方がよいかもしれない"
+    kind: opinion
+  - id: f72
+    claim: "Rubyで型安全な世界、あるいはそれに近い世界が早期に実現することは現実的ではなさそうである"
+    kind: opinion
+  - id: f73
+    claim: "そこに注力するのもなにか違うのではという感触がある"
+    kind: opinion
+  - id: f74
+    claim: "現状のRBSの手応えは、開発者テスト（developer testing）の世界で完全なテストを書くことが現実的ではないことに似ている気がする"
+    kind: opinion
+  - id: f75
+    claim: "開発者テストが完全ではなくても便利なものであることは、多くの人が日々の開発の中で実感しているはずである"
+    kind: opinion
+  - id: f76
+    claim: "RBSも同様に、gem開発者とgem_rbs_collection開発者とアプリ開発者がそれぞれ協力して、みんなでみんなのアプリやライブラリが開発しやすくなるように育てていくためのしくみだと考えてみてもよい"
+    kind: opinion
+  - id: f77
+    claim: "Rails関連についてはまだ正しいメソッドがエラーになることがありそうだった"
+    kind: fact
+  - id: f78
+    claim: "気づいたところは著者がPull Requestした"
+    kind: fact
+  - id: f79
+    claim: "RBSの追加・修正はまだまだ必要かもしれない"
+    kind: opinion
+  - id: f80
+    claim: "これはみんなで触っていればすぐ気づくところなので、それほど時間がかからず改善されると思われる"
+    kind: opinion
+  - id: f81
+    claim: "現状でもnull（nil）チェックが甘いところは普通に見つかるようで、これはありがたいかもしれない"
+    kind: opinion
+  - id: f82
+    claim: "TypeScriptでいうところの型ガード的なものはまだ使えないのではないか"
+    kind: opinion
+  - id: f83
+    claim: "型ガードがないと無駄な検知が増えるので使い勝手がよろしくないかもしれない"
+    kind: opinion
+  - id: f84
+    claim: "コメントでの抑制ができると多少は有効そうだが、やや限界もあるかもしれない"
+    kind: opinion
+  - id: f85
+    claim: "型ガードが使えるようになったとして、Rubyのコードの中に型ガード的な記述が増えすぎるのもそれはそれでうれしくないかもしれない"
+    kind: opinion
+  - id: f86
+    claim: "そこまで到達するのはもう少し先になりそうである"
+    kind: opinion
+  - id: f87
+    claim: "むしろそうなってからがRubyと型との関係性をどうするべきかの突っ込んだ議論が始まりそうである"
+    kind: opinion
+  - id: f88
+    claim: "Railsで普通に使われているgemについても、まだgem_rbs_collectionにないものがありそうである"
+    kind: fact
+  - id: f89
+    claim: "これは時間が解決する問題かと思われる"
+    kind: opinion
+  - id: f90
+    claim: "その時間を圧縮するにはより多くの人の参加と協力が必要になりそうである"
+    kind: opinion
+  - id: f91
+    claim: "まずは粛々とgem_rbs_collectionを整備していければ良さそうである"
+    kind: opinion
+  - id: f92
+    claim: "そのためにもまずは開発者・利用者を増やしつつ便利なものにしていければよい"
+    kind: opinion
+  - id: f93
+    claim: "興味のある人はぜひ試してみるとよい"
+    kind: opinion
+coverage:
+  paragraphs_total: 44
+  paragraphs_covered: 44
+  uncovered: []

@@ -1,0 +1,203 @@
+source: texts/eval/05.md
+title: "Tailwind CSS for Railsを使って、NodeをインストールせずにTailwind CSS 3を導入する"
+reader: "Railsアプリ開発者で、CSS設計（OOCSS、BEM）やWebpacker・npmによるフロントエンド構成、gemのインストール手順を知っている読者。Rails 7とTailwind CSSの動向を追っている人を想定している"
+facts:
+  - id: f1
+    claim: "この記事はRuby on Rails Advent Calendar 2021の20日目の記事である"
+    kind: fact
+  - id: f2
+    claim: "20日は誰も埋めていなかったため著者が書いた（執筆時点では既に日付が変わっていた）"
+    kind: fact
+  - id: f3
+    claim: "この記事はTailwind CSS for Railsというgemについて書かれている"
+    kind: fact
+  - id: f4
+    claim: "Tailwind CSSは最近流行のCSSフレームワークである"
+    kind: fact
+  - id: f5
+    claim: "Tailwind CSSはUtility-Firstと呼ばれている思想に基づいている"
+    kind: fact
+  - id: f6
+    claim: "Utility-Firstはある意味で従来のCSS設計のベストプラクティスの真逆を行くものである"
+    kind: opinion
+  - id: f7
+    claim: "Tailwind CSSではclass=\"flex items-baseline mt-4 mb-6 pb-6 border-b border-gray-200\"のようなスタイル指定が直接タグに書かれる"
+    kind: example
+  - id: f8
+    claim: "長らくCSSを使いこなしOOCSSやBEMに慣れている人こそ、TailwindのHTML内に埋め込まれた謎の記法に驚いていたようである"
+    kind: opinion
+  - id: f9
+    claim: "ReactやVue等の普及でフロントエンドのコンポーネント指向が強まり、CSS自体でコンポーネントを考慮した命名規則を駆使しなくても良くなった"
+    kind: fact
+  - id: f10
+    claim: "RailsのViewでコンポーネントを使う場合、最近はViewComponentを使う場合が多い印象である"
+    kind: opinion
+  - id: f11
+    claim: "PurgeCSSなどでCSS定義のうち必要な部分のみを切り出せるようになり、巨大なUtility CSSを用意しても本番環境でのCSSはシンプルにできるようになった"
+    kind: fact
+  - id: f12
+    claim: "トレンドの変化により、好き嫌いや開発現場の事情はあるにせよTailwindは一定の評価を広く得られている"
+    kind: opinion
+  - id: f13
+    claim: "これまでRailsでTailwindを使う方法として、Webpacker・Simpacker等と組み合わせてnpmでインストールするやり方があった"
+    kind: fact
+  - id: f14
+    claim: "これまでの方法として、Next/Nuxt等を使ったフロントエンド側に任せてRails側では何もしないやり方があった"
+    kind: fact
+  - id: f15
+    claim: "これまでの方法として、CDN上にあるTailwindを使うやり方があった"
+    kind: fact
+  - id: f16
+    claim: "Rails 7ではWebアプリケーション開発の概念圧縮（Conceptual Compression）を推し進めるべく、Node.jsを使わなくてもRails自身でいろいろできるよう新たなgemの開発が進められてきた"
+    scope: "Rails 7"
+    kind: fact
+  - id: f17
+    claim: "TailwindについてもNode.js不要で使える仕組みが期待されており、そこに現れたのがTailwind CSS for Railsである"
+    kind: fact
+  - id: f18
+    claim: "Tailwind CSS for Rails（github.com/rails/tailwindcss-rails）はRailsでTailwindを扱うためのgemである"
+    kind: fact
+  - id: f19
+    claim: "Tailwind CSS for Railsは2021年1月からDHHにより開発が開始された"
+    kind: fact
+  - id: f20
+    claim: "v1.0.0が正式リリースされたのは日本時間では12月15日で、Rails 7のリリースの前日だった"
+    kind: fact
+  - id: f21
+    claim: "12月20日現在のTailwind CSS for Railsのバージョンはv2.0.2である"
+    kind: fact
+  - id: f22
+    claim: "v1.0.0リリースの前後に大きな動きがあったため、記事では順をおって説明する"
+    kind: fact
+  - id: f23
+    claim: "Rails 7のリリースに向け、12月になった頃からTailwind CSS for Railsの開発にも動きが見えてきた"
+    kind: fact
+  - id: f24
+    claim: "12月3日にはTailwind CSS for Railsのv0.5.4がリリースされた"
+    kind: fact
+  - id: f25
+    claim: "Rails 7も12月7日にv7.0.0のRC1が公開された"
+    kind: fact
+  - id: f26
+    claim: "12月10日にTailwind CSS v3.0がリリースされた"
+    kind: fact
+  - id: f27
+    claim: "Tailwind CSS v3.0ではv2.1で導入されたJITエンジンが標準になっている"
+    kind: fact
+  - id: f28
+    claim: "JITエンジンが標準になったため、Tailwind CSS v3.0は実際のところNode.jsがないと利用が難しいものとなっていた"
+    kind: fact
+  - id: f29
+    claim: "12月15日にリリースされたTailwind CSS for Rails v1.0.0はTailwind CSS v2.1に対応したバージョンとしてリリースされた"
+    kind: fact
+  - id: f30
+    claim: "v1.0.0の時点ではTailwind CSS v3対応は今後の課題となっていた"
+    kind: fact
+  - id: f31
+    claim: "当時Tailwind CSS v3を今すぐ使いたい人は、cssbundling-railsと合わせてNode.jsを使って利用するしかない状況だった"
+    scope: "Tailwind CSS for Rails v1.0.0の時点"
+    kind: fact
+  - id: f32
+    claim: "Node.jsが必要な状況はRails 7のポリシー的には好ましくない"
+    kind: opinion
+  - id: f33
+    claim: "それならわざわざ独立したgemにする必要もなかったのでは、ということになりかねない"
+    kind: opinion
+  - id: f34
+    claim: "12月17日にTailwindの公式ブログでStandalone CLIがアナウンスされた"
+    kind: fact
+  - id: f35
+    claim: "そのブログエントリは、RailsやPhoenixのようなNode.jsやnpmを使わない環境でもTailwindの全性能が使えるよう自己完結型のCLIを用意したという内容だった"
+    kind: fact
+  - id: f36
+    claim: "Standalone CLIのアナウンスは著者にとってびっくりするものだった"
+    kind: opinion
+  - id: f37
+    claim: "Standalone CLIは要するにTailwind CSSのJITエンジンをNode処理系ごとまとめて1個のでかいバイナリにしたものである"
+    kind: fact
+  - id: f38
+    claim: "Standalone CLIはRubyで言えばExerbやTraveling Rubyみたいなものに相当する"
+    kind: opinion
+  - id: f39
+    claim: "内部でNode処理系を使っているので「普通にNode.js使ってるっしょ」と言いたくなる"
+    kind: opinion
+  - id: f40
+    claim: "それでもnpmでいろいろ作業しなくて済むのは便利である"
+    kind: opinion
+  - id: f41
+    claim: "12月18日にStandalone CLIを取り込むpull requestがマージされ、その日のうちに2.0.0.rc1と2.0.0正式版がリリースされた"
+    kind: fact
+  - id: f42
+    claim: "v1.0.0にはPurgeCSSのようなことをRubyで行うPurgerがあった"
+    kind: fact
+  - id: f43
+    claim: "Purgerは2.0.0で丸ごと消された"
+    kind: fact
+  - id: f44
+    claim: "CLIがよろしくやってくれるのでRuby側での処理は不要になった"
+    kind: fact
+  - id: f45
+    claim: "その後細かい修正を行い、12月20日にv2.0.1とv2.0.2が立て続けにリリースされた"
+    kind: fact
+  - id: f46
+    claim: "今後は仕組みから考えて、Tailwind CSSのバージョンアップごとにTailwind CSS for Railsも適宜リリースされていく形になると思われる"
+    kind: opinion
+  - id: f47
+    claim: "最終的にStandalone CLIをあわせてダウンロードする形になったため、使い方はシンプルである"
+    kind: fact
+  - id: f48
+    claim: "インストールにはrails newで新規アプリを作る際に合わせてインストールする方法と、既存のRailsアプリにあとからインストールする方法がある"
+    kind: fact
+  - id: f49
+    claim: "新規作成の例として、rails newに-c tailwindオプションを指定するコマンドが示される"
+    kind: code
+  - id: f50
+    claim: "rails newで-c tailwindのオプションを指定すると自動的にインストールされる"
+    kind: fact
+  - id: f51
+    claim: "既存アプリの例として、Gemfileへの追記とインストール用のrailsコマンドが示される"
+    kind: code
+  - id: f52
+    claim: "既存アプリの場合はGemfileに追加してからbundle installし、railsコマンドでインストールできる"
+    kind: fact
+  - id: f53
+    claim: "インストール後にRailsアプリを起動するコマンドが示される"
+    kind: code
+  - id: f54
+    claim: "Rails 7標準の起動方法でRailsアプリを立ち上げると、erbファイルを更新すると同時にTailwindのJITが実行される"
+    scope: "Rails 7"
+    kind: fact
+  - id: f55
+    claim: "起動後のアクセスログの例が示される"
+    kind: code
+  - id: f56
+    claim: "Tailwind CSS for Railsが出てきた当初は、便利そうだがちょっと無理矢理感も否めないと感じていた"
+    kind: opinion
+  - id: f57
+    claim: "以前のRailsで使われていて廃れた、JSをgemでwrapする手法も脳裏をよぎった"
+    kind: opinion
+  - id: f58
+    claim: "Tailwind CSS v3.0の登場時には一体どうなるのかと心配した"
+    kind: opinion
+  - id: f59
+    claim: "Standalone CLIの登場により一気に状況が変わり、安定して使えそうなツールに生まれ変わったようだった"
+    kind: opinion
+  - id: f60
+    claim: "Standalone CLIが利用しているpkgが興味深い"
+    kind: opinion
+  - id: f61
+    claim: "pkgはVercelが提供しているツールである"
+    kind: fact
+  - id: f62
+    claim: "pkgのREADMEによれば、基本的にはコンテナ内で使うためのものである"
+    kind: fact
+  - id: f63
+    claim: "Node.jsによるフロントエンドのエコシステムを牽引するVercelが、Node.js不要なエコシステム作りにも大きな影響を与えているのは思わぬ因縁を感じる"
+    kind: opinion
+  - id: f64
+    claim: "Rails 7でも安心してTailwind CSSを使っていけばよい"
+    kind: opinion
+coverage:
+  paragraphs_total: 35
+  paragraphs_covered: 35
+  uncovered: []
