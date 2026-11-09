@@ -13,8 +13,10 @@ root = os.path.dirname(os.path.abspath(__file__))
 p = argparse.ArgumentParser()
 p.add_argument("--conds", nargs="+", default=["lora", "fewshot"])
 p.add_argument("--score", action="store_true")
+p.add_argument("--rate_dir", default="rate", help="フォームの置き場(0b は rate_0b)")
+p.add_argument("--title", default="Phase 0a")
 a = p.parse_args()
-rate = os.path.join(root, "rate")
+rate = os.path.join(root, a.rate_dir)
 
 if not a.score:
     os.makedirs(rate, exist_ok=True)
@@ -31,8 +33,8 @@ if not a.score:
             key[name] = cond
             rows.append(name)
     json.dump(key, open(os.path.join(rate, "key.json"), "w"), indent=1)
-    lines = ["# Phase 0a 評価フォーム", "",
-             f"`rate/{rows[0]}.md` 〜 `rate/{rows[-1]}.md` を読み、各候補を評価してください。",
+    lines = [f"# {a.title} 評価フォーム", "",
+             f"`{a.rate_dir}/{rows[0]}.md` 〜 `{a.rate_dir}/{rows[-1]}.md` を読み、各候補を評価してください。",
              "同じ番号の a/b は同じ要点から別の方法で生成したものです。**原文は見ない。key.json は開かない。**", "",
              "```", "A  そのまま公開できる", "B  軽い手直しで公開できる", "C  大きく直す必要がある", "D  使えない", "",
              "主張: 強(著者が言いたいことを言っている) / 弱(要点を均等に並べているだけ)", "```", "",
