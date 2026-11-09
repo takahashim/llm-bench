@@ -1,0 +1,83 @@
+source: facts_coarse/04.yaml
+thesis: "OSSのRailsアプリを並べてみると、app/直下にどんな独自ディレクトリを足すかは各プロジェクトの方針次第で、数も基準もまるで違う。真似する値打ちがあるのは、足したディレクトリの役割をREADME.mdで説明しておくGitLabのやり方だ。"
+kind: comparison
+
+intro:
+  uses: [p1]
+  notes: "app/はアプリ本体を収める場所で、ふだんはmodelsやcontrollersが並ぶ。足す必要は本来ないが、込み入ってくるとRailsを広げる形で独自のディレクトリを作り、関係するファイルをそこへ入れることがある。これから見るのはその一階層だけ。"
+
+axes:
+  - id: a1
+    name: "独自ディレクトリの数（標準からどれだけ離れているか）"
+  - id: a2
+    name: "何を外に出すために足しているか（ディレクトリの受け持ち）"
+  - id: a3
+    name: "そこに置くクラスの作り（基底クラスや呼び方の決まりがあるか）"
+  - id: a4
+    name: "足した方針が外の人に読み取れるか（説明が置かれているか）"
+
+items:
+  - name: "rubygems.org"
+    uses: [p4]
+    notes:
+      a1: "ほぼ標準どおりで、独自に足されているのは1つだけ。"
+      a2: "そのディレクトリに入っているのはRackのミドルウェア1つ。"
+      a3: "—（要点に記述なし。書かない）"
+      a4: "—（要点に記述なし。書かない）"
+
+  - name: "Redmine"
+    uses: [p5]
+    notes:
+      a1: "controllers・helpers・models・viewsの4つだけで、独自ディレクトリはない。"
+      a2: "Rails初期の形を今も守っている。"
+      a3: "—（要点に記述なし）"
+      a4: "かえって手入れしやすいという面もあるのかもしれない（kind: opinion、必ず反映）。"
+
+  - name: "Discourse"
+    uses: [p6, p7]
+    notes:
+      a1: "素直な構成で、標準から外れているのは2つくらい。"
+      a2: "モデルを直列化するクラスを収めた場所と、サービス用のクラスを置く場所。"
+      a3: "サービス用のクラスは共通の親を持たないただのRubyのクラスで、メソッドの決まりもほとんどなく、数は多い。"
+      a4: "—（要点に記述なし）"
+
+  - name: "Diaspora"
+    uses: [p8]
+    notes:
+      a1: "独自ディレクトリは4つほど。"
+      a2: "presentersはコントローラからJSONを返すため、serializersは書き出し用途、servicesとworkersもある。"
+      a3: "serializersはActiveModel::Serializerを継ぎ、workersはSidekiq向けに基底クラスを継ぐ。servicesは素朴なクラス。"
+      a4: "—（要点に記述なし）"
+
+  - name: "Mastodon"
+    uses: [p9, p10, p11, p12]
+    notes:
+      a1: "ディレクトリの数は多め（p9）。assetsをやめてjavascriptをapp/直下に持ってきており、app/libもroot側のlibと別に持つ（p10）。"
+      a2: "policiesは権限の有無を返すクラス、validatorsは検証クラス、chewyはElasticsearch向け、app/libは素朴なクラス（p11, p10）。"
+      a3: "policiesはApplicationPolicy継承、validatorsはActiveModel::Validator継承、servicesはBaseServiceを継いだ上でcallだけを外に出す（p11, p12）。"
+      a4: "数が多めでも受け持ちがはっきりしており、servicesは呼ぶ側から見て使い方に迷いがない（p9, p12。どちらもopinion）。"
+
+  - name: "GitLab"
+    uses: [p13, p14, p15, p16]
+    notes:
+      a1: "独自ディレクトリは多く、graphqlまである（p15）。"
+      a2: "findersはモデル以外にも関わる検索処理をクラスへ出す、presentersはView関連のロジックやデータを引き受ける、どちらもモデルが太るのを避ける役目（p13）。graphqlがあるのは今の流行に沿っている（p15、opinion）。"
+      a3: "serializersはGrape::Entity継承、権限管理はDeclarativePolicyのフレームワーク、uploadersはCarrierWaveの基底を直接継がず自前のクラスを経由（p14）。"
+      a4: "独自に足したディレクトリに説明のREADME.mdを置いている（すべてではない）。読む側としては非常に助かった（p16、opinion。thesisの着地点）。"
+
+  - name: "Forem（dev.toの実体）"
+    uses: [p17, p18]
+    notes:
+      a1: "非常に多くのディレクトリを抱えており、中にはファイルが1つしかないものもある（p17）。"
+      a2: "—（要点に記述なし）"
+      a3: "—（要点に記述なし）"
+      a4: "どんな方針で足しているのかはドキュメントを読んでも読み取れなかった（p18、opinion）。"
+
+closing:
+  uses: [p3, p19, p16]
+  notes: "servicesやserializersのように多くのアプリで見かけるものもあれば、そのアプリだけのものもあり、一切作らない例も大量に作る例もある（p3）。app/の一階層を眺めるだけでアプリごとにまったく異なる考え方が見える（p19）。数も基準もアプリごとに違うので一般解はなく、真似する値打ちがあるのはGitLabのREADME.mdのやり方（p16）だと言って閉じる。"
+
+rules:
+  - "軸を先に示し、対象ごとに要点の細部を落とさずに述べる。"
+  - "まとめの文で細部を置き換えない。対象間の違いが具体的に分かることを優先する。"
+  - "要点に無い軸・対象・数値・固有名詞は書かない。'—' の欄は書かない（空欄のままにする）。"
